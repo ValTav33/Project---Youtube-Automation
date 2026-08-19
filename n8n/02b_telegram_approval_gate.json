@@ -1,0 +1,254 @@
+{
+  "name": "YTA - 02b: Telegram Approval Gate",
+  "nodes": [
+    {
+      "id": "tg-webhook",
+      "name": "Telegram Webhook Receiver",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 200],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "yta-telegram-gate",
+        "responseMode": "onReceived",
+        "options": {}
+      }
+    },
+    {
+      "id": "parse-callback",
+      "name": "Parse Callback Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 200],
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body;\n\n// Handle inline keyboard button press (callback_query)\nif (body.callback_query) {\n  const callbackData = body.callback_query.data; // e.g. 'approve:uuid' or 'reject:uuid'\n  const [action, videoId] = callbackData.split(':');\n  const chatId = body.callback_query.message.chat.id;\n  const callbackQueryId = body.callback_query.id;\n  \n  return [{\n    json: {\n      type: 'callback',\n      action,\n      videoId,\n      chatId: String(chatId),\n      callbackQueryId,\n      messageId: body.callback_query.message.message_id\n    }\n  }];\n}\n\n// Handle regular text message (manual intake)\nif (body.message) {\n  const text = body.message.text || '';\n  const chatId = body.message.chat.id;\n  const firstName = body.message.from?.first_name || 'there';\n  \n  if (text.startsWith('/')) {\n    return [{ json: { type: 'command', command: text, chatId: String(chatId), firstName } }];\n  }\n  \n  return [{ json: { type: 'manual_intake', topic: text, chatId: String(chatId), firstName } }];\n}\n\nreturn [{ json: { type: 'unknown' } }];"
+      }
+    },
+    {
+      "id": "route-type",
+      "name": "Route By Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [480, 200],
+      "parameters": {
+        "mode": "expression",
+        "output": "={{ $json.type }}",
+        "rules": {
+          "values": [
+            { "outputKey": "callback", "value": "callback" },
+            { "outputKey": "manual_intake", "value": "manual_intake" },
+            { "outputKey": "command", "value": "command" }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "answer-callback",
+      "name": "Answer Callback Query",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 0],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/answerCallbackQuery",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"callback_query_id\": \"{{ $json.callbackQueryId }}\", \"text\": \"Processing...\"}"
+      }
+    },
+    {
+      "id": "route-action",
+      "name": "Route Approve vs Reject",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [960, 0],
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "is-approve",
+              "leftValue": "={{ $('Parse Callback Data').first().json.action }}",
+              "rightValue": "approve",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "approve-video",
+      "name": "Approve: Update Status to approved",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1200, -80],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/videos?id=eq.{{ $('Parse Callback Data').first().json.videoId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "Prefer", "value": "return=representation" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"status\": \"approved\"}"
+      }
+    },
+    {
+      "id": "notify-approved",
+      "name": "Notify: Approved",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1440, -80],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"chat_id\": \"{{ $('Parse Callback Data').first().json.chatId }}\", \"text\": \"✅ *Video approved!* It has been queued for script generation.\\n\\n🆔 ID: `{{ $('Parse Callback Data').first().json.videoId }}`\", \"parse_mode\": \"Markdown\"}"
+      }
+    },
+    {
+      "id": "reject-video",
+      "name": "Reject: Update Status to failed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1200, 80],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/videos?id=eq.{{ $('Parse Callback Data').first().json.videoId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "Prefer", "value": "return=representation" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"status\": \"failed\", \"error_log\": \"Rejected by user via Telegram gate\"}"
+      }
+    },
+    {
+      "id": "notify-rejected",
+      "name": "Notify: Rejected",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1440, 80],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"chat_id\": \"{{ $('Parse Callback Data').first().json.chatId }}\", \"text\": \"❌ *Video rejected.* Marked as failed.\\n\\n🆔 ID: `{{ $('Parse Callback Data').first().json.videoId }}`\", \"parse_mode\": \"Markdown\"}"
+      }
+    },
+    {
+      "id": "save-manual-intake",
+      "name": "Save Manual Topic to Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 280],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/videos",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "Prefer", "value": "return=representation" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"source_type\": \"manual_telegram\",\n  \"target_title\": \"{{ $json.topic.substring(0, 120) }}\",\n  \"topic_premise\": \"{{ $json.topic }}\",\n  \"status\": \"discovered\"\n}"
+      }
+    },
+    {
+      "id": "confirm-intake",
+      "name": "Confirm Intake to User",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [960, 280],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"{{ $('Parse Callback Data').first().json.chatId }}\",\n  \"text\": \"💡 *Topic received!*\\n\\n📌 `{{ $('Parse Callback Data').first().json.topic }}`\\n\\n🆔 ID: `{{ $json[0].id }}`\\n\\nApprove for production?\",\n  \"parse_mode\": \"Markdown\",\n  \"reply_markup\": {\n    \"inline_keyboard\": [\n      [\n        {\"text\": \"✅ Approve\", \"callback_data\": \"approve:{{ $json[0].id }}\"},\n        {\"text\": \"❌ Reject\", \"callback_data\": \"reject:{{ $json[0].id }}\"}\n      ]\n    ]\n  }\n}"
+      }
+    },
+    {
+      "id": "handle-command",
+      "name": "Handle Bot Commands",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 440],
+      "parameters": {
+        "jsCode": "const { command, chatId } = $input.first().json;\nlet replyText = '';\n\nif (command === '/start' || command === '/help') {\n  replyText = '🎬 *YouTube Automation Engine*\\n\\n'\n    + 'Send me any topic or title idea and I will queue it for production.\\n\\n'\n    + 'Commands:\\n'\n    + '/queue — View current production queue\\n'\n    + '/start — This help message';\n} else if (command === '/queue') {\n  replyText = '📋 Fetching queue... (check Supabase for current status)';\n} else {\n  replyText = `Unknown command: ${command}`;\n}\n\nreturn [{ json: { chatId, replyText } }];"
+      }
+    },
+    {
+      "id": "send-command-reply",
+      "name": "Send Command Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [960, 440],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"chat_id\": \"{{ $json.chatId }}\", \"text\": \"{{ $json.replyText }}\", \"parse_mode\": \"Markdown\"}"
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Webhook Receiver": {
+      "main": [[{ "node": "Parse Callback Data", "type": "main", "index": 0 }]]
+    },
+    "Parse Callback Data": {
+      "main": [[{ "node": "Route By Type", "type": "main", "index": 0 }]]
+    },
+    "Route By Type": {
+      "main": [
+        [{ "node": "Answer Callback Query", "type": "main", "index": 0 }],
+        [{ "node": "Save Manual Topic to Supabase", "type": "main", "index": 0 }],
+        [{ "node": "Handle Bot Commands", "type": "main", "index": 0 }]
+      ]
+    },
+    "Answer Callback Query": {
+      "main": [[{ "node": "Route Approve vs Reject", "type": "main", "index": 0 }]]
+    },
+    "Route Approve vs Reject": {
+      "main": [
+        [{ "node": "Approve: Update Status to approved", "type": "main", "index": 0 }],
+        [{ "node": "Reject: Update Status to failed", "type": "main", "index": 0 }]
+      ]
+    },
+    "Approve: Update Status to approved": {
+      "main": [[{ "node": "Notify: Approved", "type": "main", "index": 0 }]]
+    },
+    "Reject: Update Status to failed": {
+      "main": [[{ "node": "Notify: Rejected", "type": "main", "index": 0 }]]
+    },
+    "Save Manual Topic to Supabase": {
+      "main": [[{ "node": "Confirm Intake to User", "type": "main", "index": 0 }]]
+    },
+    "Handle Bot Commands": {
+      "main": [[{ "node": "Send Command Reply", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" }
+}

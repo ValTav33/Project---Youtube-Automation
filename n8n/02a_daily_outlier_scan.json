@@ -1,0 +1,182 @@
+{
+  "name": "YTA - 02a: Daily Outlier Scan",
+  "nodes": [
+    {
+      "id": "cron-trigger",
+      "name": "Daily Cron Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 200],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "fetch-channels",
+      "name": "Fetch Monitored Channels",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 200],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/monitored_channels?select=*",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "split-channels",
+      "name": "Split Into Individual Channels",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [480, 200],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "scraper-webhook",
+      "name": "Run Outlier Scraper via Webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 200],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SCRAPER_WEBHOOK_URL || 'http://localhost:5001/scan' }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"channel_id\": \"{{ $json.channel_id }}\",\n  \"channel_name\": \"{{ $json.channel_name }}\"\n}",
+        "options": {
+          "timeout": 120000,
+          "response": {
+            "response": {
+              "neverError": true,
+              "fullResponse": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "check-outliers",
+      "name": "Check If Outliers Found",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [960, 200],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-outliers",
+              "leftValue": "={{ $json.body?.outliers_found }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "fetch-new-discovered",
+      "name": "Fetch Newly Discovered Videos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1200, 120],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/videos?status=eq.discovered&source_type=eq.outlier_scraped&order=created_at.desc&limit=10",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey", "value": "={{ $env.SUPABASE_SERVICE_ROLE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_ROLE_KEY }}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "split-new-videos",
+      "name": "Split Into Individual Videos",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [1440, 120],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "send-telegram-outlier",
+      "name": "Send Telegram Outlier Card",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1680, 120],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"{{ $env.TELEGRAM_CHAT_ID }}\",\n  \"text\": \"🔥 *VIRAL OUTLIER DETECTED*\\n\\n📌 *Title:* {{ $json.target_title }}\\n\\n📊 *Source:* {{ $json.topic_premise }}\\n\\n🆔 ID: `{{ $json.id }}`\\n\\n*Approve this video for production?*\",\n  \"parse_mode\": \"Markdown\",\n  \"reply_markup\": {\n    \"inline_keyboard\": [\n      [\n        {\"text\": \"✅ Approve & Queue\", \"callback_data\": \"approve:{{ $json.id }}\"},\n        {\"text\": \"❌ Reject\", \"callback_data\": \"reject:{{ $json.id }}\"}\n      ]\n    ]\n  }\n}"
+      }
+    },
+    {
+      "id": "no-outliers-notify",
+      "name": "No Outliers Found - Silent Skip",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1200, 320],
+      "parameters": {}
+    }
+  ],
+  "connections": {
+    "Daily Cron Trigger": {
+      "main": [[{ "node": "Fetch Monitored Channels", "type": "main", "index": 0 }]]
+    },
+    "Fetch Monitored Channels": {
+      "main": [[{ "node": "Split Into Individual Channels", "type": "main", "index": 0 }]]
+    },
+    "Split Into Individual Channels": {
+      "main": [[{ "node": "Run Outlier Scraper via Webhook", "type": "main", "index": 0 }]]
+    },
+    "Run Outlier Scraper via Webhook": {
+      "main": [[{ "node": "Check If Outliers Found", "type": "main", "index": 0 }]]
+    },
+    "Check If Outliers Found": {
+      "main": [
+        [{ "node": "Fetch Newly Discovered Videos", "type": "main", "index": 0 }],
+        [{ "node": "No Outliers Found - Silent Skip", "type": "main", "index": 0 }]
+      ]
+    },
+    "Fetch Newly Discovered Videos": {
+      "main": [[{ "node": "Split Into Individual Videos", "type": "main", "index": 0 }]]
+    },
+    "Split Into Individual Videos": {
+      "main": [[{ "node": "Send Telegram Outlier Card", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" }
+}

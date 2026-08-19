@@ -1,0 +1,194 @@
+{
+  "name": "YouTube Documentary Production Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "youtube-production-intake",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "name": "Webhook Intake",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.7
+        },
+        "messages": {
+          "messageValues": [
+            {
+              "role": "system",
+              "content": "You are a master YouTube documentary scriptwriter specializing in high-retention, fast-paced video essays (similar to MagnatesMedia and ColdFusion).\n\nTARGET FORMAT:\n- Total Video Length: ~8 to 10 minutes (approx. 1,200 - 1,400 words total across all scenes).\n- Total Scenes: 35 to 45 granular scenes (each scene lasting 10–18 seconds).\n- Tone: Dramatic, authoritative, analytical, and fast-paced. Zero generic intro fluff or channel greetings.\n\nSTRICT SCHEMA RULES:\nOutput MUST be valid raw JSON matching this schema:\n{\n  \"meta\": {\n    \"title\": \"High CTR Click-Worthy Title\",\n    \"description\": \"Engaging description with timestamps and keywords\",\n    \"tags\": [\"tag1\", \"tag2\", \"tag3\"]\n  },\n  \"scenes\": [\n    {\n      \"scene_id\": 1,\n      \"narration\": \"The exact spoken words for this scene.\",\n      \"layout_type\": \"STOCK_BROLL | SPLIT_METRIC | MAP_ANIMATION | HEADLINE_CUTOUT\",\n      \"broll_search_query\": \"3-5 specific stock video search terms\",\n      \"visual_overlay\": {\n        \"headline\": \"Short bold punchy text\",\n        \"stat_callout\": \"e.g., $14.2 Billion\",\n        \"chart_type\": \"none | bar | line | donut\"\n      },\n      \"sfx\": \"sub_bass_drop | whoosh | paper_rip | typewriter | camera_shutter | none\"\n    }\n  ]\n}"
+            },
+            {
+              "role": "user",
+              "content": "=Topic: {{ $json.body.topic }}\nContext: {{ $json.body.topic_premise }}"
+            }
+          ]
+        }
+      },
+      "name": "GPT-4o Script Generator",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $env.ELEVENLABS_VOICE_ID || 'pNInz6obpgDQGcFmaJgB' }}/with-timestamps",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "={{ $env.ELEVENLABS_API_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": \"{{ $json.scenes.map(s => s.narration).join(' ') }}\",\n  \"model_id\": \"eleven_turbo_v2_5\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.8\n  }\n}"
+      },
+      "name": "ElevenLabs TTS with Timestamps",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst audioBase64 = response.audio_base64;\nconst alignment = response.alignment;\n\nconst words = [];\nlet currentWord = '';\nlet startTime = null;\n\nalignment.characters.forEach((char, idx) => {\n  if (startTime === null) {\n    startTime = alignment.character_start_times_seconds[idx];\n  }\n  \n  if (char === ' ' || idx === alignment.characters.length - 1) {\n    if (char !== ' ') currentWord += char;\n    if (currentWord.trim().length > 0) {\n      words.push({\n        word: currentWord.trim(),\n        start: startTime,\n        end: alignment.character_end_times_seconds[idx]\n      });\n    }\n    currentWord = '';\n    startTime = null;\n  } else {\n    currentWord += char;\n  }\n});\n\nreturn {\n  audio_base64: audioBase64,\n  word_timestamps: words,\n  total_duration_seconds: words.length > 0 ? words[words.length - 1].end : 0\n};"
+      },
+      "name": "Word Timestamp Formatter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [920, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.REMOTION_RENDERER_URL || 'http://localhost:3000' }}/api/render",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"videoId\": \"{{ $('Webhook Intake').first().json.body.videoId }}\",\n  \"inputProps\": {\n    \"scenes\": {{ JSON.stringify($('GPT-4o Script Generator').first().json.scenes) }},\n    \"words\": {{ JSON.stringify($('Word Timestamp Formatter').first().json.word_timestamps) }},\n    \"audioUrl\": \"{{ $json.audio_url }}\"\n  }\n}"
+      },
+      "name": "Dispatch Railway Remotion Render",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1160, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://queue.fal.run/fal-ai/flux/schnell",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Key {{ $env.FAL_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"prompt\": \"YouTube thumbnail graphic, central focal subject, dramatic cinematic lighting, high vibrancy, clean silhouette, 8k resolution, minimalist hyper-focus: {{ $('GPT-4o Script Generator').first().json.meta.title }}\",\n  \"image_size\": \"landscape_16_9\",\n  \"num_inference_steps\": 4\n}"
+      },
+      "name": "Generate Fal.ai Thumbnail",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1400, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=🎬 *VIDEO READY FOR REVIEW*\n\n📌 *Title:* {{ $('GPT-4o Script Generator').first().json.meta.title }}\n🆔 *Video ID:* `{{ $('Webhook Intake').first().json.body.videoId }}`\n\nClick to review and publish to YouTube.",
+        "additionalFields": {}
+      },
+      "name": "Telegram Review Notification",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1640, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Intake": {
+      "main": [
+        [
+          {
+            "node": "GPT-4o Script Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-4o Script Generator": {
+      "main": [
+        [
+          {
+            "node": "ElevenLabs TTS with Timestamps",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ElevenLabs TTS with Timestamps": {
+      "main": [
+        [
+          {
+            "node": "Word Timestamp Formatter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Word Timestamp Formatter": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Railway Remotion Render",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch Railway Remotion Render": {
+      "main": [
+        [
+          {
+            "node": "Generate Fal.ai Thumbnail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Fal.ai Thumbnail": {
+      "main": [
+        [
+          {
+            "node": "Telegram Review Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
