@@ -231,9 +231,10 @@ def publish_to_youtube(video_id: str) -> bool:
         # n8n YouTube node returns the video resource with an 'id' field
         yt_video_id = None
         if isinstance(yt_response, dict):
-            yt_video_id = yt_response.get("id")
+            yt_video_id = yt_response.get("id") or yt_response.get("uploadId")
         elif isinstance(yt_response, list) and len(yt_response) > 0:
-            yt_video_id = yt_response[0].get("id") if isinstance(yt_response[0], dict) else None
+            if isinstance(yt_response[0], dict):
+                yt_video_id = yt_response[0].get("id") or yt_response[0].get("uploadId")
 
         if yt_video_id:
             youtube_url = f"https://www.youtube.com/watch?v={yt_video_id}"

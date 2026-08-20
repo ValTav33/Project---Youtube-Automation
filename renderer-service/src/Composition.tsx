@@ -94,6 +94,7 @@ const SceneItem: React.FC<{ scene: SceneData }> = ({ scene }) => {
       {scene.asset_type === 'video' ? (
         <OffthreadVideo
           src={resolveMediaSrc(scene.asset_url)}
+          playbackRate={scene.playbackRate || 1}
           style={{
             width: '100%',
             height: '100%',

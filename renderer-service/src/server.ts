@@ -6,6 +6,10 @@ import { bundle } from '@remotion/bundler';
 import { renderMedia, selectComposition } from '@remotion/renderer';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { exec } from 'child_process';
+import util from 'util';
+
+const execAsync = util.promisify(exec);
 
 dotenv.config();
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
@@ -122,8 +126,26 @@ app.post('/api/render', async (req: Request, res: Response) => {
         if (scene.asset_url && scene.asset_url.startsWith('http')) {
           await downloadFile(scene.asset_url, localPath);
         }
+        
+        let playbackRate = 1;
+        if (scene.asset_type === 'video' && fs.existsSync(localPath)) {
+          try {
+            const { stdout } = await execAsync(`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${localPath}"`);
+            const durationSec = parseFloat(stdout.trim());
+            const requestedSec = scene.durationInFrames / 30; // Assuming 30fps
+            if (durationSec > 0 && requestedSec > durationSec) {
+              // Slow down the video so it stretches perfectly to fill the requested duration
+              playbackRate = durationSec / requestedSec;
+              console.log(`[Render Worker] Scene ${scene.scene_id} video is ${durationSec.toFixed(2)}s but requires ${requestedSec.toFixed(2)}s. Setting playbackRate=${playbackRate.toFixed(2)}`);
+            }
+          } catch (e) {
+            console.warn(`[Render Worker] Failed to probe video duration for scene ${scene.scene_id}:`, e);
+          }
+        }
+        
         return {
           ...scene,
+          playbackRate,
           asset_url: fs.existsSync(localPath) ? `scene_${scene.scene_id || idx + 1}.${ext}` : scene.asset_url
         };
       });
@@ -174,7 +196,7 @@ app.post('/api/render', async (req: Request, res: Response) => {
         outputLocation: outputPath,
         inputProps: finalProps,
         concurrency: 2,
-        timeoutInMilliseconds: 120000,
+        timeoutInMilliseconds: 1200000,
         onProgress: ({ progress }) => {
           if (Math.round(progress * 100) % 10 === 0) {
             console.log(`[Render Worker] Video ${videoId} progress: ${(progress * 100).toFixed(0)}%`);

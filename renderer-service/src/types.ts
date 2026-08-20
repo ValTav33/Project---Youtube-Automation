@@ -15,6 +15,7 @@ export interface SceneData {
   durationInFrames: number;
   asset_type: 'video' | 'image';
   asset_url: string;
+  playbackRate?: number;
   narration: string;
   visual_overlay?: VisualOverlay;
 }
