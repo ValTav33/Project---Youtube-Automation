@@ -2,7 +2,7 @@ import React from 'react';
 import {
   AbsoluteFill,
   Series,
-  OffthreadVideo,
+  Video,
   Img,
   Audio,
   useCurrentFrame,
@@ -92,7 +92,7 @@ const SceneItem: React.FC<{ scene: SceneData }> = ({ scene }) => {
   return (
     <AbsoluteFill style={{ overflow: 'hidden', backgroundColor: '#0B0F19' }}>
       {scene.asset_type === 'video' ? (
-        <OffthreadVideo
+        <Video
           src={resolveMediaSrc(scene.asset_url)}
           playbackRate={scene.playbackRate || 1}
           style={{

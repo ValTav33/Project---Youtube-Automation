@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@remotion/bundler": "4.0.260",
+    "@remotion/cli": "^4.0.260",
     "@remotion/renderer": "4.0.260",
     "@supabase/supabase-js": "^2.45.0",
     "@types/cors": "^2.8.17",

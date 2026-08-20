@@ -15,6 +15,9 @@ import time
 import logging
 from typing import Optional
 import requests
+import subprocess
+import json
+import time
 from dotenv import load_dotenv
 from supabase import create_client
 
@@ -103,6 +106,53 @@ def trigger_remotion_render(video_id: str, input_props: dict) -> bool:
         return False
 
 
+def execute_local_remotion_render(video_id: str, input_props: dict) -> bool:
+    """
+    Executes Remotion directly on the local machine via subprocess.
+    """
+    logger.info(f"Starting local Remotion render for video {video_id}...")
+    
+    # Save input_props to a temp file
+    props_path = f"/tmp/props_{video_id}.json"
+    with open(props_path, "w") as f:
+        json.dump(input_props, f)
+        
+    out_path = f"/Users/valsamis/Movies/Automated/{video_id}.mp4"
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    
+    # Run npx remotion render
+    cmd = [
+        "npx", "remotion", "render", 
+        "src/index.ts", "MainVideo", out_path,
+        f"--props={props_path}",
+        "--concurrency=2"
+    ]
+    
+    logger.info(f"Running command: {' '.join(cmd)}")
+    
+    renderer_dir = os.path.join(os.getcwd(), "renderer-service")
+    try:
+        subprocess.run(cmd, cwd=renderer_dir, check=True)
+        logger.info(f"✅ Local render completed successfully! Saved to {out_path}")
+        
+        # Update database with local path
+        sb = get_supabase()
+        sb.table("videos").update({
+            "status": "rendered",
+            "rendered_video_url": out_path,
+            "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S%z")
+        }).eq("id", video_id).execute()
+        
+        return True
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Local render failed with error code {e.returncode}")
+        return False
+    except Exception as e:
+        logger.error(f"Failed to execute local render: {e}")
+        return False
+
+
+
 def run_pipeline_for_video(video_id: str):
     """
     Executes all pipeline phases sequentially for an approved video.
@@ -134,13 +184,36 @@ def run_pipeline_for_video(video_id: str):
     res = sb.table("videos").select("*").eq("id", video_id).single().execute()
     video = res.data
 
-    # Step 5: Dispatch Render to Railway Remotion Microservice
-    logger.info(">>> STEP 5: PREPARING & DISPATCHING REMOTION RENDER JOB...")
+    # Step 5: Render Video Locally
+    logger.info(">>> STEP 5: RENDERING VIDEO LOCALLY...")
     input_props = prepare_remotion_props(video)
-    render_dispatched = trigger_remotion_render(video_id, input_props)
+    render_success = execute_local_remotion_render(video_id, input_props)
 
-    if not render_dispatched:
-        logger.warning("Render service was not reachable. Video assets and props are ready in Supabase.")
+    if render_success:
+        logger.info(">>> STEP 6: UPLOADING TO YOUTUBE...")
+        try:
+            from youtube_uploader import upload_video
+            
+            title = video.get("target_title", "Documentary")
+            script_meta = video.get("script_payload", {}).get("meta", {})
+            desc = script_meta.get("description", f"Documentary about {title}")
+            tags = script_meta.get("tags", ["documentary"])
+            video_path = f"/Users/valsamis/Movies/Automated/{video_id}.mp4"
+            
+            yt_id = upload_video(video_path, title, desc, tags, privacy_status="unlisted")
+            
+            sb.table("videos").update({
+                "status": "published",
+                "youtube_url": f"https://youtu.be/{yt_id}",
+                "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S%z")
+            }).eq("id", video_id).execute()
+            
+            logger.info(f"✅ Video successfully published! URL: https://youtu.be/{yt_id}")
+            
+        except Exception as e:
+            logger.error(f"YouTube upload failed: {e}")
+    else:
+        logger.warning("Local render failed. Upload aborted.")
 
     logger.info(f"========== PRODUCTION DISPATCH COMPLETED FOR VIDEO {video_id} ==========")
 

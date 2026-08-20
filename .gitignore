@@ -9,3 +9,5 @@ dist/
 out/
 *.mp4
 *.mp3
+client_secrets.json
+token.json

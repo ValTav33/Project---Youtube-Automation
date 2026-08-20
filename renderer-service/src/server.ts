@@ -195,14 +195,13 @@ app.post('/api/render', async (req: Request, res: Response) => {
         codec: 'h264',
         outputLocation: outputPath,
         inputProps: finalProps,
-        concurrency: 1, // FORCE single concurrency to prevent OOM on Railway 500MB RAM
+        concurrency: 4, // Utilizing M3 multi-core prevent OOM on Railway 500MB RAM
         chromiumOptions: {
-          enableMultiProcessOnLinux: false, // Prevents aggressive OOM killer
-          gl: 'angle' // Standard for headless
+          gl: 'swangle' // Recommended for pure headless Docker environments
         },
         timeoutInMilliseconds: 2400000, // 40 minutes timeout for safe margin
         onProgress: ({ progress }) => {
-          if (Math.round(progress * 100) % 10 === 0) {
+          if (Math.round(progress * 100) % 1 === 0) {
             console.log(`[Render Worker] Video ${videoId} progress: ${(progress * 100).toFixed(0)}%`);
           }
         }
