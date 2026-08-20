@@ -19,7 +19,7 @@ render_success = execute_local_remotion_render(video_id, input_props)
 if render_success:
     logger.info(">>> UPLOADING TO YOUTUBE...")
     try:
-        from src.youtube_uploader import upload_video
+        from youtube_uploader import upload_video
         
         title = video.get("target_title", "Documentary")
         script_meta = video.get("script_payload", {}).get("meta", {})

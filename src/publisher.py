@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 """
 Publishing & Feedback Loop Engine
-- Generates high-CTR thumbnails using Fal.ai Flux
-- Sends Telegram review gate with inline approval buttons
-- Publishes videos to YouTube channel via YouTube Data API v3
+- Generates high-CTR thumbnails using Pollinations Flux (free, no key required)
+- Publishes videos to YouTube channel via YouTube Data API v3 or n8n webhook
+- Uses centralized notifier.py for all Telegram notifications
 """
 
 import os
 import sys
+import time
 import logging
 from typing import List, Dict, Any, Optional
 import requests
 from dotenv import load_dotenv
 from supabase import create_client
+from notifier import notify_step_failed
 
 load_dotenv()
 
@@ -131,7 +133,8 @@ def send_telegram_review_gate(video_id: str):
 
 def process_video_publishing_preparation(video_id: str):
     """
-    Generates thumbnails and sends Telegram review gate.
+    Generates thumbnails and persists them to Supabase.
+    Notifications are handled by orchestrator via notifier.py.
     """
     sb = get_supabase()
     res = sb.table("videos").select("*").eq("id", video_id).single().execute()
@@ -281,53 +284,14 @@ def publish_to_youtube(video_id: str) -> bool:
 
 def _send_telegram_success(video_id: str, title: str, youtube_url: str,
                            description: str, tags: list):
-    """Sends a success notification to Telegram with the live YouTube link."""
-    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        return
-
-    tg_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
-        "text": (
-            f"🎉 *SUCCESSFULLY PUBLISHED TO YOUTUBE!*\n\n"
-            f"📌 *Title:* {title}\n"
-            f"🆔 *Video ID:* `{video_id}`\n\n"
-            f"🎥 *Watch now:* [YouTube Link]({youtube_url})\n\n"
-            f"📝 *Description:* {description[:120]}...\n"
-            f"🏷️ *Tags:* {', '.join(tags[:6])}\n\n"
-            f"✅ Video is now live on your channel!"
-        ),
-        "parse_mode": "Markdown",
-        "disable_web_page_preview": False
-    }
-
-    try:
-        requests.post(tg_url, json=payload, timeout=10)
-    except Exception as e:
-        logger.error(f"Failed to send publish confirmation to Telegram: {e}")
+    """Sends a success notification — delegates to centralized notifier."""
+    from notifier import notify_published
+    notify_published(video_id, title, youtube_url)
 
 
 def _send_telegram_error(video_id: str, error_msg: str):
-    """Sends an error notification to Telegram."""
-    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        return
-
-    tg_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
-        "text": (
-            f"❌ *YOUTUBE UPLOAD FAILED*\n\n"
-            f"🆔 *Video ID:* `{video_id}`\n\n"
-            f"🔴 *Error:* `{error_msg[:300]}`\n\n"
-            f"Try again with /publish or check n8n logs."
-        ),
-        "parse_mode": "Markdown"
-    }
-
-    try:
-        requests.post(tg_url, json=payload, timeout=10)
-    except Exception as e:
-        logger.error(f"Failed to send error notification to Telegram: {e}")
+    """Sends an error notification — delegates to centralized notifier."""
+    notify_step_failed(video_id, "📤 YouTube Upload (n8n)", error_msg)
 
 
 if __name__ == "__main__":
