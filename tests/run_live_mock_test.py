@@ -37,12 +37,27 @@ def run_test():
     
     # Run the V2 pipeline
     logger.info("Running V2 Pipeline in Mock Mode...")
-    run_v2_story_pipeline(video_id)
+    try:
+        run_v2_story_pipeline(video_id)
+    except Exception as e:
+        logger.info(f"Pipeline halted as expected: {e}")
+        
+    # Simulate Script Approval
+    logger.info("Simulating Human Script Approval...")
+    sb.table("videos").update({"status": "approved"}).eq("id", video_id).execute()
     
+    # Resume Pipeline
+    logger.info("Resuming V2 Pipeline...")
+    try:
+        run_v2_story_pipeline(video_id)
+    except Exception as e:
+        logger.info(f"Pipeline halted as expected: {e}")
+
     # Verify outputs
     artifacts = sb.table("artifacts").select("artifact_type").eq("video_id", video_id).execute()
     types = [a["artifact_type"] for a in artifacts.data]
     logger.info(f"Generated artifacts in DB: {types}")
+    assert "PublishPackage" in types, "PublishPackage artifact was not generated!"
     
 if __name__ == "__main__":
     run_test()

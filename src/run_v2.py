@@ -16,6 +16,8 @@ from scene_director import IntentStage, ShotStage, ManifestStage
 from voice_compiler import VoiceStage
 from asset_planner import AssetStage
 from quality_gate import QualityGateStage
+from publish_planner import PublishPackageStage
+from publisher import send_telegram_review_gate
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -55,6 +57,8 @@ def run_v2_story_pipeline(video_id: str):
     shot_stage = ShotStage(sb, video_id)
     asset_stage = AssetStage(sb, video_id)
     manifest_stage = ManifestStage(sb, video_id)
+    
+    publish_stage = PublishPackageStage(sb, video_id)
     
     # 3. Execute Stages sequentially
     try:
@@ -113,11 +117,23 @@ def run_v2_story_pipeline(video_id: str):
             "asset_manifest": asset_manifest
         })
         
-        logger.info(f"✅ V2 Scene Director completed successfully for {video_id}")
-        logger.info(f"Generated {len(manifest.payload['scenes'])} Remotion scenes.")
+        # --- PUBLISH PACKAGE ---
+        publish_package = publish_stage.run({
+            "promise_contract": promise,
+            "story_script": edited_story
+        })
         
+        logger.info(f"✅ V2 Pipeline completed generation successfully for {video_id}")
+        
+        # --- PUBLISH GATE ---
+        status = video.get("status")
+        if status not in ["awaiting_publish_approval", "publishing", "published"]:
+            logger.info(f"Triggering Publish Review Gate for {video_id}...")
+            send_telegram_review_gate(video_id)
+            logger.info("Pipeline halting to await manual Publish approval.")
+            
     except Exception as e:
-        logger.error(f"❌ V2 Pipeline failed: {e}")
+        logger.error(f"❌ V2 Pipeline halted/failed: {e}")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
