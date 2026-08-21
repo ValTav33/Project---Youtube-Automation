@@ -95,7 +95,7 @@ def handle_message(msg: dict):
     if not text:
         return
 
-    if text == "/start" or text == "/help":
+    if text.startswith("/start") or text.startswith("/help"):
         send_message(chat_id,
             "🎬 *YouTube Automation Engine*\n\n"
             "Send me any topic idea and I'll queue it for production review.\n\n"
@@ -105,7 +105,7 @@ def handle_message(msg: dict):
         )
         return
 
-    if text == "/queue":
+    if text.startswith("/queue"):
         if not supabase:
             send_message(chat_id, "❌ Supabase not configured.")
             return
@@ -123,7 +123,7 @@ def handle_message(msg: dict):
         send_message(chat_id, "\n".join(lines))
         return
 
-    if text == "/status":
+    if text.startswith("/status"):
         if not supabase:
             send_message(chat_id, "❌ Supabase not configured.")
             return
