@@ -52,7 +52,8 @@ def test_quality_gate_passes_if_approved():
     
     # Should NOT raise an exception
     result = stage.execute({"story_script": story})
-    assert result == story
+    assert result.is_approved == True
+    assert result.artifact_type == "QualityReport"
 
 def test_quality_gate_hard_blocker():
     sb = MagicMock()
