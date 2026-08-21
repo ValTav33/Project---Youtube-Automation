@@ -22,7 +22,7 @@ def test_publish_planner_mock_mode():
         thumbnail_concept="A majestic test runner."
     )
     
-    stage._generate_structured = MagicMock(return_value=mock_metadata)
+    stage.generate_structured = MagicMock(return_value=mock_metadata)
     
     promise = PromiseContract(
         artifact_id="art_1",

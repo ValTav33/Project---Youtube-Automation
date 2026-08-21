@@ -27,28 +27,33 @@ class PublishPackageStage(BaseOpenAIStage):
     output_type = "PublishPackage"
 
     def execute(self, inputs: Dict[str, Any]) -> PublishPackage:
-        promise: PromiseContract = inputs.get("promise_contract")
-        story: EditedStoryScript = inputs.get("story_script")
+        promise = inputs.get("promise_contract")
+        story = inputs.get("story_script")
 
         if not promise or not story:
             raise ValueError("Missing promise_contract or story_script for PublishPackageStage")
+
+        # Handle both dict (from DB cache) and Pydantic objects
+        topic_premise = promise.get("topic_premise") if isinstance(promise, dict) else promise.topic_premise
+        primary_claim = promise.get("primary_claim") if isinstance(promise, dict) else promise.primary_claim
+        target_emotion = promise.get("target_emotion") if isinstance(promise, dict) else promise.target_emotion
 
         # 1. Generate Metadata via LLM
         prompt = (
             f"You are an expert YouTube strategist.\n"
             f"Review the original promise and the final generated story script.\n"
-            f"PROMISE: {promise.topic_premise}\n"
-            f"CLAIM: {promise.primary_claim}\n"
-            f"EMOTION: {promise.target_emotion}\n\n"
+            f"PROMISE: {topic_premise}\n"
+            f"CLAIM: {primary_claim}\n"
+            f"EMOTION: {target_emotion}\n\n"
             f"Generate the perfect YouTube Title, Description, and Tags to fulfill this promise.\n"
             f"Also, write a highly descriptive 'thumbnail_concept' prompt (max 2 sentences) "
             f"for an image generator. The thumbnail should be dramatic, cinematic, and minimalist."
         )
 
-        metadata_plan = self._generate_structured(
+        metadata_plan = self.generate_structured(
             system_prompt="You are a YouTube metadata optimizer.",
             user_prompt=prompt,
-            response_model=PublishMetadataPlan
+            response_format=PublishMetadataPlan
         )
 
         # 2. Generate Thumbnails (via Pollinations API or Mock)
