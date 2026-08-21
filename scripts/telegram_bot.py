@@ -189,53 +189,20 @@ def handle_callback(callback: dict):
     if action == "approve":
         update_video_status(video_id, "approved")
         send_message(chat_id,
-            f"✅ *Approved!* Starting full production pipeline...\n\n"
-            f"✍️ 1. Generating 40-scene script (GPT-4o)\n"
-            f"🎙️ 2. Synthesizing voiceover (ElevenLabs)\n"
-            f"🎥 3. Matching 40 HD stock clips (Pexels)\n"
-            f"🎬 4. Rendering 1080p video on Railway Cloud\n"
-            f"🖼️ 5. Generating 16:9 thumbnails (Free Flux)\n\n"
+            f"✅ *Approved!* Added to production queue.\n\n"
+            f"Το Mac σου (αν είναι ανοιχτό) θα το αναλάβει αυτόματα σε λίγα δευτερόλεπτα!\n\n"
             f"🆔 `{video_id}`"
         )
-        logger.info(f"Video {video_id} APPROVED — launching background pipeline thread...")
-
-        import threading
-        import sys
-        sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
-        from orchestrator import run_pipeline_for_video
-
-        def run_thread():
-            try:
-                run_pipeline_for_video(video_id)
-            except Exception as e:
-                logger.error(f"Pipeline thread failed for {video_id}: {e}")
-                send_message(chat_id, f"❌ *Production Error for video `{video_id}`:*\n\n`{str(e)}`")
-
-        threading.Thread(target=run_thread, daemon=True).start()
+        logger.info(f"Video {video_id} APPROVED — marked in database.")
 
     elif action == "publish":
         logger.info(f"Video {video_id} PUBLISH REQUEST RECEIVED")
         send_message(chat_id,
-            f"⏳ *Uploading to YouTube...*\n\n"
-            f"🆔 `{video_id}`\n\n"
-            f"This may take 1–5 minutes depending on video size.\n"
-            f"You'll receive a notification when it's done."
+            f"⏳ *Publishing scheduled!*\n\n"
+            f"Το Mac σου θα αναλάβει το ανέβασμα στο YouTube σύντομα.\n"
+            f"🆔 `{video_id}`"
         )
-
-        import sys
-        sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
-        from publisher import publish_to_youtube
-
-        def upload_thread():
-            try:
-                result = publish_to_youtube(video_id)
-                if not result:
-                    logger.error(f"publish_to_youtube returned False for {video_id}")
-            except Exception as e:
-                logger.error(f"YouTube upload thread failed for {video_id}: {e}")
-                send_message(chat_id, f"❌ *Upload Error for `{video_id}`:*\n\n`{str(e)[:300]}`")
-
-        threading.Thread(target=upload_thread, daemon=True).start()
+        update_video_status(video_id, "publishing")
 
     elif action == "reject":
         update_video_status(video_id, "failed", error_log="Rejected by user via Telegram")
@@ -254,26 +221,6 @@ def run():
 
     logger.info("🤖 Telegram bot started (long-poll mode)")
     logger.info(f"Chat ID: {CHAT_ID}")
-
-    def poll_approved():
-        while True:
-            try:
-                if supabase:
-                    res = supabase.table("videos").select("id, target_title").eq("status", "approved").limit(1).execute()
-                    rows = res.data or []
-                    if rows:
-                        vid = rows[0]["id"]
-                        logger.info(f"Auto-processing approved video from queue: {vid}")
-                        import sys
-                        sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
-                        from orchestrator import run_pipeline_for_video
-                        run_pipeline_for_video(vid)
-                time.sleep(10)
-            except Exception as e:
-                logger.error(f"Error in approved queue poller: {e}")
-                time.sleep(10)
-
-    threading.Thread(target=poll_approved, daemon=True).start()
 
     offset = None
 
