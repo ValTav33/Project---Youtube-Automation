@@ -151,7 +151,7 @@ def handle_message(msg: dict):
         
         stage_text = status_map.get(status, f"🔵 {status}")
         
-        msg = f"📊 *Live Status*\n\n🎬 *Video:* {title}\n🔄 *Stage:* {stage_text}"
+        msg = f"📊 *Live Status (from Mac)*\n\n🎬 *Video:* {title}\n🔄 *Stage:* {stage_text}"
         
         if status == "rendering":
             pct = payload.get("render_progress", 0)
