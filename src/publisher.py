@@ -152,22 +152,12 @@ def process_video_publishing_preparation(video_id: str):
 
 def publish_to_youtube(video_id: str) -> bool:
     """
-    Executes final publishing to YouTube channel via n8n Upload Gateway webhook.
-    
-    Flow:
-      1. Fetch video record from Supabase (title, description, tags, rendered_video_url)
-      2. POST to n8n YouTube Upload Gateway webhook with video metadata
-      3. n8n downloads MP4 → uploads to YouTube via OAuth2 credential
-      4. Parse YouTube video ID from response
-      5. Update Supabase with real youtube_url
-      6. Send Telegram success/error card
+    Executes final publishing to YouTube channel via Google API Client.
     """
     import datetime
-
-    N8N_UPLOAD_URL = os.getenv(
-        "N8N_YOUTUBE_UPLOAD_WEBHOOK_URL",
-        "https://n8n-rjw3.onrender.com/webhook/youtube-upload"
-    )
+    from google.oauth2.credentials import Credentials
+    from googleapiclient.discovery import build
+    from googleapiclient.http import MediaFileUpload
 
     sb = get_supabase()
     res = sb.table("videos").select("*").eq("id", video_id).single().execute()
@@ -178,97 +168,68 @@ def publish_to_youtube(video_id: str) -> bool:
         _send_telegram_error(video_id, "Video record not found in database.")
         return False
 
-    title = video.get("target_title", "Documentary Video")
+    title = video.get("target_title", "Documentary Video")[:100]
     script_meta = video.get("script_payload", {}).get("meta", {})
-    description = script_meta.get("description", f"Documentary video: {title}")
+    description = script_meta.get("description", f"Documentary video: {title}")[:5000]
     tags_list = script_meta.get("tags", ["documentary", "history", "economy"])
-    tags_csv = ",".join(tags_list) if isinstance(tags_list, list) else str(tags_list)
     video_url = video.get("rendered_video_url", "")
-    thumbnail_urls = video.get("thumbnail_urls", [])
 
-    if not video_url:
-        logger.error(f"No rendered_video_url found for video {video_id}.")
-        _send_telegram_error(video_id, "No rendered video URL found. Was rendering completed?")
+    if not video_url or not os.path.exists(video_url):
+        logger.error(f"No rendered_video_url found or file does not exist for video {video_id}.")
+        _send_telegram_error(video_id, "No rendered video URL found locally. Was rendering completed?")
         return False
 
-    logger.info(f"Publishing video {video_id} to YouTube via n8n gateway: '{title}'")
-    logger.info(f"  Video URL: {video_url}")
-    logger.info(f"  n8n webhook: {N8N_UPLOAD_URL}")
+    logger.info(f"Publishing video {video_id} to YouTube via Python API: '{title}'")
 
-    # Update status to show upload in progress
     sb.table("videos").update({
         "status": "publishing",
         "updated_at": datetime.datetime.utcnow().isoformat()
     }).eq("id", video_id).execute()
 
-    # Call n8n YouTube Upload Gateway
-    payload = {
-        "videoUrl": video_url,
-        "title": title[:100],  # YouTube title limit
-        "description": description[:5000],  # YouTube description limit
-        "tags": tags_csv,
-        "thumbnailUrl": thumbnail_urls[0] if thumbnail_urls else "",
-        "videoId": video_id
-    }
-
     try:
-        logger.info(f"Dispatching upload request to n8n...")
-        resp = requests.post(N8N_UPLOAD_URL, json=payload, timeout=300)
+        if not os.path.exists('token.json'):
+            raise Exception("token.json not found! You need to authenticate first.")
+            
+        creds = Credentials.from_authorized_user_file('token.json', ['https://www.googleapis.com/auth/youtube.upload'])
+        youtube = build('youtube', 'v3', credentials=creds)
 
-        if resp.status_code != 200:
-            error_msg = f"n8n webhook returned HTTP {resp.status_code}: {resp.text[:500]}"
-            logger.error(error_msg)
-            sb.table("videos").update({
-                "status": "failed",
-                "error_log": error_msg,
-                "updated_at": datetime.datetime.utcnow().isoformat()
-            }).eq("id", video_id).execute()
-            _send_telegram_error(video_id, error_msg)
-            return False
+        body = {
+            'snippet': {
+                'title': title,
+                'description': description,
+                'tags': tags_list,
+                'categoryId': '27' # Education
+            },
+            'status': {
+                'privacyStatus': 'private', # Default to private for review
+                'selfDeclaredMadeForKids': False
+            }
+        }
 
-        # Parse YouTube response from n8n
-        yt_response = resp.json()
-        logger.info(f"n8n response: {yt_response}")
+        media = MediaFileUpload(video_url, chunksize=-1, resumable=True, mimetype='video/mp4')
 
-        # Extract YouTube video ID from response
-        # n8n YouTube node returns the video resource with an 'id' field
-        yt_video_id = None
-        if isinstance(yt_response, dict):
-            yt_video_id = yt_response.get("id") or yt_response.get("uploadId")
-        elif isinstance(yt_response, list) and len(yt_response) > 0:
-            if isinstance(yt_response[0], dict):
-                yt_video_id = yt_response[0].get("id") or yt_response[0].get("uploadId")
+        logger.info("Executing YouTube upload request...")
+        request = youtube.videos().insert(
+            part=",".join(body.keys()),
+            body=body,
+            media_body=media
+        )
 
-        if yt_video_id:
-            youtube_url = f"https://www.youtube.com/watch?v={yt_video_id}"
-        else:
-            youtube_url = f"https://studio.youtube.com"
-            logger.warning(f"Could not extract YouTube video ID from response. Raw: {yt_response}")
+        response = request.execute()
+        yt_id = response.get('id')
+        youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
 
         logger.info(f"✅ Video uploaded to YouTube: {youtube_url}")
 
-        # Update Supabase with the real YouTube URL & ID
         sb.table("videos").update({
             "status": "published",
             "youtube_url": youtube_url,
-            "youtube_video_id": yt_video_id,
+            "youtube_video_id": yt_id,
             "updated_at": datetime.datetime.utcnow().isoformat()
         }).eq("id", video_id).execute()
 
-        # Send success card to Telegram
         _send_telegram_success(video_id, title, youtube_url, description, tags_list)
         return True
-
-    except requests.exceptions.Timeout:
-        error_msg = "Upload timed out after 300s. The video may still be processing in n8n."
-        logger.error(error_msg)
-        sb.table("videos").update({
-            "status": "failed",
-            "error_log": error_msg,
-            "updated_at": datetime.datetime.utcnow().isoformat()
-        }).eq("id", video_id).execute()
-        _send_telegram_error(video_id, error_msg)
-        return False
 
     except Exception as e:
         error_msg = f"Upload failed: {str(e)}"
