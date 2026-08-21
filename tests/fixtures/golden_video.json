@@ -1,0 +1,5833 @@
+{
+  "id": "691e7616-4230-42dd-88b9-b7a565450975",
+  "source_type": "manual_telegram",
+  "source_video_id": null,
+  "target_title": "How a $10 Billion Brand Destroyed Itself in 48 Hours",
+  "topic_premise": "\u00abHow a $10 Billion Brand Destroyed Itself in 48 Hours\u00bb",
+  "status": "published",
+  "script_payload": {
+    "meta": {
+      "tags": [
+        "brand collapse",
+        "business crisis",
+        "corporate failure",
+        "business analysis",
+        "brand disaster"
+      ],
+      "title": "How a $10 Billion Brand Destroyed Itself in 48 Hours",
+      "description": "Explore the shocking collapse of a $10 billion brand in just 48 hours. Understand the context, core conflict, and consequences of this dramatic downfall. [0:01] The Crisis Unfolds [0:30] Brand Backstory [2:00] Analyzing the Collapse [3:45] Aftermath & Lessons"
+    },
+    "scenes": [
+      {
+        "sfx": "sub_bass_drop",
+        "scene_id": 1,
+        "asset_url": "https://videos.pexels.com/video-files/36435763/15450238_1920_1080_25fps.mp4",
+        "narration": "In just 48 hours, a $10 billion brand crumbled, wiping out billions overnight. This astounding collapse sent shockwaves through global markets. But how could such a giant self-destruct so rapidly? The answer lies in a series of catastrophic missteps.",
+        "asset_type": "video",
+        "layout_type": "HEADLINE_CUTOUT",
+        "visual_overlay": {
+          "headline": "48-Hour Collapse",
+          "chart_type": "none",
+          "stat_callout": "$10 Billion Lost"
+        },
+        "broll_search_query": "stock market crash, brand collapse, economic turmoil"
+      },
+      {
+        "sfx": "whoosh",
+        "scene_id": 2,
+        "asset_url": "https://videos.pexels.com/video-files/5726132/5726132-hd_1920_1080_30fps.mp4",
+        "narration": "Day one began with executives celebrating a triumphant quarterly report. By the end, they were in damage control as stock prices plummeted 60%. Investors panicked, and analysts were left scrambling for answers.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "stock market panic, executive meeting, financial despair"
+      },
+      {
+        "sfx": "whoosh",
+        "scene_id": 3,
+        "asset_url": "https://videos.pexels.com/video-files/5201210/5201210-hd_1920_1080_30fps.mp4",
+        "narration": "The morning of day two, customers began withdrawing support en masse. Social media buzzed with rumors and outrage as the brand's reputation fell apart. What triggered this unprecedented chain of events?",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "social media outrage, customer backlash, viral crisis"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 4,
+        "asset_url": "https://videos.pexels.com/video-files/27348287/12120613_1920_1080_60fps.mp4",
+        "narration": "The brand, once a beacon of innovation, rose to glory in the early 2000s. Known for revolutionizing tech, its products became household staples. But cracks had started to appear long before this crisis.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "tech innovations, brand history, product launch"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 5,
+        "asset_url": "https://videos.pexels.com/video-files/7550508/7550508-hd_1366_720_25fps.mp4",
+        "narration": "Founded by visionary entrepreneurs, the company was a darling of Silicon Valley. It attracted top talent and venture capital, quickly scaling to become a heavyweight in the industry.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "Silicon Valley startup, entrepreneur success, tech giant"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 6,
+        "asset_url": "https://videos.pexels.com/video-files/8135380/8135380-sd_640_338_25fps.mp4",
+        "narration": "However, beneath the surface, internal strife and leadership conflicts simmered. Insiders reported boardroom tensions and risky decisions that sowed seeds of discord among stakeholders.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "boardroom conflict, executive disagreement, corporate tension"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 7,
+        "asset_url": "https://videos.pexels.com/video-files/7947405/7947405-hd_1920_1080_30fps.mp4",
+        "narration": "Over-reliance on a single product line became evident as competitors began innovating faster. Yet, the brand clung to past glories, ignoring warning signs of market shifts.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "product stagnation, competitive market, business strategy"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 8,
+        "asset_url": "https://videos.pexels.com/video-files/7223593/7223593-hd_2048_1080_25fps.mp4",
+        "narration": "Despite a veneer of strength, customer loyalty waned due to declining quality and rising prices. Frustrated consumers turned to alternatives, voicing dissatisfaction widely online.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "customer dissatisfaction, product reviews, social media complaints"
+      },
+      {
+        "sfx": "typewriter",
+        "scene_id": 9,
+        "asset_url": "https://videos.pexels.com/video-files/5726132/5726132-hd_1920_1080_30fps.mp4",
+        "narration": "In the months leading up to the collapse, financial reports glossed over key issues. Analysts and investors remained oblivious to the looming disaster, trusting opaque corporate reassurances.",
+        "asset_type": "video",
+        "layout_type": "SPLIT_METRIC",
+        "visual_overlay": {
+          "headline": null,
+          "chart_type": "bar",
+          "stat_callout": null
+        },
+        "broll_search_query": "financial report analysis, investor meeting, corporate transparency"
+      },
+      {
+        "sfx": "whoosh",
+        "scene_id": 10,
+        "asset_url": "https://videos.pexels.com/video-files/8731388/8731388-hd_1920_1080_25fps.mp4",
+        "narration": "As external pressures mounted, the brand faced increased scrutiny from regulators. Allegations of misconduct surfaced, further eroding trust and adding fuel to the impending inferno.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "regulatory investigation, corporate scandal, legal troubles"
+      },
+      {
+        "sfx": "camera_shutter",
+        "scene_id": 11,
+        "asset_url": "https://videos.pexels.com/video-files/8371858/8371858-uhd_4096_2160_25fps.mp4",
+        "narration": "The tipping point came when a whistleblower leaked damning internal documents. These revealed systemic issues and executive malfeasance that shocked even the most cynical observers.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "whistleblower revelation, leaked documents, corporate corruption"
+      },
+      {
+        "sfx": "whoosh",
+        "scene_id": 12,
+        "asset_url": "https://videos.pexels.com/video-files/6266758/6266758-hd_1920_1080_25fps.mp4",
+        "narration": "The documents exposed fraudulent accounting practices and deceptive marketing strategies. Consumers and investors felt betrayed, igniting a rapid loss of confidence in the brand.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "accounting fraud, deceptive marketing, investor betrayal"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 13,
+        "asset_url": "https://videos.pexels.com/video-files/5849622/5849622-hd_1920_1080_30fps.mp4",
+        "narration": "Major clients began severing ties immediately, prompting a domino effect throughout the industry. Competitors capitalized on the chaos, swiftly gaining market share as the brand's influence waned.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "client loss, industry impact, market competition"
+      },
+      {
+        "sfx": "sub_bass_drop",
+        "scene_id": 14,
+        "asset_url": "https://videos.pexels.com/video-files/36435763/15450238_1920_1080_25fps.mp4",
+        "narration": "The stock market reacted violently, with the brand's shares dropping to historic lows. Panic selling ensued, further exacerbating the financial distress that engulfed the company.",
+        "asset_type": "video",
+        "layout_type": "SPLIT_METRIC",
+        "visual_overlay": {
+          "headline": null,
+          "chart_type": "line",
+          "stat_callout": null
+        },
+        "broll_search_query": "stock market crash, panic selling, financial collapse"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 15,
+        "asset_url": "https://videos.pexels.com/video-files/6951402/6951402-hd_1920_1080_25fps.mp4",
+        "narration": "Amid the turmoil, CEO resignations and board reshuffles were announced in a desperate bid to restore stability. Yet, these moves were too little, too late to halt the downward spiral.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "CEO resignation, board meeting, corporate shakeup"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 16,
+        "asset_url": "https://videos.pexels.com/video-files/20621377/20621377-sd_640_274_30fps.mp4",
+        "narration": "Social media exploded with speculation and outrage, turning the brand into a cautionary tale. Hashtags calling for boycotts trended worldwide, tarnishing its once-pristine reputation.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "social media backlash, brand boycott, viral campaign"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 17,
+        "asset_url": "https://videos.pexels.com/video-files/10464825/10464825-uhd_2732_1440_25fps.mp4",
+        "narration": "Journalists and analysts raced to uncover the full extent of the scandal. As more details emerged, public sentiment hardened against the brand and its beleaguered leadership.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "journalist investigation, media coverage, brand scandal"
+      },
+      {
+        "sfx": "camera_shutter",
+        "scene_id": 18,
+        "asset_url": "https://videos.pexels.com/video-files/10811027/10811027-hd_1920_1080_30fps.mp4",
+        "narration": "While some insiders attempted damage control, others leaked more damaging information, fueling the media frenzy. The company's every move was scrutinized under a relentless spotlight.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "corporate leak, media scrutiny, crisis management"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 19,
+        "asset_url": "https://videos.pexels.com/video-files/6538453/6538453-sd_960_506_25fps.mp4",
+        "narration": "Legal experts weighed in, predicting a tidal wave of lawsuits that could cripple the brand further. Class-action suits from shareholders and consumer fraud claims were filed en masse.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "legal analysis, lawsuit prediction, class action lawsuit"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 20,
+        "asset_url": "https://videos.pexels.com/video-files/29940711/12849906_1920_1080_60fps.mp4",
+        "narration": "Economic analysts began calculating the wider impact on the industry. The brand's swift demise threatened to destabilize supply chains and shift the competitive landscape dramatically.",
+        "asset_type": "video",
+        "layout_type": "SPLIT_METRIC",
+        "visual_overlay": {
+          "headline": null,
+          "chart_type": "donut",
+          "stat_callout": null
+        },
+        "broll_search_query": "economic analysis, industry impact, supply chain crisis"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 21,
+        "asset_url": "https://videos.pexels.com/video-files/6100892/6100892-uhd_2732_1440_30fps.mp4",
+        "narration": "An emergency meeting of industry leaders was convened to address potential repercussions. Competitors plotted strategies to seize opportunities, while partners scrambled to protect their interests.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "industry meeting, corporate strategy, partnership dissolution"
+      },
+      {
+        "sfx": "whoosh",
+        "scene_id": 22,
+        "asset_url": "https://videos.pexels.com/video-files/8382395/8382395-sd_640_338_25fps.mp4",
+        "narration": "In a shocking twist, it was revealed that the brand had been under investigation for months. Regulators were poised to intervene, possibly accelerating the collapse.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "regulatory investigation, brand investigation, corporate oversight"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 23,
+        "asset_url": "https://videos.pexels.com/video-files/36435763/15450238_1920_1080_25fps.mp4",
+        "narration": "The global financial community watched with bated breath as the brand teetered on the brink. Investors hoped for a miracle recovery, but the outlook remained bleak.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "global financial community, investor reaction, financial uncertainty"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 24,
+        "asset_url": "https://videos.pexels.com/video-files/35518228/15047815_1920_1080_25fps.mp4",
+        "narration": "Amidst the chaos, some speculated about potential acquisitions or mergers as a lifeline. However, potential suitors were wary, given the brand's toxic reputation and mounting legal troubles.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "corporate acquisition, merger speculation, toxic reputation"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 25,
+        "asset_url": "https://videos.pexels.com/video-files/38808547/16495594_1920_1080_50fps.mp4",
+        "narration": "The brand's sudden downfall sparked debates about corporate governance and ethical responsibility in the tech sector. Experts questioned how such failures could be prevented in the future.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "corporate governance debate, ethical responsibility, tech sector analysis"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 26,
+        "asset_url": "https://videos.pexels.com/video-files/38642322/16412345_1920_1080_50fps.mp4",
+        "narration": "The fallout rippled across the industry, causing stock prices of related companies to fluctuate wildly. The brand's implosion became a case study in risk management failures.",
+        "asset_type": "video",
+        "layout_type": "SPLIT_METRIC",
+        "visual_overlay": {
+          "headline": "Stock Volatility",
+          "chart_type": "line",
+          "stat_callout": null
+        },
+        "broll_search_query": "industry stock fluctuation, risk management failure, corporate fallout"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 27,
+        "asset_url": "https://videos.pexels.com/video-files/7659664/7659664-hd_1920_1080_25fps.mp4",
+        "narration": "Analysts pointed to a lack of diversified leadership as a core issue. The board's narrow focus and reluctance to innovate left the brand vulnerable to sudden shocks.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "leadership analysis, board diversity, innovation reluctance"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 28,
+        "asset_url": "https://videos.pexels.com/video-files/7552528/7552528-hd_1920_1080_25fps.mp4",
+        "narration": "As blame was assigned, some former executives pointed fingers at external pressures, including regulatory constraints and increasing competition. This narrative found little sympathy among stakeholders.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "executive blame, regulatory constraints, competitive pressure"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 29,
+        "asset_url": "https://videos.pexels.com/video-files/7947435/7947435-hd_1920_1080_30fps.mp4",
+        "narration": "The brand's collapse highlighted the importance of transparency and accountability in corporate practices. Investors demanded new measures to ensure integrity and foresight in future operations.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "corporate transparency, accountability measures, investor demand"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 30,
+        "asset_url": "https://videos.pexels.com/video-files/8425709/8425709-hd_1920_1080_25fps.mp4",
+        "narration": "In the aftermath, consultants and watchdogs suggested sweeping reforms to prevent similar crises. Their recommendations emphasized proactive risk assessment and robust ethical guidelines.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "consultant recommendation, watchdog reform, ethical guidelines"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 31,
+        "asset_url": "https://videos.pexels.com/video-files/38711956/16446151_1920_1080_50fps.mp4",
+        "narration": "Political leaders weighed in, calling for stricter regulations to safeguard economic stability. Legislative proposals aimed at curbing corporate excesses gained traction in governments worldwide.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "political reaction, regulation proposal, economic stability"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 32,
+        "asset_url": "https://videos.pexels.com/video-files/6914395/6914395-hd_1920_1080_25fps.mp4",
+        "narration": "Despite the chaos, some former employees emerged as entrepreneurs, launching startups with lessons learned from the disaster. Their resilience and innovative spirit garnered attention and admiration.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "entrepreneurial resilience, startup launch, innovation inspiration"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 33,
+        "asset_url": "https://videos.pexels.com/video-files/6219854/6219854-sd_426_226_30fps.mp4",
+        "narration": "The brand's story served as a cautionary tale in business schools worldwide. Case studies dissected the series of misjudgments, using them as teaching tools for future leaders.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "business school case study, corporate lessons, leadership education"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 34,
+        "asset_url": "https://videos.pexels.com/video-files/7655443/7655443-hd_1920_1080_25fps.mp4",
+        "narration": "Meanwhile, affected communities rallied together, supporting one another through the economic shock. Grassroots initiatives sought to rebuild trust and foster new economic opportunities locally.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "community support, economic recovery, grassroots initiative"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 35,
+        "asset_url": "https://videos.pexels.com/video-files/7947402/7947402-hd_1920_1080_30fps.mp4",
+        "narration": "The brand's collapse prompted a reevaluation of consumer loyalty and brand trust. Experts suggested that emotional connections and value alignment were crucial in securing lasting success.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "consumer loyalty analysis, brand trust evaluation, marketing strategy"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 36,
+        "asset_url": "https://videos.pexels.com/video-files/17647957/17647957-hd_1920_1080_30fps.mp4",
+        "narration": "As the dust settled, the brand became a symbol of both failure and potential redemption. Analysts speculated whether it could rise from the ashes or fade into obscurity.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "brand redemption, corporate resurgence, business speculation"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 37,
+        "asset_url": "https://videos.pexels.com/video-files/7651882/7651882-hd_1920_1080_30fps.mp4",
+        "narration": "The lessons from this corporate debacle are clear: complacency is deadly, and vigilance is vital. Future success may depend on a brand's ability to adapt and innovate swiftly.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "business lessons, corporate complacency, innovation strategy"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 38,
+        "asset_url": "https://videos.pexels.com/video-files/30289542/12984404_1920_1080_100fps.mp4",
+        "narration": "For the stakeholders, the journey from triumph to tribulation was a harsh reminder of business volatility. The collapse underscored the perils of overconfidence and the necessity of humility.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "business volatility, stakeholder impact, corporate humility"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 39,
+        "asset_url": "https://videos.pexels.com/video-files/7581265/7581265-hd_1920_1080_30fps.mp4",
+        "narration": "Ultimately, this was more than a business failure; it was a pivotal moment in modern corporate history. A sobering example of how quickly fortunes can turn when hubris overtakes prudence.",
+        "asset_type": "video",
+        "layout_type": "STOCK_BROLL",
+        "visual_overlay": null,
+        "broll_search_query": "corporate failure, historical impact, business hubris"
+      },
+      {
+        "sfx": "none",
+        "scene_id": 40,
+        "asset_url": "https://videos.pexels.com/video-files/4936763/4936763-hd_1920_1080_30fps.mp4",
+        "narration": "If you're fascinated by stories of corporate intrigue and lessons from dramatic downfalls, hit subscribe. Stay tuned for more insights into the world of business upheavals and strategic recoveries.",
+        "asset_type": "video",
+        "layout_type": "HEADLINE_CUTOUT",
+        "visual_overlay": {
+          "headline": "Subscribe Now",
+          "chart_type": "none",
+          "stat_callout": null
+        },
+        "broll_search_query": "subscribe button, YouTube engagement, channel promotion"
+      }
+    ],
+    "render_progress": 100
+  },
+  "audio_url": "https://wrowkhhwlvmigvyescdv.supabase.co/storage/v1/object/public/audio/691e7616-4230-42dd-88b9-b7a565450975.mp3",
+  "transcript_timestamps": {
+    "words": [
+      {
+        "end": 0.197,
+        "word": "In",
+        "start": 0.0
+      },
+      {
+        "end": 0.476,
+        "word": "just",
+        "start": 0.197
+      },
+      {
+        "end": 0.917,
+        "word": "48",
+        "start": 0.476
+      },
+      {
+        "end": 1.556,
+        "word": "hours,",
+        "start": 0.917
+      },
+      {
+        "end": 1.707,
+        "word": "a",
+        "start": 1.556
+      },
+      {
+        "end": 2.032,
+        "word": "$10",
+        "start": 1.707
+      },
+      {
+        "end": 2.659,
+        "word": "billion",
+        "start": 2.032
+      },
+      {
+        "end": 3.135,
+        "word": "brand",
+        "start": 2.659
+      },
+      {
+        "end": 3.994,
+        "word": "crumbled,",
+        "start": 3.135
+      },
+      {
+        "end": 4.423,
+        "word": "wiping",
+        "start": 3.994
+      },
+      {
+        "end": 4.644,
+        "word": "out",
+        "start": 4.423
+      },
+      {
+        "end": 5.294,
+        "word": "billions",
+        "start": 4.644
+      },
+      {
+        "end": 6.467,
+        "word": "overnight.",
+        "start": 5.294
+      },
+      {
+        "end": 6.722,
+        "word": "This",
+        "start": 6.467
+      },
+      {
+        "end": 7.361,
+        "word": "astounding",
+        "start": 6.722
+      },
+      {
+        "end": 7.93,
+        "word": "collapse",
+        "start": 7.361
+      },
+      {
+        "end": 8.255,
+        "word": "sent",
+        "start": 7.93
+      },
+      {
+        "end": 8.975,
+        "word": "shockwaves",
+        "start": 8.255
+      },
+      {
+        "end": 9.265,
+        "word": "through",
+        "start": 8.975
+      },
+      {
+        "end": 9.659,
+        "word": "global",
+        "start": 9.265
+      },
+      {
+        "end": 10.716,
+        "word": "markets.",
+        "start": 9.659
+      },
+      {
+        "end": 10.913,
+        "word": "But",
+        "start": 10.716
+      },
+      {
+        "end": 11.088,
+        "word": "how",
+        "start": 10.913
+      },
+      {
+        "end": 11.273,
+        "word": "could",
+        "start": 11.088
+      },
+      {
+        "end": 11.494,
+        "word": "such",
+        "start": 11.273
+      },
+      {
+        "end": 11.61,
+        "word": "a",
+        "start": 11.494
+      },
+      {
+        "end": 12.074,
+        "word": "giant",
+        "start": 11.61
+      },
+      {
+        "end": 13.015,
+        "word": "self-destruct",
+        "start": 12.074
+      },
+      {
+        "end": 13.549,
+        "word": "so",
+        "start": 13.015
+      },
+      {
+        "end": 15.012,
+        "word": "rapidly?",
+        "start": 13.549
+      },
+      {
+        "end": 15.221,
+        "word": "The",
+        "start": 15.012
+      },
+      {
+        "end": 15.569,
+        "word": "answer",
+        "start": 15.221
+      },
+      {
+        "end": 15.894,
+        "word": "lies",
+        "start": 15.569
+      },
+      {
+        "end": 15.999,
+        "word": "in",
+        "start": 15.894
+      },
+      {
+        "end": 16.091,
+        "word": "a",
+        "start": 15.999
+      },
+      {
+        "end": 16.463,
+        "word": "series",
+        "start": 16.091
+      },
+      {
+        "end": 16.591,
+        "word": "of",
+        "start": 16.463
+      },
+      {
+        "end": 17.415,
+        "word": "catastrophic",
+        "start": 16.591
+      },
+      {
+        "end": 18.657,
+        "word": "missteps.",
+        "start": 17.415
+      },
+      {
+        "end": 19.006,
+        "word": "Day",
+        "start": 18.657
+      },
+      {
+        "end": 19.296,
+        "word": "one",
+        "start": 19.006
+      },
+      {
+        "end": 19.667,
+        "word": "began",
+        "start": 19.296
+      },
+      {
+        "end": 19.842,
+        "word": "with",
+        "start": 19.667
+      },
+      {
+        "end": 20.561,
+        "word": "executives",
+        "start": 19.842
+      },
+      {
+        "end": 21.177,
+        "word": "celebrating",
+        "start": 20.561
+      },
+      {
+        "end": 21.258,
+        "word": "a",
+        "start": 21.177
+      },
+      {
+        "end": 21.908,
+        "word": "triumphant",
+        "start": 21.258
+      },
+      {
+        "end": 22.442,
+        "word": "quarterly",
+        "start": 21.908
+      },
+      {
+        "end": 23.371,
+        "word": "report.",
+        "start": 22.442
+      },
+      {
+        "end": 23.603,
+        "word": "By",
+        "start": 23.371
+      },
+      {
+        "end": 23.766,
+        "word": "the",
+        "start": 23.603
+      },
+      {
+        "end": 24.439,
+        "word": "end,",
+        "start": 23.766
+      },
+      {
+        "end": 24.602,
+        "word": "they",
+        "start": 24.439
+      },
+      {
+        "end": 24.764,
+        "word": "were",
+        "start": 24.602
+      },
+      {
+        "end": 24.892,
+        "word": "in",
+        "start": 24.764
+      },
+      {
+        "end": 25.321,
+        "word": "damage",
+        "start": 24.892
+      },
+      {
+        "end": 25.89,
+        "word": "control",
+        "start": 25.321
+      },
+      {
+        "end": 26.041,
+        "word": "as",
+        "start": 25.89
+      },
+      {
+        "end": 26.378,
+        "word": "stock",
+        "start": 26.041
+      },
+      {
+        "end": 26.854,
+        "word": "prices",
+        "start": 26.378
+      },
+      {
+        "end": 27.504,
+        "word": "plummeted",
+        "start": 26.854
+      },
+      {
+        "end": 29.164,
+        "word": "60%.",
+        "start": 27.504
+      },
+      {
+        "end": 29.849,
+        "word": "Investors",
+        "start": 29.164
+      },
+      {
+        "end": 30.569,
+        "word": "panicked,",
+        "start": 29.849
+      },
+      {
+        "end": 30.836,
+        "word": "and",
+        "start": 30.569
+      },
+      {
+        "end": 31.382,
+        "word": "analysts",
+        "start": 30.836
+      },
+      {
+        "end": 31.556,
+        "word": "were",
+        "start": 31.382
+      },
+      {
+        "end": 31.893,
+        "word": "left",
+        "start": 31.556
+      },
+      {
+        "end": 32.531,
+        "word": "scrambling",
+        "start": 31.893
+      },
+      {
+        "end": 32.729,
+        "word": "for",
+        "start": 32.531
+      },
+      {
+        "end": 34.273,
+        "word": "answers.",
+        "start": 32.729
+      },
+      {
+        "end": 34.458,
+        "word": "The",
+        "start": 34.273
+      },
+      {
+        "end": 34.795,
+        "word": "morning",
+        "start": 34.458
+      },
+      {
+        "end": 34.911,
+        "word": "of",
+        "start": 34.795
+      },
+      {
+        "end": 35.167,
+        "word": "day",
+        "start": 34.911
+      },
+      {
+        "end": 35.736,
+        "word": "two,",
+        "start": 35.167
+      },
+      {
+        "end": 36.281,
+        "word": "customers",
+        "start": 35.736
+      },
+      {
+        "end": 36.664,
+        "word": "began",
+        "start": 36.281
+      },
+      {
+        "end": 37.21,
+        "word": "withdrawing",
+        "start": 36.664
+      },
+      {
+        "end": 37.732,
+        "word": "support",
+        "start": 37.21
+      },
+      {
+        "end": 38.023,
+        "word": "en",
+        "start": 37.732
+      },
+      {
+        "end": 39.3,
+        "word": "masse.",
+        "start": 38.023
+      },
+      {
+        "end": 39.741,
+        "word": "Social",
+        "start": 39.3
+      },
+      {
+        "end": 40.136,
+        "word": "media",
+        "start": 39.741
+      },
+      {
+        "end": 40.577,
+        "word": "buzzed",
+        "start": 40.136
+      },
+      {
+        "end": 40.786,
+        "word": "with",
+        "start": 40.577
+      },
+      {
+        "end": 41.297,
+        "word": "rumors",
+        "start": 40.786
+      },
+      {
+        "end": 41.471,
+        "word": "and",
+        "start": 41.297
+      },
+      {
+        "end": 42.098,
+        "word": "outrage",
+        "start": 41.471
+      },
+      {
+        "end": 42.26,
+        "word": "as",
+        "start": 42.098
+      },
+      {
+        "end": 42.388,
+        "word": "the",
+        "start": 42.26
+      },
+      {
+        "end": 42.829,
+        "word": "brand's",
+        "start": 42.388
+      },
+      {
+        "end": 43.595,
+        "word": "reputation",
+        "start": 42.829
+      },
+      {
+        "end": 43.839,
+        "word": "fell",
+        "start": 43.595
+      },
+      {
+        "end": 45.14,
+        "word": "apart.",
+        "start": 43.839
+      },
+      {
+        "end": 45.407,
+        "word": "What",
+        "start": 45.14
+      },
+      {
+        "end": 45.848,
+        "word": "triggered",
+        "start": 45.407
+      },
+      {
+        "end": 46.08,
+        "word": "this",
+        "start": 45.848
+      },
+      {
+        "end": 47.067,
+        "word": "unprecedented",
+        "start": 46.08
+      },
+      {
+        "end": 47.369,
+        "word": "chain",
+        "start": 47.067
+      },
+      {
+        "end": 47.473,
+        "word": "of",
+        "start": 47.369
+      },
+      {
+        "end": 48.704,
+        "word": "events?",
+        "start": 47.473
+      },
+      {
+        "end": 48.89,
+        "word": "The",
+        "start": 48.704
+      },
+      {
+        "end": 49.551,
+        "word": "brand,",
+        "start": 48.89
+      },
+      {
+        "end": 49.911,
+        "word": "once",
+        "start": 49.551
+      },
+      {
+        "end": 50.027,
+        "word": "a",
+        "start": 49.911
+      },
+      {
+        "end": 50.376,
+        "word": "beacon",
+        "start": 50.027
+      },
+      {
+        "end": 50.492,
+        "word": "of",
+        "start": 50.376
+      },
+      {
+        "end": 51.455,
+        "word": "innovation,",
+        "start": 50.492
+      },
+      {
+        "end": 51.897,
+        "word": "rose",
+        "start": 51.455
+      },
+      {
+        "end": 52.059,
+        "word": "to",
+        "start": 51.897
+      },
+      {
+        "end": 52.593,
+        "word": "glory",
+        "start": 52.059
+      },
+      {
+        "end": 52.698,
+        "word": "in",
+        "start": 52.593
+      },
+      {
+        "end": 52.825,
+        "word": "the",
+        "start": 52.698
+      },
+      {
+        "end": 53.162,
+        "word": "early",
+        "start": 52.825
+      },
+      {
+        "end": 54.811,
+        "word": "2000s.",
+        "start": 53.162
+      },
+      {
+        "end": 55.229,
+        "word": "Known",
+        "start": 54.811
+      },
+      {
+        "end": 55.426,
+        "word": "for",
+        "start": 55.229
+      },
+      {
+        "end": 56.332,
+        "word": "revolutionizing",
+        "start": 55.426
+      },
+      {
+        "end": 56.831,
+        "word": "tech,",
+        "start": 56.332
+      },
+      {
+        "end": 57.051,
+        "word": "its",
+        "start": 56.831
+      },
+      {
+        "end": 57.655,
+        "word": "products",
+        "start": 57.051
+      },
+      {
+        "end": 58.12,
+        "word": "became",
+        "start": 57.655
+      },
+      {
+        "end": 58.712,
+        "word": "household",
+        "start": 58.12
+      },
+      {
+        "end": 59.745,
+        "word": "staples.",
+        "start": 58.712
+      },
+      {
+        "end": 59.954,
+        "word": "But",
+        "start": 59.745
+      },
+      {
+        "end": 60.36,
+        "word": "cracks",
+        "start": 59.954
+      },
+      {
+        "end": 60.511,
+        "word": "had",
+        "start": 60.36
+      },
+      {
+        "end": 60.859,
+        "word": "started",
+        "start": 60.511
+      },
+      {
+        "end": 60.987,
+        "word": "to",
+        "start": 60.859
+      },
+      {
+        "end": 61.394,
+        "word": "appear",
+        "start": 60.987
+      },
+      {
+        "end": 61.788,
+        "word": "long",
+        "start": 61.394
+      },
+      {
+        "end": 62.102,
+        "word": "before",
+        "start": 61.788
+      },
+      {
+        "end": 62.288,
+        "word": "this",
+        "start": 62.102
+      },
+      {
+        "end": 63.344,
+        "word": "crisis.",
+        "start": 62.288
+      },
+      {
+        "end": 63.774,
+        "word": "Founded",
+        "start": 63.344
+      },
+      {
+        "end": 64.041,
+        "word": "by",
+        "start": 63.774
+      },
+      {
+        "end": 64.61,
+        "word": "visionary",
+        "start": 64.041
+      },
+      {
+        "end": 65.724,
+        "word": "entrepreneurs,",
+        "start": 64.61
+      },
+      {
+        "end": 65.875,
+        "word": "the",
+        "start": 65.724
+      },
+      {
+        "end": 66.281,
+        "word": "company",
+        "start": 65.875
+      },
+      {
+        "end": 66.455,
+        "word": "was",
+        "start": 66.281
+      },
+      {
+        "end": 66.606,
+        "word": "a",
+        "start": 66.455
+      },
+      {
+        "end": 67.222,
+        "word": "darling",
+        "start": 66.606
+      },
+      {
+        "end": 67.338,
+        "word": "of",
+        "start": 67.222
+      },
+      {
+        "end": 67.884,
+        "word": "Silicon",
+        "start": 67.338
+      },
+      {
+        "end": 68.836,
+        "word": "Valley.",
+        "start": 67.884
+      },
+      {
+        "end": 68.998,
+        "word": "It",
+        "start": 68.836
+      },
+      {
+        "end": 69.497,
+        "word": "attracted",
+        "start": 68.998
+      },
+      {
+        "end": 69.857,
+        "word": "top",
+        "start": 69.497
+      },
+      {
+        "end": 70.298,
+        "word": "talent",
+        "start": 69.857
+      },
+      {
+        "end": 70.438,
+        "word": "and",
+        "start": 70.298
+      },
+      {
+        "end": 70.809,
+        "word": "venture",
+        "start": 70.438
+      },
+      {
+        "end": 71.587,
+        "word": "capital,",
+        "start": 70.809
+      },
+      {
+        "end": 71.993,
+        "word": "quickly",
+        "start": 71.587
+      },
+      {
+        "end": 72.504,
+        "word": "scaling",
+        "start": 71.993
+      },
+      {
+        "end": 72.609,
+        "word": "to",
+        "start": 72.504
+      },
+      {
+        "end": 72.876,
+        "word": "become",
+        "start": 72.609
+      },
+      {
+        "end": 72.992,
+        "word": "a",
+        "start": 72.876
+      },
+      {
+        "end": 73.584,
+        "word": "heavyweight",
+        "start": 72.992
+      },
+      {
+        "end": 73.677,
+        "word": "in",
+        "start": 73.584
+      },
+      {
+        "end": 73.816,
+        "word": "the",
+        "start": 73.677
+      },
+      {
+        "end": 75.302,
+        "word": "industry.",
+        "start": 73.816
+      },
+      {
+        "end": 75.918,
+        "word": "However,",
+        "start": 75.302
+      },
+      {
+        "end": 76.278,
+        "word": "beneath",
+        "start": 75.918
+      },
+      {
+        "end": 76.405,
+        "word": "the",
+        "start": 76.278
+      },
+      {
+        "end": 77.183,
+        "word": "surface,",
+        "start": 76.405
+      },
+      {
+        "end": 77.81,
+        "word": "internal",
+        "start": 77.183
+      },
+      {
+        "end": 78.251,
+        "word": "strife",
+        "start": 77.81
+      },
+      {
+        "end": 78.414,
+        "word": "and",
+        "start": 78.251
+      },
+      {
+        "end": 78.959,
+        "word": "leadership",
+        "start": 78.414
+      },
+      {
+        "end": 79.726,
+        "word": "conflicts",
+        "start": 78.959
+      },
+      {
+        "end": 80.922,
+        "word": "simmered.",
+        "start": 79.726
+      },
+      {
+        "end": 81.699,
+        "word": "Insiders",
+        "start": 80.922
+      },
+      {
+        "end": 82.199,
+        "word": "reported",
+        "start": 81.699
+      },
+      {
+        "end": 82.768,
+        "word": "boardroom",
+        "start": 82.199
+      },
+      {
+        "end": 83.278,
+        "word": "tensions",
+        "start": 82.768
+      },
+      {
+        "end": 83.487,
+        "word": "and",
+        "start": 83.278
+      },
+      {
+        "end": 83.87,
+        "word": "risky",
+        "start": 83.487
+      },
+      {
+        "end": 84.695,
+        "word": "decisions",
+        "start": 83.87
+      },
+      {
+        "end": 84.939,
+        "word": "that",
+        "start": 84.695
+      },
+      {
+        "end": 85.38,
+        "word": "sowed",
+        "start": 84.939
+      },
+      {
+        "end": 85.786,
+        "word": "seeds",
+        "start": 85.38
+      },
+      {
+        "end": 85.925,
+        "word": "of",
+        "start": 85.786
+      },
+      {
+        "end": 86.471,
+        "word": "discord",
+        "start": 85.925
+      },
+      {
+        "end": 86.75,
+        "word": "among",
+        "start": 86.471
+      },
+      {
+        "end": 88.213,
+        "word": "stakeholders.",
+        "start": 86.75
+      },
+      {
+        "end": 89.188,
+        "word": "Over-reliance",
+        "start": 88.213
+      },
+      {
+        "end": 89.304,
+        "word": "on",
+        "start": 89.188
+      },
+      {
+        "end": 89.385,
+        "word": "a",
+        "start": 89.304
+      },
+      {
+        "end": 89.733,
+        "word": "single",
+        "start": 89.385
+      },
+      {
+        "end": 90.175,
+        "word": "product",
+        "start": 89.733
+      },
+      {
+        "end": 90.488,
+        "word": "line",
+        "start": 90.175
+      },
+      {
+        "end": 90.883,
+        "word": "became",
+        "start": 90.488
+      },
+      {
+        "end": 91.347,
+        "word": "evident",
+        "start": 90.883
+      },
+      {
+        "end": 91.498,
+        "word": "as",
+        "start": 91.347
+      },
+      {
+        "end": 92.125,
+        "word": "competitors",
+        "start": 91.498
+      },
+      {
+        "end": 92.531,
+        "word": "began",
+        "start": 92.125
+      },
+      {
+        "end": 93.077,
+        "word": "innovating",
+        "start": 92.531
+      },
+      {
+        "end": 94.18,
+        "word": "faster.",
+        "start": 93.077
+      },
+      {
+        "end": 94.412,
+        "word": "Yet,",
+        "start": 94.18
+      },
+      {
+        "end": 94.528,
+        "word": "the",
+        "start": 94.412
+      },
+      {
+        "end": 95.004,
+        "word": "brand",
+        "start": 94.528
+      },
+      {
+        "end": 95.527,
+        "word": "clung",
+        "start": 95.004
+      },
+      {
+        "end": 95.678,
+        "word": "to",
+        "start": 95.527
+      },
+      {
+        "end": 96.107,
+        "word": "past",
+        "start": 95.678
+      },
+      {
+        "end": 96.92,
+        "word": "glories,",
+        "start": 96.107
+      },
+      {
+        "end": 97.535,
+        "word": "ignoring",
+        "start": 96.92
+      },
+      {
+        "end": 97.965,
+        "word": "warning",
+        "start": 97.535
+      },
+      {
+        "end": 98.441,
+        "word": "signs",
+        "start": 97.965
+      },
+      {
+        "end": 98.592,
+        "word": "of",
+        "start": 98.441
+      },
+      {
+        "end": 98.975,
+        "word": "market",
+        "start": 98.592
+      },
+      {
+        "end": 100.136,
+        "word": "shifts.",
+        "start": 98.975
+      },
+      {
+        "end": 100.554,
+        "word": "Despite",
+        "start": 100.136
+      },
+      {
+        "end": 100.635,
+        "word": "a",
+        "start": 100.554
+      },
+      {
+        "end": 101.123,
+        "word": "veneer",
+        "start": 100.635
+      },
+      {
+        "end": 101.251,
+        "word": "of",
+        "start": 101.123
+      },
+      {
+        "end": 102.086,
+        "word": "strength,",
+        "start": 101.251
+      },
+      {
+        "end": 102.586,
+        "word": "customer",
+        "start": 102.086
+      },
+      {
+        "end": 103.155,
+        "word": "loyalty",
+        "start": 102.586
+      },
+      {
+        "end": 103.712,
+        "word": "waned",
+        "start": 103.155
+      },
+      {
+        "end": 104.025,
+        "word": "due",
+        "start": 103.712
+      },
+      {
+        "end": 104.188,
+        "word": "to",
+        "start": 104.025
+      },
+      {
+        "end": 104.78,
+        "word": "declining",
+        "start": 104.188
+      },
+      {
+        "end": 105.314,
+        "word": "quality",
+        "start": 104.78
+      },
+      {
+        "end": 105.534,
+        "word": "and",
+        "start": 105.314
+      },
+      {
+        "end": 105.976,
+        "word": "rising",
+        "start": 105.534
+      },
+      {
+        "end": 107.996,
+        "word": "prices.",
+        "start": 105.976
+      },
+      {
+        "end": 108.669,
+        "word": "Frustrated",
+        "start": 107.996
+      },
+      {
+        "end": 109.331,
+        "word": "consumers",
+        "start": 108.669
+      },
+      {
+        "end": 109.668,
+        "word": "turned",
+        "start": 109.331
+      },
+      {
+        "end": 109.83,
+        "word": "to",
+        "start": 109.668
+      },
+      {
+        "end": 110.887,
+        "word": "alternatives,",
+        "start": 109.83
+      },
+      {
+        "end": 111.374,
+        "word": "voicing",
+        "start": 110.887
+      },
+      {
+        "end": 112.361,
+        "word": "dissatisfaction",
+        "start": 111.374
+      },
+      {
+        "end": 112.895,
+        "word": "widely",
+        "start": 112.361
+      },
+      {
+        "end": 114.161,
+        "word": "online.",
+        "start": 112.895
+      },
+      {
+        "end": 114.335,
+        "word": "In",
+        "start": 114.161
+      },
+      {
+        "end": 114.451,
+        "word": "the",
+        "start": 114.335
+      },
+      {
+        "end": 114.73,
+        "word": "months",
+        "start": 114.451
+      },
+      {
+        "end": 115.043,
+        "word": "leading",
+        "start": 114.73
+      },
+      {
+        "end": 115.182,
+        "word": "up",
+        "start": 115.043
+      },
+      {
+        "end": 115.287,
+        "word": "to",
+        "start": 115.182
+      },
+      {
+        "end": 115.403,
+        "word": "the",
+        "start": 115.287
+      },
+      {
+        "end": 116.216,
+        "word": "collapse,",
+        "start": 115.403
+      },
+      {
+        "end": 116.761,
+        "word": "financial",
+        "start": 116.216
+      },
+      {
+        "end": 117.272,
+        "word": "reports",
+        "start": 116.761
+      },
+      {
+        "end": 117.795,
+        "word": "glossed",
+        "start": 117.272
+      },
+      {
+        "end": 118.073,
+        "word": "over",
+        "start": 117.795
+      },
+      {
+        "end": 118.421,
+        "word": "key",
+        "start": 118.073
+      },
+      {
+        "end": 119.629,
+        "word": "issues.",
+        "start": 118.421
+      },
+      {
+        "end": 120.314,
+        "word": "Analysts",
+        "start": 119.629
+      },
+      {
+        "end": 120.5,
+        "word": "and",
+        "start": 120.314
+      },
+      {
+        "end": 121.08,
+        "word": "investors",
+        "start": 120.5
+      },
+      {
+        "end": 121.463,
+        "word": "remained",
+        "start": 121.08
+      },
+      {
+        "end": 122.102,
+        "word": "oblivious",
+        "start": 121.463
+      },
+      {
+        "end": 122.241,
+        "word": "to",
+        "start": 122.102
+      },
+      {
+        "end": 122.369,
+        "word": "the",
+        "start": 122.241
+      },
+      {
+        "end": 122.764,
+        "word": "looming",
+        "start": 122.369
+      },
+      {
+        "end": 123.693,
+        "word": "disaster,",
+        "start": 122.764
+      },
+      {
+        "end": 124.192,
+        "word": "trusting",
+        "start": 123.693
+      },
+      {
+        "end": 124.819,
+        "word": "opaque",
+        "start": 124.192
+      },
+      {
+        "end": 125.364,
+        "word": "corporate",
+        "start": 124.819
+      },
+      {
+        "end": 127.094,
+        "word": "reassurances.",
+        "start": 125.364
+      },
+      {
+        "end": 127.431,
+        "word": "As",
+        "start": 127.094
+      },
+      {
+        "end": 127.895,
+        "word": "external",
+        "start": 127.431
+      },
+      {
+        "end": 128.325,
+        "word": "pressures",
+        "start": 127.895
+      },
+      {
+        "end": 128.975,
+        "word": "mounted,",
+        "start": 128.325
+      },
+      {
+        "end": 129.126,
+        "word": "the",
+        "start": 128.975
+      },
+      {
+        "end": 129.544,
+        "word": "brand",
+        "start": 129.126
+      },
+      {
+        "end": 129.904,
+        "word": "faced",
+        "start": 129.544
+      },
+      {
+        "end": 130.461,
+        "word": "increased",
+        "start": 129.904
+      },
+      {
+        "end": 131.042,
+        "word": "scrutiny",
+        "start": 130.461
+      },
+      {
+        "end": 131.239,
+        "word": "from",
+        "start": 131.042
+      },
+      {
+        "end": 132.505,
+        "word": "regulators.",
+        "start": 131.239
+      },
+      {
+        "end": 133.213,
+        "word": "Allegations",
+        "start": 132.505
+      },
+      {
+        "end": 133.341,
+        "word": "of",
+        "start": 133.213
+      },
+      {
+        "end": 134.107,
+        "word": "misconduct",
+        "start": 133.341
+      },
+      {
+        "end": 134.989,
+        "word": "surfaced,",
+        "start": 134.107
+      },
+      {
+        "end": 135.465,
+        "word": "further",
+        "start": 134.989
+      },
+      {
+        "end": 136.022,
+        "word": "eroding",
+        "start": 135.465
+      },
+      {
+        "end": 136.707,
+        "word": "trust",
+        "start": 136.022
+      },
+      {
+        "end": 136.963,
+        "word": "and",
+        "start": 136.707
+      },
+      {
+        "end": 137.404,
+        "word": "adding",
+        "start": 136.963
+      },
+      {
+        "end": 137.857,
+        "word": "fuel",
+        "start": 137.404
+      },
+      {
+        "end": 137.984,
+        "word": "to",
+        "start": 137.857
+      },
+      {
+        "end": 138.112,
+        "word": "the",
+        "start": 137.984
+      },
+      {
+        "end": 138.669,
+        "word": "impending",
+        "start": 138.112
+      },
+      {
+        "end": 140.307,
+        "word": "inferno.",
+        "start": 138.669
+      },
+      {
+        "end": 140.481,
+        "word": "The",
+        "start": 140.307
+      },
+      {
+        "end": 140.818,
+        "word": "tipping",
+        "start": 140.481
+      },
+      {
+        "end": 141.096,
+        "word": "point",
+        "start": 140.818
+      },
+      {
+        "end": 141.433,
+        "word": "came",
+        "start": 141.096
+      },
+      {
+        "end": 141.607,
+        "word": "when",
+        "start": 141.433
+      },
+      {
+        "end": 141.688,
+        "word": "a",
+        "start": 141.607
+      },
+      {
+        "end": 142.431,
+        "word": "whistleblower",
+        "start": 141.688
+      },
+      {
+        "end": 142.826,
+        "word": "leaked",
+        "start": 142.431
+      },
+      {
+        "end": 143.441,
+        "word": "damning",
+        "start": 142.826
+      },
+      {
+        "end": 144.022,
+        "word": "internal",
+        "start": 143.441
+      },
+      {
+        "end": 145.334,
+        "word": "documents.",
+        "start": 144.022
+      },
+      {
+        "end": 145.729,
+        "word": "These",
+        "start": 145.334
+      },
+      {
+        "end": 146.216,
+        "word": "revealed",
+        "start": 145.729
+      },
+      {
+        "end": 146.785,
+        "word": "systemic",
+        "start": 146.216
+      },
+      {
+        "end": 147.226,
+        "word": "issues",
+        "start": 146.785
+      },
+      {
+        "end": 147.4,
+        "word": "and",
+        "start": 147.226
+      },
+      {
+        "end": 147.958,
+        "word": "executive",
+        "start": 147.4
+      },
+      {
+        "end": 148.677,
+        "word": "malfeasance",
+        "start": 147.958
+      },
+      {
+        "end": 148.863,
+        "word": "that",
+        "start": 148.677
+      },
+      {
+        "end": 149.246,
+        "word": "shocked",
+        "start": 148.863
+      },
+      {
+        "end": 149.479,
+        "word": "even",
+        "start": 149.246
+      },
+      {
+        "end": 149.595,
+        "word": "the",
+        "start": 149.479
+      },
+      {
+        "end": 149.92,
+        "word": "most",
+        "start": 149.595
+      },
+      {
+        "end": 150.442,
+        "word": "cynical",
+        "start": 149.92
+      },
+      {
+        "end": 151.673,
+        "word": "observers.",
+        "start": 150.442
+      },
+      {
+        "end": 151.87,
+        "word": "The",
+        "start": 151.673
+      },
+      {
+        "end": 152.451,
+        "word": "documents",
+        "start": 151.87
+      },
+      {
+        "end": 153.112,
+        "word": "exposed",
+        "start": 152.451
+      },
+      {
+        "end": 153.774,
+        "word": "fraudulent",
+        "start": 153.112
+      },
+      {
+        "end": 154.262,
+        "word": "accounting",
+        "start": 153.774
+      },
+      {
+        "end": 154.935,
+        "word": "practices",
+        "start": 154.262
+      },
+      {
+        "end": 155.098,
+        "word": "and",
+        "start": 154.935
+      },
+      {
+        "end": 155.771,
+        "word": "deceptive",
+        "start": 155.098
+      },
+      {
+        "end": 156.212,
+        "word": "marketing",
+        "start": 155.771
+      },
+      {
+        "end": 157.362,
+        "word": "strategies.",
+        "start": 156.212
+      },
+      {
+        "end": 158.116,
+        "word": "Consumers",
+        "start": 157.362
+      },
+      {
+        "end": 158.36,
+        "word": "and",
+        "start": 158.116
+      },
+      {
+        "end": 159.01,
+        "word": "investors",
+        "start": 158.36
+      },
+      {
+        "end": 159.312,
+        "word": "felt",
+        "start": 159.01
+      },
+      {
+        "end": 160.206,
+        "word": "betrayed,",
+        "start": 159.312
+      },
+      {
+        "end": 160.74,
+        "word": "igniting",
+        "start": 160.206
+      },
+      {
+        "end": 160.856,
+        "word": "a",
+        "start": 160.74
+      },
+      {
+        "end": 161.228,
+        "word": "rapid",
+        "start": 160.856
+      },
+      {
+        "end": 161.507,
+        "word": "loss",
+        "start": 161.228
+      },
+      {
+        "end": 161.623,
+        "word": "of",
+        "start": 161.507
+      },
+      {
+        "end": 162.215,
+        "word": "confidence",
+        "start": 161.623
+      },
+      {
+        "end": 162.308,
+        "word": "in",
+        "start": 162.215
+      },
+      {
+        "end": 162.412,
+        "word": "the",
+        "start": 162.308
+      },
+      {
+        "end": 163.364,
+        "word": "brand.",
+        "start": 162.412
+      },
+      {
+        "end": 163.829,
+        "word": "Major",
+        "start": 163.364
+      },
+      {
+        "end": 164.339,
+        "word": "clients",
+        "start": 163.829
+      },
+      {
+        "end": 164.746,
+        "word": "began",
+        "start": 164.339
+      },
+      {
+        "end": 165.21,
+        "word": "severing",
+        "start": 164.746
+      },
+      {
+        "end": 165.651,
+        "word": "ties",
+        "start": 165.21
+      },
+      {
+        "end": 166.58,
+        "word": "immediately,",
+        "start": 165.651
+      },
+      {
+        "end": 167.079,
+        "word": "prompting",
+        "start": 166.58
+      },
+      {
+        "end": 167.172,
+        "word": "a",
+        "start": 167.079
+      },
+      {
+        "end": 167.671,
+        "word": "domino",
+        "start": 167.172
+      },
+      {
+        "end": 168.055,
+        "word": "effect",
+        "start": 167.671
+      },
+      {
+        "end": 168.577,
+        "word": "throughout",
+        "start": 168.055
+      },
+      {
+        "end": 168.728,
+        "word": "the",
+        "start": 168.577
+      },
+      {
+        "end": 169.726,
+        "word": "industry.",
+        "start": 168.728
+      },
+      {
+        "end": 170.4,
+        "word": "Competitors",
+        "start": 169.726
+      },
+      {
+        "end": 171.154,
+        "word": "capitalized",
+        "start": 170.4
+      },
+      {
+        "end": 171.294,
+        "word": "on",
+        "start": 171.154
+      },
+      {
+        "end": 171.398,
+        "word": "the",
+        "start": 171.294
+      },
+      {
+        "end": 172.188,
+        "word": "chaos,",
+        "start": 171.398
+      },
+      {
+        "end": 172.71,
+        "word": "swiftly",
+        "start": 172.188
+      },
+      {
+        "end": 173.093,
+        "word": "gaining",
+        "start": 172.71
+      },
+      {
+        "end": 173.43,
+        "word": "market",
+        "start": 173.093
+      },
+      {
+        "end": 173.813,
+        "word": "share",
+        "start": 173.43
+      },
+      {
+        "end": 174.034,
+        "word": "as",
+        "start": 173.813
+      },
+      {
+        "end": 174.15,
+        "word": "the",
+        "start": 174.034
+      },
+      {
+        "end": 174.603,
+        "word": "brand's",
+        "start": 174.15
+      },
+      {
+        "end": 175.183,
+        "word": "influence",
+        "start": 174.603
+      },
+      {
+        "end": 176.217,
+        "word": "waned.",
+        "start": 175.183
+      },
+      {
+        "end": 176.367,
+        "word": "The",
+        "start": 176.217
+      },
+      {
+        "end": 176.681,
+        "word": "stock",
+        "start": 176.367
+      },
+      {
+        "end": 177.006,
+        "word": "market",
+        "start": 176.681
+      },
+      {
+        "end": 177.47,
+        "word": "reacted",
+        "start": 177.006
+      },
+      {
+        "end": 178.341,
+        "word": "violently,",
+        "start": 177.47
+      },
+      {
+        "end": 178.539,
+        "word": "with",
+        "start": 178.341
+      },
+      {
+        "end": 178.643,
+        "word": "the",
+        "start": 178.539
+      },
+      {
+        "end": 179.131,
+        "word": "brand's",
+        "start": 178.643
+      },
+      {
+        "end": 179.676,
+        "word": "shares",
+        "start": 179.131
+      },
+      {
+        "end": 180.129,
+        "word": "dropping",
+        "start": 179.676
+      },
+      {
+        "end": 180.28,
+        "word": "to",
+        "start": 180.129
+      },
+      {
+        "end": 180.849,
+        "word": "historic",
+        "start": 180.28
+      },
+      {
+        "end": 182.08,
+        "word": "lows.",
+        "start": 180.849
+      },
+      {
+        "end": 182.567,
+        "word": "Panic",
+        "start": 182.08
+      },
+      {
+        "end": 182.974,
+        "word": "selling",
+        "start": 182.567
+      },
+      {
+        "end": 183.891,
+        "word": "ensued,",
+        "start": 182.974
+      },
+      {
+        "end": 184.332,
+        "word": "further",
+        "start": 183.891
+      },
+      {
+        "end": 185.11,
+        "word": "exacerbating",
+        "start": 184.332
+      },
+      {
+        "end": 185.226,
+        "word": "the",
+        "start": 185.11
+      },
+      {
+        "end": 185.795,
+        "word": "financial",
+        "start": 185.226
+      },
+      {
+        "end": 186.329,
+        "word": "distress",
+        "start": 185.795
+      },
+      {
+        "end": 186.491,
+        "word": "that",
+        "start": 186.329
+      },
+      {
+        "end": 186.979,
+        "word": "engulfed",
+        "start": 186.491
+      },
+      {
+        "end": 187.095,
+        "word": "the",
+        "start": 186.979
+      },
+      {
+        "end": 188.151,
+        "word": "company.",
+        "start": 187.095
+      },
+      {
+        "end": 188.5,
+        "word": "Amid",
+        "start": 188.151
+      },
+      {
+        "end": 188.616,
+        "word": "the",
+        "start": 188.5
+      },
+      {
+        "end": 189.266,
+        "word": "turmoil,",
+        "start": 188.616
+      },
+      {
+        "end": 189.893,
+        "word": "CEO",
+        "start": 189.266
+      },
+      {
+        "end": 190.833,
+        "word": "resignations",
+        "start": 189.893
+      },
+      {
+        "end": 191.019,
+        "word": "and",
+        "start": 190.833
+      },
+      {
+        "end": 191.414,
+        "word": "board",
+        "start": 191.019
+      },
+      {
+        "end": 192.087,
+        "word": "reshuffles",
+        "start": 191.414
+      },
+      {
+        "end": 192.261,
+        "word": "were",
+        "start": 192.087
+      },
+      {
+        "end": 192.726,
+        "word": "announced",
+        "start": 192.261
+      },
+      {
+        "end": 192.842,
+        "word": "in",
+        "start": 192.726
+      },
+      {
+        "end": 192.981,
+        "word": "a",
+        "start": 192.842
+      },
+      {
+        "end": 193.492,
+        "word": "desperate",
+        "start": 192.981
+      },
+      {
+        "end": 194.026,
+        "word": "bid",
+        "start": 193.492
+      },
+      {
+        "end": 194.235,
+        "word": "to",
+        "start": 194.026
+      },
+      {
+        "end": 194.676,
+        "word": "restore",
+        "start": 194.235
+      },
+      {
+        "end": 195.744,
+        "word": "stability.",
+        "start": 194.676
+      },
+      {
+        "end": 196.557,
+        "word": "Yet,",
+        "start": 195.744
+      },
+      {
+        "end": 196.87,
+        "word": "these",
+        "start": 196.557
+      },
+      {
+        "end": 197.265,
+        "word": "moves",
+        "start": 196.87
+      },
+      {
+        "end": 197.439,
+        "word": "were",
+        "start": 197.265
+      },
+      {
+        "end": 197.672,
+        "word": "too",
+        "start": 197.439
+      },
+      {
+        "end": 198.357,
+        "word": "little,",
+        "start": 197.672
+      },
+      {
+        "end": 198.647,
+        "word": "too",
+        "start": 198.357
+      },
+      {
+        "end": 198.995,
+        "word": "late",
+        "start": 198.647
+      },
+      {
+        "end": 199.204,
+        "word": "to",
+        "start": 198.995
+      },
+      {
+        "end": 199.506,
+        "word": "halt",
+        "start": 199.204
+      },
+      {
+        "end": 199.645,
+        "word": "the",
+        "start": 199.506
+      },
+      {
+        "end": 200.121,
+        "word": "downward",
+        "start": 199.645
+      },
+      {
+        "end": 201.491,
+        "word": "spiral.",
+        "start": 200.121
+      },
+      {
+        "end": 201.932,
+        "word": "Social",
+        "start": 201.491
+      },
+      {
+        "end": 202.35,
+        "word": "media",
+        "start": 201.932
+      },
+      {
+        "end": 203.14,
+        "word": "exploded",
+        "start": 202.35
+      },
+      {
+        "end": 203.302,
+        "word": "with",
+        "start": 203.14
+      },
+      {
+        "end": 204.127,
+        "word": "speculation",
+        "start": 203.302
+      },
+      {
+        "end": 204.324,
+        "word": "and",
+        "start": 204.127
+      },
+      {
+        "end": 205.427,
+        "word": "outrage,",
+        "start": 204.324
+      },
+      {
+        "end": 205.845,
+        "word": "turning",
+        "start": 205.427
+      },
+      {
+        "end": 205.961,
+        "word": "the",
+        "start": 205.845
+      },
+      {
+        "end": 206.426,
+        "word": "brand",
+        "start": 205.961
+      },
+      {
+        "end": 206.67,
+        "word": "into",
+        "start": 206.426
+      },
+      {
+        "end": 206.762,
+        "word": "a",
+        "start": 206.67
+      },
+      {
+        "end": 207.424,
+        "word": "cautionary",
+        "start": 206.762
+      },
+      {
+        "end": 209.026,
+        "word": "tale.",
+        "start": 207.424
+      },
+      {
+        "end": 209.816,
+        "word": "Hashtags",
+        "start": 209.026
+      },
+      {
+        "end": 210.257,
+        "word": "calling",
+        "start": 209.816
+      },
+      {
+        "end": 210.454,
+        "word": "for",
+        "start": 210.257
+      },
+      {
+        "end": 211.151,
+        "word": "boycotts",
+        "start": 210.454
+      },
+      {
+        "end": 211.639,
+        "word": "trended",
+        "start": 211.151
+      },
+      {
+        "end": 212.753,
+        "word": "worldwide,",
+        "start": 211.639
+      },
+      {
+        "end": 213.403,
+        "word": "tarnishing",
+        "start": 212.753
+      },
+      {
+        "end": 213.612,
+        "word": "its",
+        "start": 213.403
+      },
+      {
+        "end": 214.495,
+        "word": "once-pristine",
+        "start": 213.612
+      },
+      {
+        "end": 216.143,
+        "word": "reputation.",
+        "start": 214.495
+      },
+      {
+        "end": 216.817,
+        "word": "Journalists",
+        "start": 216.143
+      },
+      {
+        "end": 217.014,
+        "word": "and",
+        "start": 216.817
+      },
+      {
+        "end": 217.699,
+        "word": "analysts",
+        "start": 217.014
+      },
+      {
+        "end": 218.105,
+        "word": "raced",
+        "start": 217.699
+      },
+      {
+        "end": 218.314,
+        "word": "to",
+        "start": 218.105
+      },
+      {
+        "end": 218.767,
+        "word": "uncover",
+        "start": 218.314
+      },
+      {
+        "end": 218.907,
+        "word": "the",
+        "start": 218.767
+      },
+      {
+        "end": 219.197,
+        "word": "full",
+        "start": 218.907
+      },
+      {
+        "end": 219.754,
+        "word": "extent",
+        "start": 219.197
+      },
+      {
+        "end": 219.859,
+        "word": "of",
+        "start": 219.754
+      },
+      {
+        "end": 219.975,
+        "word": "the",
+        "start": 219.859
+      },
+      {
+        "end": 221.194,
+        "word": "scandal.",
+        "start": 219.975
+      },
+      {
+        "end": 221.437,
+        "word": "As",
+        "start": 221.194
+      },
+      {
+        "end": 221.705,
+        "word": "more",
+        "start": 221.437
+      },
+      {
+        "end": 222.308,
+        "word": "details",
+        "start": 221.705
+      },
+      {
+        "end": 223.214,
+        "word": "emerged,",
+        "start": 222.308
+      },
+      {
+        "end": 223.643,
+        "word": "public",
+        "start": 223.214
+      },
+      {
+        "end": 224.201,
+        "word": "sentiment",
+        "start": 223.643
+      },
+      {
+        "end": 224.677,
+        "word": "hardened",
+        "start": 224.201
+      },
+      {
+        "end": 225.014,
+        "word": "against",
+        "start": 224.677
+      },
+      {
+        "end": 225.13,
+        "word": "the",
+        "start": 225.014
+      },
+      {
+        "end": 225.618,
+        "word": "brand",
+        "start": 225.13
+      },
+      {
+        "end": 225.757,
+        "word": "and",
+        "start": 225.618
+      },
+      {
+        "end": 225.919,
+        "word": "its",
+        "start": 225.757
+      },
+      {
+        "end": 226.628,
+        "word": "beleaguered",
+        "start": 225.919
+      },
+      {
+        "end": 227.963,
+        "word": "leadership.",
+        "start": 226.628
+      },
+      {
+        "end": 228.253,
+        "word": "While",
+        "start": 227.963
+      },
+      {
+        "end": 228.508,
+        "word": "some",
+        "start": 228.253
+      },
+      {
+        "end": 229.054,
+        "word": "insiders",
+        "start": 228.508
+      },
+      {
+        "end": 229.495,
+        "word": "attempted",
+        "start": 229.054
+      },
+      {
+        "end": 229.878,
+        "word": "damage",
+        "start": 229.495
+      },
+      {
+        "end": 230.633,
+        "word": "control,",
+        "start": 229.878
+      },
+      {
+        "end": 231.086,
+        "word": "others",
+        "start": 230.633
+      },
+      {
+        "end": 231.399,
+        "word": "leaked",
+        "start": 231.086
+      },
+      {
+        "end": 231.678,
+        "word": "more",
+        "start": 231.399
+      },
+      {
+        "end": 232.247,
+        "word": "damaging",
+        "start": 231.678
+      },
+      {
+        "end": 233.129,
+        "word": "information,",
+        "start": 232.247
+      },
+      {
+        "end": 233.64,
+        "word": "fueling",
+        "start": 233.129
+      },
+      {
+        "end": 233.768,
+        "word": "the",
+        "start": 233.64
+      },
+      {
+        "end": 234.197,
+        "word": "media",
+        "start": 233.768
+      },
+      {
+        "end": 235.382,
+        "word": "frenzy.",
+        "start": 234.197
+      },
+      {
+        "end": 235.567,
+        "word": "The",
+        "start": 235.382
+      },
+      {
+        "end": 236.136,
+        "word": "company's",
+        "start": 235.567
+      },
+      {
+        "end": 236.589,
+        "word": "every",
+        "start": 236.136
+      },
+      {
+        "end": 236.984,
+        "word": "move",
+        "start": 236.589
+      },
+      {
+        "end": 237.158,
+        "word": "was",
+        "start": 236.984
+      },
+      {
+        "end": 238.017,
+        "word": "scrutinized",
+        "start": 237.158
+      },
+      {
+        "end": 238.33,
+        "word": "under",
+        "start": 238.017
+      },
+      {
+        "end": 238.435,
+        "word": "a",
+        "start": 238.33
+      },
+      {
+        "end": 239.166,
+        "word": "relentless",
+        "start": 238.435
+      },
+      {
+        "end": 240.699,
+        "word": "spotlight.",
+        "start": 239.166
+      },
+      {
+        "end": 241.164,
+        "word": "Legal",
+        "start": 240.699
+      },
+      {
+        "end": 241.663,
+        "word": "experts",
+        "start": 241.164
+      },
+      {
+        "end": 242.0,
+        "word": "weighed",
+        "start": 241.663
+      },
+      {
+        "end": 242.487,
+        "word": "in,",
+        "start": 242.0
+      },
+      {
+        "end": 242.963,
+        "word": "predicting",
+        "start": 242.487
+      },
+      {
+        "end": 243.045,
+        "word": "a",
+        "start": 242.963
+      },
+      {
+        "end": 243.451,
+        "word": "tidal",
+        "start": 243.045
+      },
+      {
+        "end": 243.776,
+        "word": "wave",
+        "start": 243.451
+      },
+      {
+        "end": 243.915,
+        "word": "of",
+        "start": 243.776
+      },
+      {
+        "end": 244.519,
+        "word": "lawsuits",
+        "start": 243.915
+      },
+      {
+        "end": 244.705,
+        "word": "that",
+        "start": 244.519
+      },
+      {
+        "end": 244.925,
+        "word": "could",
+        "start": 244.705
+      },
+      {
+        "end": 245.308,
+        "word": "cripple",
+        "start": 244.925
+      },
+      {
+        "end": 245.425,
+        "word": "the",
+        "start": 245.308
+      },
+      {
+        "end": 245.866,
+        "word": "brand",
+        "start": 245.425
+      },
+      {
+        "end": 246.922,
+        "word": "further.",
+        "start": 245.866
+      },
+      {
+        "end": 247.793,
+        "word": "Class-action",
+        "start": 246.922
+      },
+      {
+        "end": 248.118,
+        "word": "suits",
+        "start": 247.793
+      },
+      {
+        "end": 248.327,
+        "word": "from",
+        "start": 248.118
+      },
+      {
+        "end": 249.058,
+        "word": "shareholders",
+        "start": 248.327
+      },
+      {
+        "end": 249.209,
+        "word": "and",
+        "start": 249.058
+      },
+      {
+        "end": 249.72,
+        "word": "consumer",
+        "start": 249.209
+      },
+      {
+        "end": 250.08,
+        "word": "fraud",
+        "start": 249.72
+      },
+      {
+        "end": 250.521,
+        "word": "claims",
+        "start": 250.08
+      },
+      {
+        "end": 250.707,
+        "word": "were",
+        "start": 250.521
+      },
+      {
+        "end": 251.218,
+        "word": "filed",
+        "start": 250.707
+      },
+      {
+        "end": 251.473,
+        "word": "en",
+        "start": 251.218
+      },
+      {
+        "end": 252.623,
+        "word": "masse.",
+        "start": 251.473
+      },
+      {
+        "end": 253.192,
+        "word": "Economic",
+        "start": 252.623
+      },
+      {
+        "end": 253.807,
+        "word": "analysts",
+        "start": 253.192
+      },
+      {
+        "end": 254.19,
+        "word": "began",
+        "start": 253.807
+      },
+      {
+        "end": 254.91,
+        "word": "calculating",
+        "start": 254.19
+      },
+      {
+        "end": 255.038,
+        "word": "the",
+        "start": 254.91
+      },
+      {
+        "end": 255.456,
+        "word": "wider",
+        "start": 255.038
+      },
+      {
+        "end": 255.966,
+        "word": "impact",
+        "start": 255.456
+      },
+      {
+        "end": 256.071,
+        "word": "on",
+        "start": 255.966
+      },
+      {
+        "end": 256.199,
+        "word": "the",
+        "start": 256.071
+      },
+      {
+        "end": 257.371,
+        "word": "industry.",
+        "start": 256.199
+      },
+      {
+        "end": 257.533,
+        "word": "The",
+        "start": 257.371
+      },
+      {
+        "end": 258.044,
+        "word": "brand's",
+        "start": 257.533
+      },
+      {
+        "end": 258.451,
+        "word": "swift",
+        "start": 258.044
+      },
+      {
+        "end": 258.996,
+        "word": "demise",
+        "start": 258.451
+      },
+      {
+        "end": 259.379,
+        "word": "threatened",
+        "start": 258.996
+      },
+      {
+        "end": 259.565,
+        "word": "to",
+        "start": 259.379
+      },
+      {
+        "end": 260.54,
+        "word": "destabilize",
+        "start": 259.565
+      },
+      {
+        "end": 260.982,
+        "word": "supply",
+        "start": 260.54
+      },
+      {
+        "end": 261.4,
+        "word": "chains",
+        "start": 260.982
+      },
+      {
+        "end": 261.574,
+        "word": "and",
+        "start": 261.4
+      },
+      {
+        "end": 261.864,
+        "word": "shift",
+        "start": 261.574
+      },
+      {
+        "end": 261.98,
+        "word": "the",
+        "start": 261.864
+      },
+      {
+        "end": 262.514,
+        "word": "competitive",
+        "start": 261.98
+      },
+      {
+        "end": 263.06,
+        "word": "landscape",
+        "start": 262.514
+      },
+      {
+        "end": 264.198,
+        "word": "dramatically.",
+        "start": 263.06
+      },
+      {
+        "end": 264.383,
+        "word": "An",
+        "start": 264.198
+      },
+      {
+        "end": 264.975,
+        "word": "emergency",
+        "start": 264.383
+      },
+      {
+        "end": 265.289,
+        "word": "meeting",
+        "start": 264.975
+      },
+      {
+        "end": 265.417,
+        "word": "of",
+        "start": 265.289
+      },
+      {
+        "end": 265.846,
+        "word": "industry",
+        "start": 265.417
+      },
+      {
+        "end": 266.194,
+        "word": "leaders",
+        "start": 265.846
+      },
+      {
+        "end": 266.38,
+        "word": "was",
+        "start": 266.194
+      },
+      {
+        "end": 266.949,
+        "word": "convened",
+        "start": 266.38
+      },
+      {
+        "end": 267.135,
+        "word": "to",
+        "start": 266.949
+      },
+      {
+        "end": 267.53,
+        "word": "address",
+        "start": 267.135
+      },
+      {
+        "end": 268.098,
+        "word": "potential",
+        "start": 267.53
+      },
+      {
+        "end": 269.445,
+        "word": "repercussions.",
+        "start": 268.098
+      },
+      {
+        "end": 270.153,
+        "word": "Competitors",
+        "start": 269.445
+      },
+      {
+        "end": 270.548,
+        "word": "plotted",
+        "start": 270.153
+      },
+      {
+        "end": 271.198,
+        "word": "strategies",
+        "start": 270.548
+      },
+      {
+        "end": 271.361,
+        "word": "to",
+        "start": 271.198
+      },
+      {
+        "end": 271.848,
+        "word": "seize",
+        "start": 271.361
+      },
+      {
+        "end": 272.835,
+        "word": "opportunities,",
+        "start": 271.848
+      },
+      {
+        "end": 273.137,
+        "word": "while",
+        "start": 272.835
+      },
+      {
+        "end": 273.613,
+        "word": "partners",
+        "start": 273.137
+      },
+      {
+        "end": 274.135,
+        "word": "scrambled",
+        "start": 273.613
+      },
+      {
+        "end": 274.275,
+        "word": "to",
+        "start": 274.135
+      },
+      {
+        "end": 274.681,
+        "word": "protect",
+        "start": 274.275
+      },
+      {
+        "end": 274.878,
+        "word": "their",
+        "start": 274.681
+      },
+      {
+        "end": 276.028,
+        "word": "interests.",
+        "start": 274.878
+      },
+      {
+        "end": 276.19,
+        "word": "In",
+        "start": 276.028
+      },
+      {
+        "end": 276.272,
+        "word": "a",
+        "start": 276.19
+      },
+      {
+        "end": 276.666,
+        "word": "shocking",
+        "start": 276.272
+      },
+      {
+        "end": 277.293,
+        "word": "twist,",
+        "start": 276.666
+      },
+      {
+        "end": 277.444,
+        "word": "it",
+        "start": 277.293
+      },
+      {
+        "end": 277.595,
+        "word": "was",
+        "start": 277.444
+      },
+      {
+        "end": 278.071,
+        "word": "revealed",
+        "start": 277.595
+      },
+      {
+        "end": 278.21,
+        "word": "that",
+        "start": 278.071
+      },
+      {
+        "end": 278.326,
+        "word": "the",
+        "start": 278.21
+      },
+      {
+        "end": 278.698,
+        "word": "brand",
+        "start": 278.326
+      },
+      {
+        "end": 278.826,
+        "word": "had",
+        "start": 278.698
+      },
+      {
+        "end": 279.035,
+        "word": "been",
+        "start": 278.826
+      },
+      {
+        "end": 279.278,
+        "word": "under",
+        "start": 279.035
+      },
+      {
+        "end": 280.114,
+        "word": "investigation",
+        "start": 279.278
+      },
+      {
+        "end": 280.37,
+        "word": "for",
+        "start": 280.114
+      },
+      {
+        "end": 281.438,
+        "word": "months.",
+        "start": 280.37
+      },
+      {
+        "end": 282.1,
+        "word": "Regulators",
+        "start": 281.438
+      },
+      {
+        "end": 282.285,
+        "word": "were",
+        "start": 282.1
+      },
+      {
+        "end": 282.843,
+        "word": "poised",
+        "start": 282.285
+      },
+      {
+        "end": 283.063,
+        "word": "to",
+        "start": 282.843
+      },
+      {
+        "end": 283.934,
+        "word": "intervene,",
+        "start": 283.063
+      },
+      {
+        "end": 284.515,
+        "word": "possibly",
+        "start": 283.934
+      },
+      {
+        "end": 285.234,
+        "word": "accelerating",
+        "start": 284.515
+      },
+      {
+        "end": 285.35,
+        "word": "the",
+        "start": 285.234
+      },
+      {
+        "end": 286.628,
+        "word": "collapse.",
+        "start": 285.35
+      },
+      {
+        "end": 286.779,
+        "word": "The",
+        "start": 286.628
+      },
+      {
+        "end": 287.196,
+        "word": "global",
+        "start": 286.779
+      },
+      {
+        "end": 287.742,
+        "word": "financial",
+        "start": 287.196
+      },
+      {
+        "end": 288.229,
+        "word": "community",
+        "start": 287.742
+      },
+      {
+        "end": 288.601,
+        "word": "watched",
+        "start": 288.229
+      },
+      {
+        "end": 288.798,
+        "word": "with",
+        "start": 288.601
+      },
+      {
+        "end": 289.193,
+        "word": "bated",
+        "start": 288.798
+      },
+      {
+        "end": 289.599,
+        "word": "breath",
+        "start": 289.193
+      },
+      {
+        "end": 289.762,
+        "word": "as",
+        "start": 289.599
+      },
+      {
+        "end": 289.878,
+        "word": "the",
+        "start": 289.762
+      },
+      {
+        "end": 290.354,
+        "word": "brand",
+        "start": 289.878
+      },
+      {
+        "end": 290.83,
+        "word": "teetered",
+        "start": 290.354
+      },
+      {
+        "end": 290.935,
+        "word": "on",
+        "start": 290.83
+      },
+      {
+        "end": 291.039,
+        "word": "the",
+        "start": 290.935
+      },
+      {
+        "end": 291.979,
+        "word": "brink.",
+        "start": 291.039
+      },
+      {
+        "end": 292.595,
+        "word": "Investors",
+        "start": 291.979
+      },
+      {
+        "end": 292.885,
+        "word": "hoped",
+        "start": 292.595
+      },
+      {
+        "end": 293.082,
+        "word": "for",
+        "start": 292.885
+      },
+      {
+        "end": 293.164,
+        "word": "a",
+        "start": 293.082
+      },
+      {
+        "end": 293.616,
+        "word": "miracle",
+        "start": 293.164
+      },
+      {
+        "end": 294.452,
+        "word": "recovery,",
+        "start": 293.616
+      },
+      {
+        "end": 294.65,
+        "word": "but",
+        "start": 294.452
+      },
+      {
+        "end": 294.789,
+        "word": "the",
+        "start": 294.65
+      },
+      {
+        "end": 295.219,
+        "word": "outlook",
+        "start": 294.789
+      },
+      {
+        "end": 295.66,
+        "word": "remained",
+        "start": 295.219
+      },
+      {
+        "end": 296.612,
+        "word": "bleak.",
+        "start": 295.66
+      },
+      {
+        "end": 297.065,
+        "word": "Amidst",
+        "start": 296.612
+      },
+      {
+        "end": 297.181,
+        "word": "the",
+        "start": 297.065
+      },
+      {
+        "end": 297.959,
+        "word": "chaos,",
+        "start": 297.181
+      },
+      {
+        "end": 298.272,
+        "word": "some",
+        "start": 297.959
+      },
+      {
+        "end": 298.945,
+        "word": "speculated",
+        "start": 298.272
+      },
+      {
+        "end": 299.201,
+        "word": "about",
+        "start": 298.945
+      },
+      {
+        "end": 299.712,
+        "word": "potential",
+        "start": 299.201
+      },
+      {
+        "end": 300.582,
+        "word": "acquisitions",
+        "start": 299.712
+      },
+      {
+        "end": 300.803,
+        "word": "or",
+        "start": 300.582
+      },
+      {
+        "end": 301.36,
+        "word": "mergers",
+        "start": 300.803
+      },
+      {
+        "end": 301.5,
+        "word": "as",
+        "start": 301.36
+      },
+      {
+        "end": 301.581,
+        "word": "a",
+        "start": 301.5
+      },
+      {
+        "end": 302.834,
+        "word": "lifeline.",
+        "start": 301.581
+      },
+      {
+        "end": 303.624,
+        "word": "However,",
+        "start": 302.834
+      },
+      {
+        "end": 304.146,
+        "word": "potential",
+        "start": 303.624
+      },
+      {
+        "end": 304.564,
+        "word": "suitors",
+        "start": 304.146
+      },
+      {
+        "end": 304.738,
+        "word": "were",
+        "start": 304.564
+      },
+      {
+        "end": 305.597,
+        "word": "wary,",
+        "start": 304.738
+      },
+      {
+        "end": 305.923,
+        "word": "given",
+        "start": 305.597
+      },
+      {
+        "end": 306.039,
+        "word": "the",
+        "start": 305.923
+      },
+      {
+        "end": 306.596,
+        "word": "brand's",
+        "start": 306.039
+      },
+      {
+        "end": 307.118,
+        "word": "toxic",
+        "start": 306.596
+      },
+      {
+        "end": 308.117,
+        "word": "reputation",
+        "start": 307.118
+      },
+      {
+        "end": 308.361,
+        "word": "and",
+        "start": 308.117
+      },
+      {
+        "end": 308.837,
+        "word": "mounting",
+        "start": 308.361
+      },
+      {
+        "end": 309.197,
+        "word": "legal",
+        "start": 308.837
+      },
+      {
+        "end": 310.671,
+        "word": "troubles.",
+        "start": 309.197
+      },
+      {
+        "end": 310.834,
+        "word": "The",
+        "start": 310.671
+      },
+      {
+        "end": 311.252,
+        "word": "brand's",
+        "start": 310.834
+      },
+      {
+        "end": 311.623,
+        "word": "sudden",
+        "start": 311.252
+      },
+      {
+        "end": 312.354,
+        "word": "downfall",
+        "start": 311.623
+      },
+      {
+        "end": 312.819,
+        "word": "sparked",
+        "start": 312.354
+      },
+      {
+        "end": 313.33,
+        "word": "debates",
+        "start": 312.819
+      },
+      {
+        "end": 313.643,
+        "word": "about",
+        "start": 313.33
+      },
+      {
+        "end": 314.084,
+        "word": "corporate",
+        "start": 313.643
+      },
+      {
+        "end": 314.618,
+        "word": "governance",
+        "start": 314.084
+      },
+      {
+        "end": 314.827,
+        "word": "and",
+        "start": 314.618
+      },
+      {
+        "end": 315.28,
+        "word": "ethical",
+        "start": 314.827
+      },
+      {
+        "end": 316.151,
+        "word": "responsibility",
+        "start": 315.28
+      },
+      {
+        "end": 316.255,
+        "word": "in",
+        "start": 316.151
+      },
+      {
+        "end": 316.36,
+        "word": "the",
+        "start": 316.255
+      },
+      {
+        "end": 316.65,
+        "word": "tech",
+        "start": 316.36
+      },
+      {
+        "end": 317.846,
+        "word": "sector.",
+        "start": 316.65
+      },
+      {
+        "end": 318.426,
+        "word": "Experts",
+        "start": 317.846
+      },
+      {
+        "end": 318.972,
+        "word": "questioned",
+        "start": 318.426
+      },
+      {
+        "end": 319.274,
+        "word": "how",
+        "start": 318.972
+      },
+      {
+        "end": 319.599,
+        "word": "such",
+        "start": 319.274
+      },
+      {
+        "end": 320.122,
+        "word": "failures",
+        "start": 319.599
+      },
+      {
+        "end": 320.319,
+        "word": "could",
+        "start": 320.122
+      },
+      {
+        "end": 320.459,
+        "word": "be",
+        "start": 320.319
+      },
+      {
+        "end": 320.935,
+        "word": "prevented",
+        "start": 320.459
+      },
+      {
+        "end": 321.016,
+        "word": "in",
+        "start": 320.935
+      },
+      {
+        "end": 321.12,
+        "word": "the",
+        "start": 321.016
+      },
+      {
+        "end": 322.525,
+        "word": "future.",
+        "start": 321.12
+      },
+      {
+        "end": 322.699,
+        "word": "The",
+        "start": 322.525
+      },
+      {
+        "end": 323.245,
+        "word": "fallout",
+        "start": 322.699
+      },
+      {
+        "end": 323.628,
+        "word": "rippled",
+        "start": 323.245
+      },
+      {
+        "end": 324.035,
+        "word": "across",
+        "start": 323.628
+      },
+      {
+        "end": 324.174,
+        "word": "the",
+        "start": 324.035
+      },
+      {
+        "end": 324.928,
+        "word": "industry,",
+        "start": 324.174
+      },
+      {
+        "end": 325.323,
+        "word": "causing",
+        "start": 324.928
+      },
+      {
+        "end": 325.648,
+        "word": "stock",
+        "start": 325.323
+      },
+      {
+        "end": 326.124,
+        "word": "prices",
+        "start": 325.648
+      },
+      {
+        "end": 326.24,
+        "word": "of",
+        "start": 326.124
+      },
+      {
+        "end": 326.624,
+        "word": "related",
+        "start": 326.24
+      },
+      {
+        "end": 327.123,
+        "word": "companies",
+        "start": 326.624
+      },
+      {
+        "end": 327.262,
+        "word": "to",
+        "start": 327.123
+      },
+      {
+        "end": 327.831,
+        "word": "fluctuate",
+        "start": 327.262
+      },
+      {
+        "end": 329.166,
+        "word": "wildly.",
+        "start": 327.831
+      },
+      {
+        "end": 329.329,
+        "word": "The",
+        "start": 329.166
+      },
+      {
+        "end": 329.712,
+        "word": "brand's",
+        "start": 329.329
+      },
+      {
+        "end": 330.362,
+        "word": "implosion",
+        "start": 329.712
+      },
+      {
+        "end": 330.699,
+        "word": "became",
+        "start": 330.362
+      },
+      {
+        "end": 330.78,
+        "word": "a",
+        "start": 330.699
+      },
+      {
+        "end": 331.07,
+        "word": "case",
+        "start": 330.78
+      },
+      {
+        "end": 331.488,
+        "word": "study",
+        "start": 331.07
+      },
+      {
+        "end": 331.639,
+        "word": "in",
+        "start": 331.488
+      },
+      {
+        "end": 331.941,
+        "word": "risk",
+        "start": 331.639
+      },
+      {
+        "end": 332.452,
+        "word": "management",
+        "start": 331.941
+      },
+      {
+        "end": 333.497,
+        "word": "failures.",
+        "start": 332.452
+      },
+      {
+        "end": 334.216,
+        "word": "Analysts",
+        "start": 333.497
+      },
+      {
+        "end": 334.576,
+        "word": "pointed",
+        "start": 334.216
+      },
+      {
+        "end": 334.704,
+        "word": "to",
+        "start": 334.576
+      },
+      {
+        "end": 334.797,
+        "word": "a",
+        "start": 334.704
+      },
+      {
+        "end": 335.11,
+        "word": "lack",
+        "start": 334.797
+      },
+      {
+        "end": 335.261,
+        "word": "of",
+        "start": 335.11
+      },
+      {
+        "end": 335.993,
+        "word": "diversified",
+        "start": 335.261
+      },
+      {
+        "end": 336.573,
+        "word": "leadership",
+        "start": 335.993
+      },
+      {
+        "end": 336.747,
+        "word": "as",
+        "start": 336.573
+      },
+      {
+        "end": 336.84,
+        "word": "a",
+        "start": 336.747
+      },
+      {
+        "end": 337.2,
+        "word": "core",
+        "start": 336.84
+      },
+      {
+        "end": 338.5,
+        "word": "issue.",
+        "start": 337.2
+      },
+      {
+        "end": 338.674,
+        "word": "The",
+        "start": 338.5
+      },
+      {
+        "end": 339.081,
+        "word": "board's",
+        "start": 338.674
+      },
+      {
+        "end": 339.499,
+        "word": "narrow",
+        "start": 339.081
+      },
+      {
+        "end": 339.986,
+        "word": "focus",
+        "start": 339.499
+      },
+      {
+        "end": 340.195,
+        "word": "and",
+        "start": 339.986
+      },
+      {
+        "end": 340.729,
+        "word": "reluctance",
+        "start": 340.195
+      },
+      {
+        "end": 340.892,
+        "word": "to",
+        "start": 340.729
+      },
+      {
+        "end": 341.554,
+        "word": "innovate",
+        "start": 340.892
+      },
+      {
+        "end": 341.832,
+        "word": "left",
+        "start": 341.554
+      },
+      {
+        "end": 341.96,
+        "word": "the",
+        "start": 341.832
+      },
+      {
+        "end": 342.355,
+        "word": "brand",
+        "start": 341.96
+      },
+      {
+        "end": 342.947,
+        "word": "vulnerable",
+        "start": 342.355
+      },
+      {
+        "end": 343.109,
+        "word": "to",
+        "start": 342.947
+      },
+      {
+        "end": 343.504,
+        "word": "sudden",
+        "start": 343.109
+      },
+      {
+        "end": 344.979,
+        "word": "shocks.",
+        "start": 343.504
+      },
+      {
+        "end": 345.222,
+        "word": "As",
+        "start": 344.979
+      },
+      {
+        "end": 345.524,
+        "word": "blame",
+        "start": 345.222
+      },
+      {
+        "end": 345.698,
+        "word": "was",
+        "start": 345.524
+      },
+      {
+        "end": 346.558,
+        "word": "assigned,",
+        "start": 345.698
+      },
+      {
+        "end": 346.848,
+        "word": "some",
+        "start": 346.558
+      },
+      {
+        "end": 347.254,
+        "word": "former",
+        "start": 346.848
+      },
+      {
+        "end": 347.916,
+        "word": "executives",
+        "start": 347.254
+      },
+      {
+        "end": 348.346,
+        "word": "pointed",
+        "start": 347.916
+      },
+      {
+        "end": 348.798,
+        "word": "fingers",
+        "start": 348.346
+      },
+      {
+        "end": 348.949,
+        "word": "at",
+        "start": 348.798
+      },
+      {
+        "end": 349.53,
+        "word": "external",
+        "start": 348.949
+      },
+      {
+        "end": 350.331,
+        "word": "pressures,",
+        "start": 349.53
+      },
+      {
+        "end": 350.911,
+        "word": "including",
+        "start": 350.331
+      },
+      {
+        "end": 351.596,
+        "word": "regulatory",
+        "start": 350.911
+      },
+      {
+        "end": 352.409,
+        "word": "constraints",
+        "start": 351.596
+      },
+      {
+        "end": 352.653,
+        "word": "and",
+        "start": 352.409
+      },
+      {
+        "end": 353.222,
+        "word": "increasing",
+        "start": 352.653
+      },
+      {
+        "end": 354.812,
+        "word": "competition.",
+        "start": 353.222
+      },
+      {
+        "end": 355.126,
+        "word": "This",
+        "start": 354.812
+      },
+      {
+        "end": 355.648,
+        "word": "narrative",
+        "start": 355.126
+      },
+      {
+        "end": 356.032,
+        "word": "found",
+        "start": 355.648
+      },
+      {
+        "end": 356.333,
+        "word": "little",
+        "start": 356.032
+      },
+      {
+        "end": 356.809,
+        "word": "sympathy",
+        "start": 356.333
+      },
+      {
+        "end": 357.1,
+        "word": "among",
+        "start": 356.809
+      },
+      {
+        "end": 358.458,
+        "word": "stakeholders.",
+        "start": 357.1
+      },
+      {
+        "end": 358.644,
+        "word": "The",
+        "start": 358.458
+      },
+      {
+        "end": 359.073,
+        "word": "brand's",
+        "start": 358.644
+      },
+      {
+        "end": 359.573,
+        "word": "collapse",
+        "start": 359.073
+      },
+      {
+        "end": 360.118,
+        "word": "highlighted",
+        "start": 359.573
+      },
+      {
+        "end": 360.246,
+        "word": "the",
+        "start": 360.118
+      },
+      {
+        "end": 360.815,
+        "word": "importance",
+        "start": 360.246
+      },
+      {
+        "end": 360.931,
+        "word": "of",
+        "start": 360.815
+      },
+      {
+        "end": 362.057,
+        "word": "transparency",
+        "start": 360.931
+      },
+      {
+        "end": 362.289,
+        "word": "and",
+        "start": 362.057
+      },
+      {
+        "end": 363.148,
+        "word": "accountability",
+        "start": 362.289
+      },
+      {
+        "end": 363.299,
+        "word": "in",
+        "start": 363.148
+      },
+      {
+        "end": 363.775,
+        "word": "corporate",
+        "start": 363.299
+      },
+      {
+        "end": 365.366,
+        "word": "practices.",
+        "start": 363.775
+      },
+      {
+        "end": 366.074,
+        "word": "Investors",
+        "start": 365.366
+      },
+      {
+        "end": 366.643,
+        "word": "demanded",
+        "start": 366.074
+      },
+      {
+        "end": 366.898,
+        "word": "new",
+        "start": 366.643
+      },
+      {
+        "end": 367.386,
+        "word": "measures",
+        "start": 366.898
+      },
+      {
+        "end": 367.549,
+        "word": "to",
+        "start": 367.386
+      },
+      {
+        "end": 368.118,
+        "word": "ensure",
+        "start": 367.549
+      },
+      {
+        "end": 368.826,
+        "word": "integrity",
+        "start": 368.118
+      },
+      {
+        "end": 369.024,
+        "word": "and",
+        "start": 368.826
+      },
+      {
+        "end": 369.65,
+        "word": "foresight",
+        "start": 369.024
+      },
+      {
+        "end": 369.801,
+        "word": "in",
+        "start": 369.65
+      },
+      {
+        "end": 370.15,
+        "word": "future",
+        "start": 369.801
+      },
+      {
+        "end": 371.473,
+        "word": "operations.",
+        "start": 370.15
+      },
+      {
+        "end": 371.647,
+        "word": "In",
+        "start": 371.473
+      },
+      {
+        "end": 371.798,
+        "word": "the",
+        "start": 371.647
+      },
+      {
+        "end": 372.669,
+        "word": "aftermath,",
+        "start": 371.798
+      },
+      {
+        "end": 373.354,
+        "word": "consultants",
+        "start": 372.669
+      },
+      {
+        "end": 373.517,
+        "word": "and",
+        "start": 373.354
+      },
+      {
+        "end": 374.318,
+        "word": "watchdogs",
+        "start": 373.517
+      },
+      {
+        "end": 374.968,
+        "word": "suggested",
+        "start": 374.318
+      },
+      {
+        "end": 375.49,
+        "word": "sweeping",
+        "start": 374.968
+      },
+      {
+        "end": 376.071,
+        "word": "reforms",
+        "start": 375.49
+      },
+      {
+        "end": 376.21,
+        "word": "to",
+        "start": 376.071
+      },
+      {
+        "end": 376.651,
+        "word": "prevent",
+        "start": 376.21
+      },
+      {
+        "end": 377.046,
+        "word": "similar",
+        "start": 376.651
+      },
+      {
+        "end": 378.219,
+        "word": "crises.",
+        "start": 377.046
+      },
+      {
+        "end": 378.474,
+        "word": "Their",
+        "start": 378.219
+      },
+      {
+        "end": 379.391,
+        "word": "recommendations",
+        "start": 378.474
+      },
+      {
+        "end": 380.076,
+        "word": "emphasized",
+        "start": 379.391
+      },
+      {
+        "end": 380.808,
+        "word": "proactive",
+        "start": 380.076
+      },
+      {
+        "end": 381.075,
+        "word": "risk",
+        "start": 380.808
+      },
+      {
+        "end": 381.945,
+        "word": "assessment",
+        "start": 381.075
+      },
+      {
+        "end": 382.224,
+        "word": "and",
+        "start": 381.945
+      },
+      {
+        "end": 382.874,
+        "word": "robust",
+        "start": 382.224
+      },
+      {
+        "end": 383.292,
+        "word": "ethical",
+        "start": 382.874
+      },
+      {
+        "end": 384.801,
+        "word": "guidelines.",
+        "start": 383.292
+      },
+      {
+        "end": 385.336,
+        "word": "Political",
+        "start": 384.801
+      },
+      {
+        "end": 385.777,
+        "word": "leaders",
+        "start": 385.336
+      },
+      {
+        "end": 386.137,
+        "word": "weighed",
+        "start": 385.777
+      },
+      {
+        "end": 386.706,
+        "word": "in,",
+        "start": 386.137
+      },
+      {
+        "end": 387.077,
+        "word": "calling",
+        "start": 386.706
+      },
+      {
+        "end": 387.228,
+        "word": "for",
+        "start": 387.077
+      },
+      {
+        "end": 387.669,
+        "word": "stricter",
+        "start": 387.228
+      },
+      {
+        "end": 388.47,
+        "word": "regulations",
+        "start": 387.669
+      },
+      {
+        "end": 388.633,
+        "word": "to",
+        "start": 388.47
+      },
+      {
+        "end": 389.295,
+        "word": "safeguard",
+        "start": 388.633
+      },
+      {
+        "end": 389.817,
+        "word": "economic",
+        "start": 389.295
+      },
+      {
+        "end": 391.187,
+        "word": "stability.",
+        "start": 389.817
+      },
+      {
+        "end": 391.837,
+        "word": "Legislative",
+        "start": 391.187
+      },
+      {
+        "end": 392.487,
+        "word": "proposals",
+        "start": 391.837
+      },
+      {
+        "end": 392.778,
+        "word": "aimed",
+        "start": 392.487
+      },
+      {
+        "end": 392.905,
+        "word": "at",
+        "start": 392.778
+      },
+      {
+        "end": 393.37,
+        "word": "curbing",
+        "start": 392.905
+      },
+      {
+        "end": 393.788,
+        "word": "corporate",
+        "start": 393.37
+      },
+      {
+        "end": 394.415,
+        "word": "excesses",
+        "start": 393.788
+      },
+      {
+        "end": 394.809,
+        "word": "gained",
+        "start": 394.415
+      },
+      {
+        "end": 395.343,
+        "word": "traction",
+        "start": 394.809
+      },
+      {
+        "end": 395.506,
+        "word": "in",
+        "start": 395.343
+      },
+      {
+        "end": 395.982,
+        "word": "governments",
+        "start": 395.506
+      },
+      {
+        "end": 397.793,
+        "word": "worldwide.",
+        "start": 395.982
+      },
+      {
+        "end": 398.258,
+        "word": "Despite",
+        "start": 397.793
+      },
+      {
+        "end": 398.362,
+        "word": "the",
+        "start": 398.258
+      },
+      {
+        "end": 399.337,
+        "word": "chaos,",
+        "start": 398.362
+      },
+      {
+        "end": 399.604,
+        "word": "some",
+        "start": 399.337
+      },
+      {
+        "end": 400.045,
+        "word": "former",
+        "start": 399.604
+      },
+      {
+        "end": 400.789,
+        "word": "employees",
+        "start": 400.045
+      },
+      {
+        "end": 401.299,
+        "word": "emerged",
+        "start": 400.789
+      },
+      {
+        "end": 401.461,
+        "word": "as",
+        "start": 401.299
+      },
+      {
+        "end": 402.715,
+        "word": "entrepreneurs,",
+        "start": 401.461
+      },
+      {
+        "end": 403.145,
+        "word": "launching",
+        "start": 402.715
+      },
+      {
+        "end": 403.621,
+        "word": "startups",
+        "start": 403.145
+      },
+      {
+        "end": 403.853,
+        "word": "with",
+        "start": 403.621
+      },
+      {
+        "end": 404.341,
+        "word": "lessons",
+        "start": 403.853
+      },
+      {
+        "end": 404.736,
+        "word": "learned",
+        "start": 404.341
+      },
+      {
+        "end": 404.921,
+        "word": "from",
+        "start": 404.736
+      },
+      {
+        "end": 405.037,
+        "word": "the",
+        "start": 404.921
+      },
+      {
+        "end": 406.303,
+        "word": "disaster.",
+        "start": 405.037
+      },
+      {
+        "end": 406.57,
+        "word": "Their",
+        "start": 406.303
+      },
+      {
+        "end": 407.22,
+        "word": "resilience",
+        "start": 406.57
+      },
+      {
+        "end": 407.383,
+        "word": "and",
+        "start": 407.22
+      },
+      {
+        "end": 407.94,
+        "word": "innovative",
+        "start": 407.383
+      },
+      {
+        "end": 408.393,
+        "word": "spirit",
+        "start": 407.94
+      },
+      {
+        "end": 408.787,
+        "word": "garnered",
+        "start": 408.393
+      },
+      {
+        "end": 409.368,
+        "word": "attention",
+        "start": 408.787
+      },
+      {
+        "end": 409.519,
+        "word": "and",
+        "start": 409.368
+      },
+      {
+        "end": 410.912,
+        "word": "admiration.",
+        "start": 409.519
+      },
+      {
+        "end": 411.075,
+        "word": "The",
+        "start": 410.912
+      },
+      {
+        "end": 411.516,
+        "word": "brand's",
+        "start": 411.075
+      },
+      {
+        "end": 412.015,
+        "word": "story",
+        "start": 411.516
+      },
+      {
+        "end": 412.398,
+        "word": "served",
+        "start": 412.015
+      },
+      {
+        "end": 412.537,
+        "word": "as",
+        "start": 412.398
+      },
+      {
+        "end": 412.63,
+        "word": "a",
+        "start": 412.537
+      },
+      {
+        "end": 413.315,
+        "word": "cautionary",
+        "start": 412.63
+      },
+      {
+        "end": 413.664,
+        "word": "tale",
+        "start": 413.315
+      },
+      {
+        "end": 413.826,
+        "word": "in",
+        "start": 413.664
+      },
+      {
+        "end": 414.221,
+        "word": "business",
+        "start": 413.826
+      },
+      {
+        "end": 414.732,
+        "word": "schools",
+        "start": 414.221
+      },
+      {
+        "end": 416.16,
+        "word": "worldwide.",
+        "start": 414.732
+      },
+      {
+        "end": 416.473,
+        "word": "Case",
+        "start": 416.16
+      },
+      {
+        "end": 416.891,
+        "word": "studies",
+        "start": 416.473
+      },
+      {
+        "end": 417.599,
+        "word": "dissected",
+        "start": 416.891
+      },
+      {
+        "end": 417.727,
+        "word": "the",
+        "start": 417.599
+      },
+      {
+        "end": 418.156,
+        "word": "series",
+        "start": 417.727
+      },
+      {
+        "end": 418.296,
+        "word": "of",
+        "start": 418.156
+      },
+      {
+        "end": 419.282,
+        "word": "misjudgments,",
+        "start": 418.296
+      },
+      {
+        "end": 419.608,
+        "word": "using",
+        "start": 419.282
+      },
+      {
+        "end": 419.84,
+        "word": "them",
+        "start": 419.608
+      },
+      {
+        "end": 420.049,
+        "word": "as",
+        "start": 419.84
+      },
+      {
+        "end": 420.502,
+        "word": "teaching",
+        "start": 420.049
+      },
+      {
+        "end": 420.943,
+        "word": "tools",
+        "start": 420.502
+      },
+      {
+        "end": 421.128,
+        "word": "for",
+        "start": 420.943
+      },
+      {
+        "end": 421.488,
+        "word": "future",
+        "start": 421.128
+      },
+      {
+        "end": 422.661,
+        "word": "leaders.",
+        "start": 421.488
+      },
+      {
+        "end": 423.543,
+        "word": "Meanwhile,",
+        "start": 422.661
+      },
+      {
+        "end": 424.031,
+        "word": "affected",
+        "start": 423.543
+      },
+      {
+        "end": 424.623,
+        "word": "communities",
+        "start": 424.031
+      },
+      {
+        "end": 424.995,
+        "word": "rallied",
+        "start": 424.623
+      },
+      {
+        "end": 425.726,
+        "word": "together,",
+        "start": 424.995
+      },
+      {
+        "end": 426.248,
+        "word": "supporting",
+        "start": 425.726
+      },
+      {
+        "end": 426.388,
+        "word": "one",
+        "start": 426.248
+      },
+      {
+        "end": 426.736,
+        "word": "another",
+        "start": 426.388
+      },
+      {
+        "end": 426.968,
+        "word": "through",
+        "start": 426.736
+      },
+      {
+        "end": 427.108,
+        "word": "the",
+        "start": 426.968
+      },
+      {
+        "end": 427.618,
+        "word": "economic",
+        "start": 427.108
+      },
+      {
+        "end": 428.779,
+        "word": "shock.",
+        "start": 427.618
+      },
+      {
+        "end": 429.418,
+        "word": "Grassroots",
+        "start": 428.779
+      },
+      {
+        "end": 430.219,
+        "word": "initiatives",
+        "start": 429.418
+      },
+      {
+        "end": 430.579,
+        "word": "sought",
+        "start": 430.219
+      },
+      {
+        "end": 430.776,
+        "word": "to",
+        "start": 430.579
+      },
+      {
+        "end": 431.392,
+        "word": "rebuild",
+        "start": 430.776
+      },
+      {
+        "end": 432.019,
+        "word": "trust",
+        "start": 431.392
+      },
+      {
+        "end": 432.251,
+        "word": "and",
+        "start": 432.019
+      },
+      {
+        "end": 432.715,
+        "word": "foster",
+        "start": 432.251
+      },
+      {
+        "end": 432.936,
+        "word": "new",
+        "start": 432.715
+      },
+      {
+        "end": 433.504,
+        "word": "economic",
+        "start": 432.936
+      },
+      {
+        "end": 434.155,
+        "word": "opportunities",
+        "start": 433.504
+      },
+      {
+        "end": 435.316,
+        "word": "locally.",
+        "start": 434.155
+      },
+      {
+        "end": 435.478,
+        "word": "The",
+        "start": 435.316
+      },
+      {
+        "end": 435.85,
+        "word": "brand's",
+        "start": 435.478
+      },
+      {
+        "end": 436.488,
+        "word": "collapse",
+        "start": 435.85
+      },
+      {
+        "end": 436.929,
+        "word": "prompted",
+        "start": 436.488
+      },
+      {
+        "end": 437.022,
+        "word": "a",
+        "start": 436.929
+      },
+      {
+        "end": 437.974,
+        "word": "reevaluation",
+        "start": 437.022
+      },
+      {
+        "end": 438.079,
+        "word": "of",
+        "start": 437.974
+      },
+      {
+        "end": 438.566,
+        "word": "consumer",
+        "start": 438.079
+      },
+      {
+        "end": 439.147,
+        "word": "loyalty",
+        "start": 438.566
+      },
+      {
+        "end": 439.321,
+        "word": "and",
+        "start": 439.147
+      },
+      {
+        "end": 439.704,
+        "word": "brand",
+        "start": 439.321
+      },
+      {
+        "end": 440.726,
+        "word": "trust.",
+        "start": 439.704
+      },
+      {
+        "end": 441.237,
+        "word": "Experts",
+        "start": 440.726
+      },
+      {
+        "end": 441.771,
+        "word": "suggested",
+        "start": 441.237
+      },
+      {
+        "end": 441.945,
+        "word": "that",
+        "start": 441.771
+      },
+      {
+        "end": 442.444,
+        "word": "emotional",
+        "start": 441.945
+      },
+      {
+        "end": 442.99,
+        "word": "connections",
+        "start": 442.444
+      },
+      {
+        "end": 443.152,
+        "word": "and",
+        "start": 442.99
+      },
+      {
+        "end": 443.57,
+        "word": "value",
+        "start": 443.152
+      },
+      {
+        "end": 444.093,
+        "word": "alignment",
+        "start": 443.57
+      },
+      {
+        "end": 444.29,
+        "word": "were",
+        "start": 444.093
+      },
+      {
+        "end": 444.882,
+        "word": "crucial",
+        "start": 444.29
+      },
+      {
+        "end": 445.068,
+        "word": "in",
+        "start": 444.882
+      },
+      {
+        "end": 445.614,
+        "word": "securing",
+        "start": 445.068
+      },
+      {
+        "end": 446.078,
+        "word": "lasting",
+        "start": 445.614
+      },
+      {
+        "end": 447.634,
+        "word": "success.",
+        "start": 446.078
+      },
+      {
+        "end": 447.866,
+        "word": "As",
+        "start": 447.634
+      },
+      {
+        "end": 447.994,
+        "word": "the",
+        "start": 447.866
+      },
+      {
+        "end": 448.377,
+        "word": "dust",
+        "start": 447.994
+      },
+      {
+        "end": 449.143,
+        "word": "settled,",
+        "start": 448.377
+      },
+      {
+        "end": 449.282,
+        "word": "the",
+        "start": 449.143
+      },
+      {
+        "end": 449.665,
+        "word": "brand",
+        "start": 449.282
+      },
+      {
+        "end": 450.048,
+        "word": "became",
+        "start": 449.665
+      },
+      {
+        "end": 450.129,
+        "word": "a",
+        "start": 450.048
+      },
+      {
+        "end": 450.501,
+        "word": "symbol",
+        "start": 450.129
+      },
+      {
+        "end": 450.617,
+        "word": "of",
+        "start": 450.501
+      },
+      {
+        "end": 450.884,
+        "word": "both",
+        "start": 450.617
+      },
+      {
+        "end": 451.383,
+        "word": "failure",
+        "start": 450.884
+      },
+      {
+        "end": 451.592,
+        "word": "and",
+        "start": 451.383
+      },
+      {
+        "end": 452.208,
+        "word": "potential",
+        "start": 451.592
+      },
+      {
+        "end": 453.775,
+        "word": "redemption.",
+        "start": 452.208
+      },
+      {
+        "end": 454.599,
+        "word": "Analysts",
+        "start": 453.775
+      },
+      {
+        "end": 455.273,
+        "word": "speculated",
+        "start": 454.599
+      },
+      {
+        "end": 455.586,
+        "word": "whether",
+        "start": 455.273
+      },
+      {
+        "end": 455.691,
+        "word": "it",
+        "start": 455.586
+      },
+      {
+        "end": 455.888,
+        "word": "could",
+        "start": 455.691
+      },
+      {
+        "end": 456.283,
+        "word": "rise",
+        "start": 455.888
+      },
+      {
+        "end": 456.469,
+        "word": "from",
+        "start": 456.283
+      },
+      {
+        "end": 456.619,
+        "word": "the",
+        "start": 456.469
+      },
+      {
+        "end": 457.142,
+        "word": "ashes",
+        "start": 456.619
+      },
+      {
+        "end": 457.363,
+        "word": "or",
+        "start": 457.142
+      },
+      {
+        "end": 457.757,
+        "word": "fade",
+        "start": 457.363
+      },
+      {
+        "end": 458.059,
+        "word": "into",
+        "start": 457.757
+      },
+      {
+        "end": 459.557,
+        "word": "obscurity.",
+        "start": 458.059
+      },
+      {
+        "end": 459.731,
+        "word": "The",
+        "start": 459.557
+      },
+      {
+        "end": 460.184,
+        "word": "lessons",
+        "start": 459.731
+      },
+      {
+        "end": 460.404,
+        "word": "from",
+        "start": 460.184
+      },
+      {
+        "end": 460.613,
+        "word": "this",
+        "start": 460.404
+      },
+      {
+        "end": 461.066,
+        "word": "corporate",
+        "start": 460.613
+      },
+      {
+        "end": 461.612,
+        "word": "debacle",
+        "start": 461.066
+      },
+      {
+        "end": 461.798,
+        "word": "are",
+        "start": 461.612
+      },
+      {
+        "end": 462.831,
+        "word": "clear:",
+        "start": 461.798
+      },
+      {
+        "end": 463.644,
+        "word": "complacency",
+        "start": 462.831
+      },
+      {
+        "end": 463.876,
+        "word": "is",
+        "start": 463.644
+      },
+      {
+        "end": 464.746,
+        "word": "deadly,",
+        "start": 463.876
+      },
+      {
+        "end": 465.025,
+        "word": "and",
+        "start": 464.746
+      },
+      {
+        "end": 465.722,
+        "word": "vigilance",
+        "start": 465.025
+      },
+      {
+        "end": 465.977,
+        "word": "is",
+        "start": 465.722
+      },
+      {
+        "end": 467.15,
+        "word": "vital.",
+        "start": 465.977
+      },
+      {
+        "end": 467.626,
+        "word": "Future",
+        "start": 467.15
+      },
+      {
+        "end": 468.264,
+        "word": "success",
+        "start": 467.626
+      },
+      {
+        "end": 468.485,
+        "word": "may",
+        "start": 468.264
+      },
+      {
+        "end": 468.915,
+        "word": "depend",
+        "start": 468.485
+      },
+      {
+        "end": 469.031,
+        "word": "on",
+        "start": 468.915
+      },
+      {
+        "end": 469.112,
+        "word": "a",
+        "start": 469.031
+      },
+      {
+        "end": 469.507,
+        "word": "brand's",
+        "start": 469.112
+      },
+      {
+        "end": 470.006,
+        "word": "ability",
+        "start": 469.507
+      },
+      {
+        "end": 470.227,
+        "word": "to",
+        "start": 470.006
+      },
+      {
+        "end": 470.737,
+        "word": "adapt",
+        "start": 470.227
+      },
+      {
+        "end": 470.97,
+        "word": "and",
+        "start": 470.737
+      },
+      {
+        "end": 471.457,
+        "word": "innovate",
+        "start": 470.97
+      },
+      {
+        "end": 472.653,
+        "word": "swiftly.",
+        "start": 471.457
+      },
+      {
+        "end": 472.839,
+        "word": "For",
+        "start": 472.653
+      },
+      {
+        "end": 472.955,
+        "word": "the",
+        "start": 472.839
+      },
+      {
+        "end": 473.942,
+        "word": "stakeholders,",
+        "start": 472.955
+      },
+      {
+        "end": 474.116,
+        "word": "the",
+        "start": 473.942
+      },
+      {
+        "end": 474.487,
+        "word": "journey",
+        "start": 474.116
+      },
+      {
+        "end": 474.72,
+        "word": "from",
+        "start": 474.487
+      },
+      {
+        "end": 475.288,
+        "word": "triumph",
+        "start": 474.72
+      },
+      {
+        "end": 475.428,
+        "word": "to",
+        "start": 475.288
+      },
+      {
+        "end": 476.438,
+        "word": "tribulation",
+        "start": 475.428
+      },
+      {
+        "end": 476.67,
+        "word": "was",
+        "start": 476.438
+      },
+      {
+        "end": 476.798,
+        "word": "a",
+        "start": 476.67
+      },
+      {
+        "end": 477.158,
+        "word": "harsh",
+        "start": 476.798
+      },
+      {
+        "end": 477.75,
+        "word": "reminder",
+        "start": 477.158
+      },
+      {
+        "end": 477.912,
+        "word": "of",
+        "start": 477.75
+      },
+      {
+        "end": 478.365,
+        "word": "business",
+        "start": 477.912
+      },
+      {
+        "end": 479.723,
+        "word": "volatility.",
+        "start": 478.365
+      },
+      {
+        "end": 479.898,
+        "word": "The",
+        "start": 479.723
+      },
+      {
+        "end": 480.501,
+        "word": "collapse",
+        "start": 479.898
+      },
+      {
+        "end": 481.14,
+        "word": "underscored",
+        "start": 480.501
+      },
+      {
+        "end": 481.268,
+        "word": "the",
+        "start": 481.14
+      },
+      {
+        "end": 481.802,
+        "word": "perils",
+        "start": 481.268
+      },
+      {
+        "end": 481.964,
+        "word": "of",
+        "start": 481.802
+      },
+      {
+        "end": 483.148,
+        "word": "overconfidence",
+        "start": 481.964
+      },
+      {
+        "end": 483.369,
+        "word": "and",
+        "start": 483.148
+      },
+      {
+        "end": 483.497,
+        "word": "the",
+        "start": 483.369
+      },
+      {
+        "end": 484.24,
+        "word": "necessity",
+        "start": 483.497
+      },
+      {
+        "end": 484.379,
+        "word": "of",
+        "start": 484.24
+      },
+      {
+        "end": 485.622,
+        "word": "humility.",
+        "start": 484.379
+      },
+      {
+        "end": 486.237,
+        "word": "Ultimately,",
+        "start": 485.622
+      },
+      {
+        "end": 486.492,
+        "word": "this",
+        "start": 486.237
+      },
+      {
+        "end": 486.736,
+        "word": "was",
+        "start": 486.492
+      },
+      {
+        "end": 487.003,
+        "word": "more",
+        "start": 486.736
+      },
+      {
+        "end": 487.177,
+        "word": "than",
+        "start": 487.003
+      },
+      {
+        "end": 487.282,
+        "word": "a",
+        "start": 487.177
+      },
+      {
+        "end": 487.746,
+        "word": "business",
+        "start": 487.282
+      },
+      {
+        "end": 488.559,
+        "word": "failure;",
+        "start": 487.746
+      },
+      {
+        "end": 488.698,
+        "word": "it",
+        "start": 488.559
+      },
+      {
+        "end": 488.849,
+        "word": "was",
+        "start": 488.698
+      },
+      {
+        "end": 488.954,
+        "word": "a",
+        "start": 488.849
+      },
+      {
+        "end": 489.395,
+        "word": "pivotal",
+        "start": 488.954
+      },
+      {
+        "end": 489.732,
+        "word": "moment",
+        "start": 489.395
+      },
+      {
+        "end": 489.883,
+        "word": "in",
+        "start": 489.732
+      },
+      {
+        "end": 490.266,
+        "word": "modern",
+        "start": 489.883
+      },
+      {
+        "end": 490.672,
+        "word": "corporate",
+        "start": 490.266
+      },
+      {
+        "end": 491.682,
+        "word": "history.",
+        "start": 490.672
+      },
+      {
+        "end": 491.845,
+        "word": "A",
+        "start": 491.682
+      },
+      {
+        "end": 492.379,
+        "word": "sobering",
+        "start": 491.845
+      },
+      {
+        "end": 492.855,
+        "word": "example",
+        "start": 492.379
+      },
+      {
+        "end": 492.959,
+        "word": "of",
+        "start": 492.855
+      },
+      {
+        "end": 493.203,
+        "word": "how",
+        "start": 492.959
+      },
+      {
+        "end": 493.633,
+        "word": "quickly",
+        "start": 493.203
+      },
+      {
+        "end": 494.178,
+        "word": "fortunes",
+        "start": 493.633
+      },
+      {
+        "end": 494.376,
+        "word": "can",
+        "start": 494.178
+      },
+      {
+        "end": 494.782,
+        "word": "turn",
+        "start": 494.376
+      },
+      {
+        "end": 495.014,
+        "word": "when",
+        "start": 494.782
+      },
+      {
+        "end": 495.595,
+        "word": "hubris",
+        "start": 495.014
+      },
+      {
+        "end": 496.187,
+        "word": "overtakes",
+        "start": 495.595
+      },
+      {
+        "end": 497.742,
+        "word": "prudence.",
+        "start": 496.187
+      },
+      {
+        "end": 497.917,
+        "word": "If",
+        "start": 497.742
+      },
+      {
+        "end": 498.137,
+        "word": "you're",
+        "start": 497.917
+      },
+      {
+        "end": 498.822,
+        "word": "fascinated",
+        "start": 498.137
+      },
+      {
+        "end": 499.02,
+        "word": "by",
+        "start": 498.822
+      },
+      {
+        "end": 499.484,
+        "word": "stories",
+        "start": 499.02
+      },
+      {
+        "end": 499.647,
+        "word": "of",
+        "start": 499.484
+      },
+      {
+        "end": 500.088,
+        "word": "corporate",
+        "start": 499.647
+      },
+      {
+        "end": 500.611,
+        "word": "intrigue",
+        "start": 500.088
+      },
+      {
+        "end": 500.785,
+        "word": "and",
+        "start": 500.611
+      },
+      {
+        "end": 501.203,
+        "word": "lessons",
+        "start": 500.785
+      },
+      {
+        "end": 501.412,
+        "word": "from",
+        "start": 501.203
+      },
+      {
+        "end": 501.934,
+        "word": "dramatic",
+        "start": 501.412
+      },
+      {
+        "end": 502.979,
+        "word": "downfalls,",
+        "start": 501.934
+      },
+      {
+        "end": 503.223,
+        "word": "hit",
+        "start": 502.979
+      },
+      {
+        "end": 504.337,
+        "word": "subscribe.",
+        "start": 503.223
+      },
+      {
+        "end": 504.651,
+        "word": "Stay",
+        "start": 504.337
+      },
+      {
+        "end": 504.964,
+        "word": "tuned",
+        "start": 504.651
+      },
+      {
+        "end": 505.115,
+        "word": "for",
+        "start": 504.964
+      },
+      {
+        "end": 505.336,
+        "word": "more",
+        "start": 505.115
+      },
+      {
+        "end": 505.847,
+        "word": "insights",
+        "start": 505.336
+      },
+      {
+        "end": 506.044,
+        "word": "into",
+        "start": 505.847
+      },
+      {
+        "end": 506.148,
+        "word": "the",
+        "start": 506.044
+      },
+      {
+        "end": 506.462,
+        "word": "world",
+        "start": 506.148
+      },
+      {
+        "end": 506.59,
+        "word": "of",
+        "start": 506.462
+      },
+      {
+        "end": 507.008,
+        "word": "business",
+        "start": 506.59
+      },
+      {
+        "end": 507.727,
+        "word": "upheavals",
+        "start": 507.008
+      },
+      {
+        "end": 507.948,
+        "word": "and",
+        "start": 507.727
+      },
+      {
+        "end": 508.54,
+        "word": "strategic",
+        "start": 507.948
+      },
+      {
+        "end": 509.539,
+        "word": "recoveries.",
+        "start": 508.54
+      }
+    ],
+    "total_duration_seconds": 509.539
+  },
+  "rendered_video_url": "/Users/valsamis/Movies/Automated/691e7616-4230-42dd-88b9-b7a565450975.mp4",
+  "thumbnail_urls": [
+    "https://wrowkhhwlvmigvyescdv.supabase.co/storage/v1/object/public/thumbnails/thumb_1787304584_1.jpg"
+  ],
+  "youtube_video_id": "JUrKObXSlk8",
+  "error_log": null,
+  "created_at": "2026-08-21T09:28:48.596243+00:00",
+  "updated_at": "2026-08-21T10:17:28.492722+00:00",
+  "youtube_url": "https://www.youtube.com/watch?v=JUrKObXSlk8"
+}
