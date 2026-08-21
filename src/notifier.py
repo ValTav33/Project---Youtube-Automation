@@ -115,3 +115,37 @@ def notify_pipeline_error(video_id: str, step: str, error: str):
         f"🔴 *Error:*\n`{error[:400]}`\n\n"
         f"Pipeline σταμάτησε. Έλεγξε τα logs."
     )
+
+def notify_script_approval(video_id: str, title: str, hook_text: str, total_words: int, webhook_url: str):
+    """Sent to request script approval via Telegram Inline Keyboard."""
+    bot_token, chat_id = _get_credentials()
+    if not bot_token or not chat_id:
+        return False
+        
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    
+    # We will use simple callback data or direct deep linking to a webhook if available.
+    # Since the bot is running on Railway, it can listen to webhooks, but for now we just
+    # send the buttons. The actual callback_query handling will be in the bot server.
+    payload = {
+        "chat_id": chat_id,
+        "text": f"🛑 *ΕΓΚΡΙΣΗ SCRIPT ΑΠΑΙΤΕΙΤΑΙ*\n\n"
+                f"📌 *Τίτλος:* {title}\n"
+                f"📝 *Λέξεις:* {total_words}\n\n"
+                f"🪝 *Hook:*\n_{hook_text}_\n\n"
+                f"🆔 `{video_id}`",
+        "parse_mode": "Markdown",
+        "reply_markup": {
+            "inline_keyboard": [
+                [
+                    {"text": "✅ Approve", "callback_data": f"approve_script_{video_id}"},
+                    {"text": "🔄 Regen", "callback_data": f"regen_script_{video_id}"}
+                ]
+            ]
+        }
+    }
+    try:
+        requests.post(url, json=payload, timeout=10)
+    except Exception:
+        pass
+

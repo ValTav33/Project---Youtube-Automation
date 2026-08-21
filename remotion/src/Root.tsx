@@ -6,15 +6,22 @@ import { VideoProps } from './types';
 const defaultProps: VideoProps = {
   scenes: [
     {
-      scene_id: 1,
-      durationInFrames: 150,
+      scene_id: "scene_1",
+      shot_id: "shot_1",
+      durationInFrames: 90,
       asset_type: 'image',
       asset_url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=80',
-      narration: 'In the shadows of global finance, a single algorithm quietly reshaped the economy.',
-      visual_overlay: {
-        headline: 'CAPITAL DISRUPTION',
-        stat_callout: '$14.2 BILLION'
-      }
+      start_frame: 0,
+      end_frame: 89
+    },
+    {
+      scene_id: "scene_2",
+      shot_id: "shot_2",
+      durationInFrames: 60,
+      asset_type: 'video',
+      asset_url: 'https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4',
+      start_frame: 90,
+      end_frame: 149
     }
   ],
   words: [
@@ -26,7 +33,8 @@ const defaultProps: VideoProps = {
     { word: 'finance,', start: 1.6, end: 2.2 }
   ],
   audioUrl: '',
-  bgMusicUrl: ''
+  bgMusicUrl: '',
+  fps: 30
 };
 
 export const RemotionRoot: React.FC = () => {
