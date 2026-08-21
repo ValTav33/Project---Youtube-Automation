@@ -18,6 +18,7 @@ from asset_planner import AssetStage
 from quality_gate import QualityGateStage
 from publish_planner import PublishPackageStage
 from publisher import send_telegram_review_gate
+from analytics_extractor import AnalyticsFeatureVectorStage
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -59,6 +60,7 @@ def run_v2_story_pipeline(video_id: str):
     manifest_stage = ManifestStage(sb, video_id)
     
     publish_stage = PublishPackageStage(sb, video_id)
+    analytics_stage = AnalyticsFeatureVectorStage(sb, video_id)
     
     # 3. Execute Stages sequentially
     try:
@@ -121,6 +123,14 @@ def run_v2_story_pipeline(video_id: str):
         publish_package = publish_stage.run({
             "promise_contract": promise,
             "story_script": edited_story
+        })
+        
+        # --- ANALYTICS EXTRACTOR ---
+        feature_vector = analytics_stage.run({
+            "promise_contract": promise,
+            "story_script": edited_story,
+            "shot_plan": shot_plan,
+            "publish_package": publish_package
         })
         
         logger.info(f"✅ V2 Pipeline completed generation successfully for {video_id}")

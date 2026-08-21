@@ -173,4 +173,9 @@ class AnalyticsFeatureVector(BaseArtifact):
     hook_type: str
     hook_duration_seconds: float
     total_shots: int
+    first_minute_shot_count: int
+    open_loop_count: int
     music_profile: str
+    title_strategy: str
+    thumbnail_strategy: str
+    style_profile_version: str
