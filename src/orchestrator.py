@@ -120,22 +120,64 @@ def execute_local_remotion_render(video_id: str, input_props: dict) -> bool:
     logger.info(f"Running command: {' '.join(cmd)}")
 
     renderer_dir = os.path.join(os.getcwd(), "renderer-service")
+    sb = get_supabase()
+    
     try:
-        subprocess.run(cmd, cwd=renderer_dir, check=True, timeout=1200) # 20 minutes timeout
+        res = sb.table("videos").select("script_payload").eq("id", video_id).single().execute()
+        script_payload = res.data.get("script_payload") or {}
+    except Exception:
+        script_payload = {}
+
+    try:
+        import re
+        process = subprocess.Popen(
+            cmd, 
+            cwd=renderer_dir, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.STDOUT, 
+            text=True,
+            bufsize=1
+        )
+        
+        last_pct = 0
+        for line in process.stdout:
+            sys.stdout.write(line)
+            sys.stdout.flush()
+            
+            match = re.search(r'Rendered (\d+)/(\d+)', line)
+            if match:
+                rendered = int(match.group(1))
+                total = int(match.group(2))
+                if total > 0:
+                    pct = int((rendered / total) * 100)
+                    if pct >= last_pct + 5:
+                        last_pct = pct
+                        script_payload["render_progress"] = pct
+                        try:
+                            sb.table("videos").update({
+                                "script_payload": script_payload
+                            }).eq("id", video_id).execute()
+                        except Exception as e:
+                            logger.error(f"Failed to update render progress: {e}")
+                            
+        process.wait()
+        
+        if process.returncode != 0:
+            logger.error(f"Local render failed with error code {process.returncode}")
+            return False
+
         logger.info(f"✅ Local render completed successfully! Saved to {out_path}")
 
-        # Update database with local path
-        sb = get_supabase()
+        # Final progress update
+        script_payload["render_progress"] = 100
         sb.table("videos").update({
             "status": "rendered",
+            "script_payload": script_payload,
             "rendered_video_url": out_path,
             "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S%z")
         }).eq("id", video_id).execute()
 
         return True
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Local render failed with error code {e.returncode}")
-        return False
     except Exception as e:
         logger.error(f"Failed to execute local render: {e}")
         return False
@@ -272,7 +314,7 @@ def poll_approved_queue():
             if rows:
                 target = rows[0]
                 logger.info(f"Found approved video in queue: '{target['target_title']}' (ID: {target['id']})")
-                run_pipeline_for_video(target["id"])
+                run_pipeline_for_video(str(target["id"]))
             time.sleep(10)
         except KeyboardInterrupt:
             logger.info("Stopping poller.")

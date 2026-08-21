@@ -123,6 +123,43 @@ def handle_message(msg: dict):
         send_message(chat_id, "\n".join(lines))
         return
 
+    if text == "/status":
+        if not supabase:
+            send_message(chat_id, "❌ Supabase not configured.")
+            return
+            
+        res = supabase.table("videos").select("id,target_title,status,script_payload").not_.in_("status", ["discovered", "failed", "published"]).order("updated_at", desc=True).limit(1).execute()
+        rows = res.data or []
+        
+        if not rows:
+            send_message(chat_id, "📭 No active videos currently in production.")
+            return
+            
+        vid = rows[0]
+        status = vid.get("status", "unknown")
+        title = vid.get("target_title", "Untitled")[:50]
+        payload = vid.get("script_payload") or {}
+        
+        status_map = {
+            "approved": "⏳ Waiting in Queue (1/6)",
+            "scripting": "✍️ Script Generation (2/6)",
+            "voiceover": "🎙️ Audio Synthesis (3/6)",
+            "visuals": "🖼️ Visual Assets (4/6)",
+            "rendering": "🎬 Video Rendering (5/6)",
+            "publishing": "📤 YouTube Upload (6/6)"
+        }
+        
+        stage_text = status_map.get(status, f"🔵 {status}")
+        
+        msg = f"📊 *Live Status*\n\n🎬 *Video:* {title}\n🔄 *Stage:* {stage_text}"
+        
+        if status == "rendering":
+            pct = payload.get("render_progress", 0)
+            msg += f"\n⏳ *Progress:* {pct}% (Συνεχίζεται...)"
+            
+        send_message(chat_id, msg)
+        return
+
     # Regular text → queue as new video topic
     logger.info(f"New topic intake: '{text}'")
     video = insert_video(text)
