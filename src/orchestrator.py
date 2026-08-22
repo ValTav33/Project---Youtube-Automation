@@ -23,9 +23,6 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client
 
-from script_generator import process_video_scripting
-from audio_generator import process_video_audio
-from asset_resolver import process_video_asset_resolution
 from publisher import send_telegram_review_gate, publish_to_youtube
 from notifier import (
     notify_pipeline_start,
@@ -183,82 +180,7 @@ def execute_local_remotion_render(video_id: str, input_props: dict) -> bool:
         return False
 
 
-def run_pipeline_for_video(video_id: str):
-    """
-    Executes all pipeline phases sequentially for a video.
-    Sends a Telegram notification after every step (success or failure).
-    """
-    sb = get_supabase()
-    logger.info(f"========== STARTING PRODUCTION RUN FOR VIDEO {video_id} ==========")
 
-    # Fetch the video record to get the title for notifications
-    try:
-        res = sb.table("videos").select("*").eq("id", video_id).single().execute()
-        video = res.data
-        title = video.get("target_title", "Untitled") if video else "Untitled"
-    except Exception as e:
-        logger.error(f"Could not fetch video {video_id} from Supabase: {e}")
-        notify_pipeline_error(video_id, "Φόρτωση βίντεο", str(e))
-        return
-
-    # ── Kick-off notification ──────────────────────────────────────────────
-    notify_pipeline_start(video_id, title)
-
-    # ── STEP 1: Script Generation ──────────────────────────────────────────
-    logger.info(">>> STEP 1: SCRIPT GENERATION (GPT-4o)...")
-    try:
-        process_video_scripting(video_id)
-        # Re-fetch to get the generated title (GPT-4o may refine it)
-        res = sb.table("videos").select("target_title, script_payload").eq("id", video_id).single().execute()
-        updated = res.data or {}
-        title = updated.get("target_title", title)
-        scene_count = len((updated.get("script_payload") or {}).get("scenes", []))
-        notify_step_complete(video_id, "✍️ Script Generation (GPT-4o)", f"{scene_count} σκηνές | Τίτλος: {title}")
-    except Exception as e:
-        logger.error(f"Script generation failed: {e}")
-        notify_step_failed(video_id, "✍️ Script Generation", str(e))
-        notify_pipeline_error(video_id, "Script Generation", str(e))
-        return
-
-    # ── STEP 2: Audio & Timestamps ─────────────────────────────────────────
-    logger.info(">>> STEP 2: AUDIO & TIMESTAMPS (ElevenLabs)...")
-    try:
-        process_video_audio(video_id)
-        res = sb.table("videos").select("transcript_timestamps").eq("id", video_id).single().execute()
-        ts = (res.data or {}).get("transcript_timestamps") or {}
-        duration = ts.get("total_duration_seconds", 0)
-        notify_step_complete(video_id, "🎙️ Audio Generation (ElevenLabs)", f"Διάρκεια: {duration:.1f}s")
-    except Exception as e:
-        logger.error(f"Audio generation failed: {e}")
-        notify_step_failed(video_id, "🎙️ Audio Generation", str(e))
-        notify_pipeline_error(video_id, "Audio Generation", str(e))
-        return
-
-    # ── STEP 3: Visual Assets ──────────────────────────────────────────────
-    logger.info(">>> STEP 3: VISUAL ASSET SOURCING (Pexels + Fal.ai)...")
-    try:
-        process_video_asset_resolution(video_id)
-        res = sb.table("videos").select("script_payload").eq("id", video_id).single().execute()
-        scenes = ((res.data or {}).get("script_payload") or {}).get("scenes", [])
-        stock = sum(1 for s in scenes if s.get("asset_type") == "video")
-        ai_imgs = sum(1 for s in scenes if s.get("asset_type") == "image")
-        notify_step_complete(video_id, "🖼️ Visual Assets (Pexels + Fal.ai)", f"{stock} stock video | {ai_imgs} AI images")
-    except Exception as e:
-        logger.error(f"Asset resolution failed: {e}")
-        notify_step_failed(video_id, "🖼️ Visual Assets", str(e))
-        notify_pipeline_error(video_id, "Visual Assets", str(e))
-        return
-
-    # ── STEP 4: Render Gate ────────────────────────────────────────────────
-    logger.info(">>> STEP 4: REQUESTING RENDER APPROVAL...")
-    try:
-        send_telegram_review_gate(video_id)
-        notify_step_complete(video_id, "🖼️ Review Gate", "Εστάλη στο Telegram για έγκριση Render")
-        logger.info(f"Pipeline halting for {video_id} to await manual render approval.")
-    except Exception as e:
-        logger.error(f"Review gate failed: {e}")
-        notify_step_failed(video_id, "🖼️ Review Gate", str(e))
-        return
 
 def run_render_phase(video_id: str):
     """
@@ -323,9 +245,10 @@ def poll_approved_queue():
             res = sb.table("videos").select("id, target_title").eq("status", "approved").limit(1).execute()
             rows = res.data or []
             if rows:
+                from run_v2 import run_v2_story_pipeline
                 target = rows[0]
                 logger.info(f"Found approved video for generation: '{target['target_title']}' (ID: {target['id']})")
-                run_pipeline_for_video(str(target["id"]))
+                run_v2_story_pipeline(str(target["id"]))
             
             # Check for render tasks
             res2 = sb.table("videos").select("id, target_title").eq("status", "awaiting_publish_approval").limit(1).execute()
