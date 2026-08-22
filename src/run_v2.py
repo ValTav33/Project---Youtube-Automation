@@ -119,12 +119,12 @@ def run_v2_story_pipeline(video_id: str):
                 edited_story = rewriter_stage.run({
                     "story_script": edited_story,
                     "critic_review": quality_report
-                })
+                }, force=True)
 
-            quality_evaluator = QualityEvaluatorStage(video_id, session_id)
+            quality_evaluator = QualityEvaluatorStage(sb, video_id)
             quality_report = quality_evaluator.run({
                 "story_script": edited_story
-            })
+            }, force=(attempt > 0))
             
             if quality_report.is_approved:
                 logger.info(f"Quality Approved! Score: {quality_report.overall_score}/10")

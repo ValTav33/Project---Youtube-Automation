@@ -28,28 +28,28 @@ class PipelineStage(ABC):
         """
         pass
 
-    def run(self, inputs: Dict[str, Any]) -> Optional[BaseModel]:
+    def run(self, inputs: Dict[str, Any], force: bool = False) -> Optional[BaseModel]:
         """
         Wrapper to handle idempotency, retries, and database logging.
         """
         logger.info(f"[{self.name}] Starting stage for video {self.video_id}")
         
         # 1. Idempotency Check
-        # Have we already successfully generated this artifact for this video?
-        try:
-            res = self.sb.table("artifacts").select("*")\
-                .eq("video_id", self.video_id)\
-                .eq("artifact_type", self.output_type)\
-                .order("revision", desc=True)\
-                .limit(1).execute()
-            
-            if res.data:
-                logger.info(f"[{self.name}] Artifact {self.output_type} already exists. Skipping execution.")
-                # We would ideally reconstruct the Pydantic model here and return it,
-                # but for now we just return the raw payload or None to indicate skip.
-                return res.data[0].get("payload")
-        except Exception as e:
-            logger.warning(f"[{self.name}] Failed idempotency check: {e}")
+        if not force:
+            try:
+                res = self.sb.table("artifacts").select("*")\
+                    .eq("video_id", self.video_id)\
+                    .eq("artifact_type", self.output_type)\
+                    .order("revision", desc=True)\
+                    .limit(1).execute()
+                
+                if res.data:
+                    logger.info(f"[{self.name}] Artifact {self.output_type} already exists. Skipping execution.")
+                    # We would ideally reconstruct the Pydantic model here and return it,
+                    # but for now we just return the raw payload or None to indicate skip.
+                    return res.data[0].get("payload")
+            except Exception as e:
+                logger.warning(f"[{self.name}] Failed idempotency check: {e}")
 
         # 2. Log run start
         run_id = None
