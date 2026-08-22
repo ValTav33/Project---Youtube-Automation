@@ -27,8 +27,11 @@ class AssetStage(PipelineStage):
         async with aiohttp.ClientSession(connector=connector) as session:
             tasks = []
             # For each unique scene, we need one asset
-            for scene_id, query in queries.items():
-                tasks.append(self._resolve_single(session, scene_id, query))
+            for scene in intent.scenes:
+                scene_id = scene.scene_id
+                query = scene.broll_search_query
+                sfx = getattr(scene, 'sfx_query', None)
+                tasks.append(self._resolve_single(session, scene_id, query, sfx))
                 
             resolved_results = await asyncio.gather(*tasks)
             
@@ -43,13 +46,28 @@ class AssetStage(PipelineStage):
         )
         return manifest
 
-    async def _resolve_single(self, session, scene_id, query) -> Asset:
+    async def _resolve_single(self, session, scene_id, query, sfx_query=None) -> Asset:
+        sfx_url = None
+        if sfx_query:
+            lower = sfx_query.lower()
+            if "whoosh" in lower:
+                sfx_url = "https://cdn.pixabay.com/audio/2022/03/15/audio_24e073cda2.mp3"
+            elif "cash" in lower or "money" in lower:
+                sfx_url = "https://cdn.pixabay.com/audio/2021/08/04/audio_3d19114757.mp3"
+            elif "boom" in lower:
+                sfx_url = "https://cdn.pixabay.com/audio/2022/03/10/audio_51795c6f60.mp3"
+            elif "glitch" in lower:
+                sfx_url = "https://cdn.pixabay.com/audio/2021/08/09/audio_9ef062d295.mp3"
+            else:
+                sfx_url = "https://cdn.pixabay.com/audio/2022/03/15/audio_24e073cda2.mp3"
+
         if os.getenv("MOCK_EXTERNAL_APIS") == "true":
             return Asset(
                 asset_id=f"ast_{scene_id}",
                 scene_id=scene_id,
                 asset_type="image",
                 asset_url="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80",
+                sfx_url=sfx_url,
                 provider="mock"
             )
             
@@ -61,6 +79,7 @@ class AssetStage(PipelineStage):
                 scene_id=scene_id,
                 asset_type="video",
                 asset_url=video_url,
+                sfx_url=sfx_url,
                 provider="pexels"
             )
             
@@ -72,6 +91,7 @@ class AssetStage(PipelineStage):
                 scene_id=scene_id,
                 asset_type="image",
                 asset_url=image_url,
+                sfx_url=sfx_url,
                 provider="fal"
             )
             

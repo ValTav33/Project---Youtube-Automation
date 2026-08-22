@@ -14,7 +14,8 @@ from contracts import (
     StoryBeatPlan,
     StoryScript,
     CriticReview,
-    EditedStoryScript
+    EditedStoryScript,
+    QualityScoreReport
 )
 
 load_dotenv()
@@ -39,8 +40,8 @@ class BaseOpenAIStage(PipelineStage):
                 {"role": "user", "content": user_prompt}
             ],
             response_format=response_format,
-            temperature=0.7,
-            max_tokens=8000
+            temperature=1,
+            max_completion_tokens=8000
         )
         return response.choices[0].message.parsed
 
@@ -92,7 +93,11 @@ class MarketingStrategistStage(BaseOpenAIStage):
         if not angle:
             raise ValueError("Missing angle_strategy input")
             
-        system = "You are an elite YouTube marketer. Formulate the ultimate Hook concept, Title ideas, and Thumbnail visual concept that all interconnect to make an irresistible promise to the viewer."
+        system = (
+            "You are an elite YouTube marketer. First, generate 5 distinct hook ideas (Curiosity, Shocking Stat, Mystery, Controversial, Narrative). "
+            "Score them out of 10 for retention tension, and select the highest scoring one as the 'hook_concept'. "
+            "Then, formulate Title ideas and a Thumbnail visual concept that all interconnect to make an irresistible promise."
+        )
         user = f"Angle: {angle.core_angle}\nEmotion: {angle.primary_emotion}\nGenerate the marketing strategy."
         
         parsed = self.generate_structured(system, user, MarketingStrategy)
@@ -133,8 +138,12 @@ class StoryArchitectStage(BaseOpenAIStage):
         if not strategy or not research:
             raise ValueError("Missing inputs for StoryArchitectStage")
             
-        system = "You are a structural narrative architect. Design the pacing and beats for a 6-scene micro-documentary (approx 1 minute total) without writing the actual narration. Ensure pattern interrupts and high retention structure."
-        user = f"Hook Concept: {strategy.hook_concept}\nKey Facts: {research.key_statistics}\nDesign the structural beats."
+        system = (
+            "You are a structural narrative architect. Design the pacing and beats for a 6-scene micro-documentary (approx 1 minute total) without writing the actual narration. "
+            "You MUST follow this exact structure: HOOK -> QUESTION -> ESCALATION -> REVEAL -> CONSEQUENCE -> PAYOFF. "
+            "You MUST enforce a Pattern Interrupt every 2-3 scenes by setting is_pattern_interrupt=True to force a sudden visual or audio shift."
+        )
+        user = f"Chosen Hook: {strategy.hook_concept}\nKey Facts: {research.key_statistics}\nDesign the structural beats."
         
         parsed = self.generate_structured(system, user, StoryBeatPlan)
         parsed.artifact_id = f"architect-{self.video_id}"
@@ -226,4 +235,34 @@ class ScriptRewriterStage(BaseOpenAIStage):
         parsed.video_id = self.video_id
         parsed.parent_artifact_ids = [story.artifact_id, critic.artifact_id]
         parsed.total_word_count = sum(b.word_count for b in parsed.beats)
+        return parsed
+
+class QualityEvaluatorStage(BaseOpenAIStage):
+    name = "quality_evaluation"
+    output_type = "QualityScoreReport"
+
+    def execute(self, inputs: Dict[str, Any]) -> BaseModel:
+        story = inputs.get("story_script")
+        
+        prompt = f"""
+        You are an expert YouTube Retention Critic and Quality Assurance AI.
+        Your job is to strictly evaluate the following YouTube documentary script before it is rendered.
+        
+        Evaluate it on two dimensions:
+        1. Hook Score (1-10): Is the first 30 seconds grabbing attention and making a specific promise?
+        2. Retention Score (1-10): Are there enough pattern interrupts? Is the pacing fast? Is there low information density?
+        
+        Then give an overall_score (1-10). If overall_score >= 7, set is_approved = True.
+        Otherwise, set is_approved = False and list specific critical_flaws that must be rewritten.
+        
+        Script to evaluate:
+        {story.model_dump_json() if hasattr(story, 'model_dump_json') else str(story)}
+        """
+        
+        system_prompt = "You are an elite YouTube Video Quality Gate. Be extremely strict."
+        parsed = self.generate_structured(system_prompt, prompt, QualityScoreReport)
+        
+        parsed.artifact_id = f"quality-{self.video_id}"
+        parsed.video_id = self.video_id
+        parsed.parent_artifact_ids = [story.artifact_id] if hasattr(story, 'artifact_id') else []
         return parsed

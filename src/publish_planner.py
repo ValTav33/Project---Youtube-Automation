@@ -69,10 +69,10 @@ class PublishPackageStage(BaseOpenAIStage):
                     raise ValueError("OPENAI_API_KEY not found in environment")
                     
                 response = self.client.images.generate(
-                    model="dall-e-3",
+                    model="gpt-image-2",
                     prompt=prompt_plan.optimized_image_prompt + " (Must be a highly professional YouTube documentary thumbnail without any text or words).",
                     n=1,
-                    size="1792x1024"
+                    size="1024x1024"
                 )
                 
                 if response.data:

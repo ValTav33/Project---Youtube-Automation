@@ -68,6 +68,14 @@ class EditedStoryScript(BaseArtifact):
     beats: List[StoryBeat]
     total_word_count: int
 
+class QualityScoreReport(BaseArtifact):
+    artifact_type: Literal["QualityScoreReport"] = "QualityScoreReport"
+    hook_score: int = Field(description="Score out of 10 for the hook's strength.")
+    retention_score: int = Field(description="Score out of 10 for pacing and pattern interrupts.")
+    overall_score: int = Field(description="Overall score out of 10 for the script quality.")
+    is_approved: bool = Field(description="True if overall_score is >= 7, otherwise False.")
+    critical_flaws: List[str] = Field(description="List of specific flaws to fix if rejected.")
+
 # -----------------------------------------------------------------------------
 # 4. Scene Intent Plan (Pre-Audio)
 # -----------------------------------------------------------------------------
@@ -80,9 +88,11 @@ class SceneIntent(BaseModel):
     scene_id: str
     beat_id: str
     visual_subject: str
+    camera_movement: Literal["static", "zoom in", "zoom out", "pan left", "pan right"] = Field(default="static")
     motion_intensity: Literal["static", "slow", "moderate", "fast"]
     broll_search_query: str
     visual_overlay: Optional[VisualOverlay] = Field(default=None, description="Optional graphical overlay (e.g. a huge stat card) for this scene")
+    sfx_query: Optional[str] = Field(default=None, description="Optional sound effect (e.g. 'cinematic whoosh', 'cash register', 'deep boom')")
 
 class SceneIntentPlan(BaseArtifact):
     artifact_type: Literal["SceneIntentPlan"] = "SceneIntentPlan"
@@ -111,7 +121,10 @@ class Shot(BaseModel):
     start_frame: int
     end_frame: int
     duration_frames: int
+    camera_movement: Optional[str] = None
+    sfx_url: Optional[str] = None
     visual_overlay: Optional[VisualOverlay] = None
+    sfx_query: Optional[str] = None
 
 class ShotPlan(BaseArtifact):
     artifact_type: Literal["ShotPlan"] = "ShotPlan"
@@ -126,6 +139,7 @@ class Asset(BaseModel):
     scene_id: str
     asset_type: Literal["video", "image"]
     asset_url: str
+    sfx_url: Optional[str] = None
     provider: str = Field(description="e.g., 'pexels', 'fal', 'placeholder'")
 
 class AssetManifest(BaseArtifact):
@@ -180,10 +194,16 @@ class AngleStrategy(BaseArtifact):
     primary_emotion: str = Field(description="The primary emotion we want the viewer to feel")
     target_audience: str = Field(description="Who this video is for")
 
+class HookIdea(BaseModel):
+    hook_type: Literal["Curiosity", "Shocking Stat", "Mystery", "Controversial", "Narrative"]
+    text: str = Field(description="The actual hook text for the first 30 seconds")
+    score_out_of_10: int = Field(description="A score of how strong this hook is for retention")
+
 class MarketingStrategy(BaseArtifact):
     artifact_type: Literal["MarketingStrategy"] = "MarketingStrategy"
     title_ideas: List[str] = Field(description="List of highly engaging title variants")
-    hook_concept: str = Field(description="The concept for the first 30 seconds that pays off the title")
+    scored_hooks: List[HookIdea] = Field(description="5 distinct hooks scored by tension")
+    hook_concept: str = Field(description="The chosen hook text that pays off the title")
     thumbnail_concept: str = Field(description="The visual concept for the thumbnail to match the title")
 
 class ThumbnailPromptPlan(BaseArtifact):
@@ -195,6 +215,7 @@ class StructuralBeat(BaseModel):
     beat_id: str
     intent: str = Field(description="The narrative purpose of this beat")
     estimated_word_count: int
+    is_pattern_interrupt: bool = Field(default=False, description="True if this beat forces a sudden visual/audio shift (every 20-45s)")
 
 class StoryBeatPlan(BaseArtifact):
     artifact_type: Literal["StoryBeatPlan"] = "StoryBeatPlan"

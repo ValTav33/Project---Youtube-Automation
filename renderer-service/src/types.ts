@@ -18,6 +18,8 @@ export interface SceneData {
   playbackRate?: number;
   narration: string;
   visual_overlay?: VisualOverlay;
+  sfx_url?: string;
+  camera_movement?: string;
 }
 
 export interface VideoProps {

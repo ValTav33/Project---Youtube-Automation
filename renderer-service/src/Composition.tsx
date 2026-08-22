@@ -93,10 +93,21 @@ const SceneItem: React.FC<{ scene: SceneData }> = ({ scene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Ken Burns dynamic zoom
-  const scale = interpolate(frame, [0, scene.durationInFrames], [1.0, 1.15], {
-    extrapolateRight: 'clamp'
-  });
+  // Camera movement logic
+  const moveProgress = frame / scene.durationInFrames;
+  let transform = `scale(1.0)`;
+  if (scene.camera_movement === 'zoom in') {
+    transform = `scale(${1.0 + (moveProgress * 0.15)})`;
+  } else if (scene.camera_movement === 'zoom out') {
+    transform = `scale(${1.15 - (moveProgress * 0.15)})`;
+  } else if (scene.camera_movement === 'pan left') {
+    transform = `scale(1.15) translateX(${moveProgress * 5}%)`;
+  } else if (scene.camera_movement === 'pan right') {
+    transform = `scale(1.15) translateX(-${moveProgress * 5}%)`;
+  } else {
+    // Default slow zoom
+    transform = `scale(${1.0 + (moveProgress * 0.1)})`;
+  }
 
   const statProgress = spring({
     frame,
@@ -119,7 +130,7 @@ const SceneItem: React.FC<{ scene: SceneData }> = ({ scene }) => {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transform: `scale(${scale})`
+            transform: transform
           }}
           muted
           onError={(e) => {
@@ -133,7 +144,7 @@ const SceneItem: React.FC<{ scene: SceneData }> = ({ scene }) => {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transform: `scale(${scale})`
+            transform: transform
           }}
           onError={(e) => {
             console.warn(`Image load error in scene #${scene.scene_id}:`, e);
@@ -190,18 +201,40 @@ const SceneItem: React.FC<{ scene: SceneData }> = ({ scene }) => {
           </div>
         </div>
       )}
+
+      {/* Play SFX if present */}
+      {scene.sfx_url && (
+        <Audio src={resolveMediaSrc(scene.sfx_url)} volume={0.8} />
+      )}
     </AbsoluteFill>
   );
 };
 
-// Root Composition
 export const MainVideo: React.FC<VideoProps> = ({
   scenes,
   words,
   audioUrl,
   bgMusicUrl,
-  bgMusicVolume = 0.12
+  bgMusicVolume = 0.15
 }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const currentTime = frame / fps;
+
+  // Audio Ducking Logic: 
+  // If the current time is within any word's spoken time (plus a small margin), duck the volume.
+  const isSpeaking = words?.some(w => currentTime >= w.start - 0.2 && currentTime <= w.end + 0.2);
+  const duckedVolume = isSpeaking ? bgMusicVolume * 0.2 : bgMusicVolume;
+
+  // Smooth out the volume transition using a spring
+  const smoothVolume = spring({
+    frame,
+    fps,
+    config: { damping: 14, stiffness: 40 },
+    from: bgMusicVolume,
+    to: duckedVolume
+  });
+
   return (
     <AbsoluteFill style={{ backgroundColor: '#000000' }}>
       <Series>
@@ -217,7 +250,7 @@ export const MainVideo: React.FC<VideoProps> = ({
 
       {words && words.length > 0 && <SubtitlesOverlay words={words} />}
       {audioUrl && <Audio src={resolveMediaSrc(audioUrl)} volume={1.0} />}
-      {bgMusicUrl && <Audio src={resolveMediaSrc(bgMusicUrl)} volume={bgMusicVolume} loop />}
+      {bgMusicUrl && <Audio src={resolveMediaSrc(bgMusicUrl)} volume={smoothVolume} loop />}
     </AbsoluteFill>
   );
 };

@@ -13,7 +13,8 @@ from story_engines import (
     StoryArchitectStage,
     ScriptWriterStage,
     RetentionCriticStage,
-    ScriptRewriterStage
+    ScriptRewriterStage,
+    QualityEvaluatorStage
 )
 from scene_director import IntentStage, ShotStage, ManifestStage
 from voice_compiler import VoiceStage
@@ -88,25 +89,50 @@ def run_v2_story_pipeline(video_id: str):
             "marketing_strategy": marketing_strategy
         })
         
-        beat_plan = architect_stage.run({
-            "marketing_strategy": marketing_strategy,
-            "research_packet": research
-        })
-        
-        story = writer_stage.run({
-            "story_beat_plan": beat_plan,
-            "research_packet": research,
-            "marketing_strategy": marketing_strategy
-        })
-        
-        critic_review = critic_stage.run({
-            "story_script": story
-        })
-        
-        edited_story = rewriter_stage.run({
-            "story_script": story,
-            "critic_review": critic_review
-        })
+        # --- PHASE 4: AUTO-REGENERATION LOOP ---
+        quality_report = None
+        max_retries = 2
+        for attempt in range(max_retries + 1):
+            if attempt == 0:
+                beat_plan = architect_stage.run({
+                    "marketing_strategy": marketing_strategy,
+                    "research_packet": research
+                })
+                
+                story = writer_stage.run({
+                    "story_beat_plan": beat_plan,
+                    "research_packet": research,
+                    "marketing_strategy": marketing_strategy
+                })
+                
+                critic_review = critic_stage.run({
+                    "story_script": story
+                })
+                
+                edited_story = rewriter_stage.run({
+                    "story_script": story,
+                    "critic_review": critic_review
+                })
+            else:
+                logger.info(f"Auto-Regeneration Attempt {attempt} for video {video_id}")
+                # The rewriter uses the strict quality report as feedback
+                edited_story = rewriter_stage.run({
+                    "story_script": edited_story,
+                    "critic_review": quality_report
+                })
+
+            quality_evaluator = QualityEvaluatorStage(video_id, session_id)
+            quality_report = quality_evaluator.run({
+                "story_script": edited_story
+            })
+            
+            if quality_report.is_approved:
+                logger.info(f"Quality Approved! Score: {quality_report.overall_score}/10")
+                break
+            else:
+                logger.warning(f"Quality Rejected. Score: {quality_report.overall_score}/10. Flaws: {quality_report.critical_flaws}")
+                if attempt == max_retries:
+                    logger.error("Max retries reached. Proceeding with best effort.")
         
         # --- QUALITY GATE ---
         gate_passed = quality_gate.run({
@@ -168,7 +194,7 @@ def run_v2_story_pipeline(video_id: str):
     except Exception as e:
         logger.error(f"Pipeline failed: {e}", exc_info=True)
         # Update video status to error
-        sb.table("videos").update({"status": "error"}).eq("id", video_id).execute()
+        # sb.table("videos").update({"status": "error"}).eq("id", video_id).execute()
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:

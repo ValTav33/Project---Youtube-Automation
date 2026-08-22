@@ -63,19 +63,18 @@ def send_telegram_review_gate(video_id: str):
     thumb_url = thumbnails[0] if thumbnails else ""
 
     message_text = (
-        f"🎬 *VIDEO PRODUCTION READY FOR PUBLISH*\n\n"
+        "📝 *SCRIPT & THUMBNAIL READY FOR RENDER*\n\n"
         f"📌 *Final Title:* {title}\n"
         f"🆔 *ID:* `{video_id}`\n\n"
-        f"🔗 [Watch Rendered Video]({video_url})\n"
         f"🖼️ [View Thumbnail Variant]({thumb_url})\n\n"
-        f"Click below to approve and publish immediately to YouTube:"
+        "Click below to approve the script and trigger React Remotion:"
     )
 
     reply_markup = {
         "inline_keyboard": [
             [
-                {"text": "🚀 Approve & Publish", "callback_data": f"publish:{video_id}"},
-                {"text": "❌ Reject", "callback_data": f"reject:{video_id}"}
+                {"text": "🎬 Approve & Render", "callback_data": f"publish:{video_id}"},
+                {"text": "❌ Reject & Regenerate", "callback_data": f"reject:{video_id}"}
             ]
         ]
     }

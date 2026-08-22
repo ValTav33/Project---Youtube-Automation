@@ -30,12 +30,14 @@ class IntentStage(BaseOpenAIStage):
             
         system = (
             "You are a documentary visual director. For each beat in the script, "
-            "determine the visual subject, motion intensity, and an exact b-roll search query. "
+            "determine the visual subject, camera movement, motion intensity, and an exact b-roll search query. "
             "Keep the b-roll query optimized for stock video (e.g. 'cargo ship ocean storm').\n"
-            "If a beat contains a highly impactful number or statistic, use the 'visual_overlay' field to render a massive on-screen StatCard."
+            "If a beat contains a highly impactful number or statistic, use the 'visual_overlay' field to render a massive on-screen StatCard.\n"
+            "If a scene features a sudden visual change, motion, or a StatCard, use the 'sfx_query' field to suggest a sound effect (e.g. 'cinematic whoosh', 'deep boom', 'digital glitch', 'cash register').\n"
+            "CRITICAL: If a beat is marked as a Pattern Interrupt, you MUST drastically change the camera movement, motion intensity, and consider adding an overlay to jolt the viewer's attention."
         )
         
-        script_text = "\\n".join([f"[{b.beat_id}] {b.narration}" for b in story.beats])
+        script_text = "\\n".join([f"[{b.beat_id}] (Interrupt: {getattr(b, 'is_pattern_interrupt', False)}) {b.narration}" for b in story.beats])
         user = f"Generate a Scene Intent Plan for this script:\n\n{script_text}"
         
         parsed = self.generate_structured(system, user, SceneIntentPlan)
@@ -135,7 +137,8 @@ class ShotStage(PipelineStage):
                 start_frame=current_frame,
                 end_frame=current_frame + duration_frames - 1,
                 duration_frames=duration_frames,
-                visual_overlay=scene.visual_overlay
+                visual_overlay=scene.visual_overlay,
+                sfx_query=scene.sfx_query
             )
             shots.append(shot)
             current_frame += duration_frames
@@ -193,7 +196,10 @@ class ManifestStage(PipelineStage):
                 "asset_type": asset.asset_type if asset else "image",
                 "asset_url": asset.asset_url if asset else "",
                 "start_frame": shot.start_frame,
-                "end_frame": shot.end_frame
+                "end_frame": shot.end_frame,
+                "camera_movement": shot.camera_movement,
+                "sfx_url": asset.sfx_url if asset else None,
+                "visual_overlay": shot.visual_overlay.model_dump() if shot.visual_overlay else None
             })
             
         final_props = {
