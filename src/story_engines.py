@@ -89,6 +89,7 @@ class MarketingStrategistStage(BaseOpenAIStage):
 
     def execute(self, inputs: Dict[str, Any]) -> MarketingStrategy:
         angle: AngleStrategy = inputs.get("angle_strategy")
+        global_feedback = inputs.get("global_feedback")
         
         if not angle:
             raise ValueError("Missing angle_strategy input")
@@ -98,6 +99,12 @@ class MarketingStrategistStage(BaseOpenAIStage):
             "Score them out of 10 for retention tension, and select the highest scoring one as the 'hook_concept'. "
             "Then, formulate Title ideas and a Thumbnail visual concept that all interconnect to make an irresistible promise."
         )
+        
+        if global_feedback:
+            learnings = "\n".join(global_feedback.get("hook_learnings", []) if isinstance(global_feedback, dict) else global_feedback.hook_learnings)
+            meta = global_feedback.get("current_channel_meta", "") if isinstance(global_feedback, dict) else global_feedback.current_channel_meta
+            system += f"\n\nHISTORICAL PERFORMANCE FEEDBACK:\n{learnings}\nCurrent Meta: {meta}\nUse this feedback to choose the best hook and title strategy."
+
         user = f"Angle: {angle.core_angle}\nEmotion: {angle.primary_emotion}\nGenerate the marketing strategy."
         
         parsed = self.generate_structured(system, user, MarketingStrategy)
@@ -160,14 +167,20 @@ class ScriptWriterStage(BaseOpenAIStage):
         beat_plan: StoryBeatPlan = inputs.get("story_beat_plan")
         research: ResearchPacket = inputs.get("research_packet")
         strategy: MarketingStrategy = inputs.get("marketing_strategy")
+        global_feedback = inputs.get("global_feedback")
         
         if not beat_plan or not research:
             raise ValueError("Missing inputs for ScriptWriterStage")
             
         system = "You are a master scriptwriter. Write the exact narration for the provided structural beats. Ensure escalation and a cinematic tone. The final output must exactly match the number of beats provided."
         
-        beat_text = "\\n".join([f"[{b.beat_id}] Intent: {b.intent}" for b in beat_plan.beats])
-        user = f"Title Idea: {strategy.title_ideas[0]}\nResearch: {[f.claim for f in research.facts]}\nBeats:\n{beat_text}\nWrite the narration."
+        if global_feedback:
+            learnings = "\n".join(global_feedback.get("pacing_learnings", []) if isinstance(global_feedback, dict) else global_feedback.pacing_learnings)
+            system += f"\n\nHISTORICAL PERFORMANCE FEEDBACK (PACING):\n{learnings}\nApply this pacing feedback to your writing style."
+        
+        beat_text = "\n".join([f"[{b.beat_id}] Intent: {b.intent}" for b in beat_plan.beats])
+        title = strategy.get("title_ideas", [""])[0] if isinstance(strategy, dict) else strategy.title_ideas[0]
+        user = f"Title Idea: {title}\nResearch: {[f.claim for f in research.facts]}\nBeats:\n{beat_text}\nWrite the narration."
         
         parsed = self.generate_structured(system, user, StoryScript)
         

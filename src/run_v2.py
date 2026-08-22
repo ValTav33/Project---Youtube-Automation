@@ -23,6 +23,7 @@ from quality_gate import QualityGateStage
 from publish_planner import PublishPackageStage
 from publisher import send_telegram_review_gate
 from analytics_extractor import AnalyticsFeatureVectorStage
+from learning_engine import LearningEngineStage
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -49,7 +50,11 @@ def run_v2_story_pipeline(video_id: str):
         
     logger.info(f"Target Title: {video.get('target_title')}")
     
-    # 2. Initialize Stages
+    # 2. Extract Global Learning Feedback
+    learning_stage = LearningEngineStage(sb)
+    global_feedback = learning_stage.run({})
+    
+    # 3. Initialize Stages
     research_stage = ResearchAgentStage(sb, video_id)
     angle_stage = AngleSelectorStage(sb, video_id)
     strategist_stage = MarketingStrategistStage(sb, video_id)
@@ -82,7 +87,8 @@ def run_v2_story_pipeline(video_id: str):
         })
         
         marketing_strategy = strategist_stage.run({
-            "angle_strategy": angle
+            "angle_strategy": angle,
+            "global_feedback": global_feedback
         })
         
         thumbnail_prompt = prompt_creator_stage.run({
@@ -102,7 +108,8 @@ def run_v2_story_pipeline(video_id: str):
                 story = writer_stage.run({
                     "story_beat_plan": beat_plan,
                     "research_packet": research,
-                    "marketing_strategy": marketing_strategy
+                    "marketing_strategy": marketing_strategy,
+                    "global_feedback": global_feedback
                 })
                 
                 critic_review = critic_stage.run({
