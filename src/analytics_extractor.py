@@ -20,10 +20,15 @@ class AnalyticsFeatureVectorStage(BaseOpenAIStage):
     output_type = "AnalyticsFeatureVector"
 
     def execute(self, inputs: Dict[str, Any]) -> AnalyticsFeatureVector:
-        promise = inputs.get("promise_contract")
-        story = inputs.get("story_script")
-        shots = inputs.get("shot_plan")
-        publish = inputs.get("publish_package")
+        promise_raw = inputs.get("promise_contract")
+        story_raw = inputs.get("story_script")
+        shots_raw = inputs.get("shot_plan")
+        publish_raw = inputs.get("publish_package")
+        
+        promise = PromiseContract.model_validate(promise_raw) if isinstance(promise_raw, dict) else promise_raw
+        story = EditedStoryScript.model_validate(story_raw) if isinstance(story_raw, dict) else story_raw
+        shots = ShotPlan.model_validate(shots_raw) if isinstance(shots_raw, dict) else shots_raw
+        publish = PublishPackage.model_validate(publish_raw) if isinstance(publish_raw, dict) else publish_raw
 
         if not promise or not story or not publish:
             raise ValueError("Missing inputs for AnalyticsFeatureVectorStage")

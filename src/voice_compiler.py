@@ -16,9 +16,10 @@ class VoiceStage(PipelineStage):
     output_type = "TimingMap"
 
     def execute(self, inputs: Dict[str, Any]) -> TimingMap:
-        story: EditedStoryScript = inputs.get("story_script")
-        if not story:
+        story_raw = inputs.get("story_script")
+        if not story_raw:
             raise ValueError("Missing story_script input")
+        story = EditedStoryScript.model_validate(story_raw) if isinstance(story_raw, dict) else story_raw
             
         full_narration = " ".join([b.narration for b in story.beats])
         logger.info(f"[{self.name}] Generating speech for {len(full_narration.split())} words...")

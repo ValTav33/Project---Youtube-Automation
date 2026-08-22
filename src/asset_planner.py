@@ -85,11 +85,14 @@ class AssetStage(PipelineStage):
         )
 
     def execute(self, inputs: Dict[str, Any]) -> AssetManifest:
-        intent: SceneIntentPlan = inputs.get("scene_intent")
-        shot_plan: ShotPlan = inputs.get("shot_plan")
+        intent_raw = inputs.get("scene_intent")
+        shot_plan_raw = inputs.get("shot_plan")
         
-        if not intent or not shot_plan:
+        if not intent_raw or not shot_plan_raw:
             raise ValueError("Missing scene_intent or shot_plan")
+            
+        intent = SceneIntentPlan.model_validate(intent_raw) if isinstance(intent_raw, dict) else intent_raw
+        shot_plan = ShotPlan.model_validate(shot_plan_raw) if isinstance(shot_plan_raw, dict) else shot_plan_raw
             
         manifest = asyncio.run(self._resolve_assets_async(intent, shot_plan))
         manifest.parent_artifact_ids = [intent.artifact_id, shot_plan.artifact_id]
