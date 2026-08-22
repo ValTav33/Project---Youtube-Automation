@@ -76,10 +76,21 @@ class PublishPackageStage(BaseOpenAIStage):
                 )
                 
                 if response.data:
-                    image_url = response.data[0].url
-                    image_resp = requests.get(image_url, timeout=25)
-                    if image_resp.status_code == 200 and len(image_resp.content) > 1000:
-                        image_content = image_resp.content
+                    import base64
+                    import requests
+                    image_content = None
+                    
+                    if hasattr(response.data[0], 'b64_json') and response.data[0].b64_json:
+                        image_content = base64.b64decode(response.data[0].b64_json)
+                    elif hasattr(response.data[0], 'url') and response.data[0].url:
+                        image_url = response.data[0].url
+                        image_resp = requests.get(image_url, timeout=25)
+                        if image_resp.status_code == 200 and len(image_resp.content) > 1000:
+                            image_content = image_resp.content
+                        else:
+                            logger.error(f"[{self.name}] Failed to download OpenAI image from URL: {image_url}")
+                    
+                    if image_content:
                         storage_filename = f"thumb_{self.video_id}_{int(time.time())}_gptimage.jpg"
                         self.sb.storage.from_("thumbnails").upload(
                             path=storage_filename,
@@ -91,7 +102,7 @@ class PublishPackageStage(BaseOpenAIStage):
                         thumbnail_urls.append(actual_url)
                         logger.info(f"[{self.name}] ✅ GPT Image Thumbnail saved to Supabase: {actual_url}")
                     else:
-                        logger.error(f"[{self.name}] Failed to download OpenAI image from URL.")
+                        logger.error(f"[{self.name}] OpenAI API Error: No valid image data returned")
                 else:
                     logger.error(f"[{self.name}] OpenAI API Error: No data returned")
             except Exception as e:
