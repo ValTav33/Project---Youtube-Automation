@@ -225,8 +225,14 @@ class ScriptRewriterStage(BaseOpenAIStage):
             
         system = "You are a master retention rewriter. Take the original script and the critic's harsh feedback, and rewrite only the problematic beats to dramatically improve retention. Return the complete updated script."
         
-        script_text = "\\n".join([f"[{b.beat_id}] {b.narration}" for b in story.beats])
-        critic_feedback = "\\n".join(critic.weak_points + critic.suggestions)
+        script_text = "\n".join([f"[{b.beat_id}] {b.narration}" for b in story.beats])
+        
+        if hasattr(critic, 'weak_points') and hasattr(critic, 'suggestions'):
+            critic_feedback = "\n".join(critic.weak_points + critic.suggestions)
+        elif hasattr(critic, 'critical_flaws'):
+            critic_feedback = "\n".join(critic.critical_flaws)
+        else:
+            critic_feedback = str(critic)
         
         user = f"Original Script:\n{script_text}\n\nCritic Feedback:\n{critic_feedback}\n\nRewrite to fix all issues."
         

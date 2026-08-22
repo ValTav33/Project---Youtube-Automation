@@ -45,9 +45,12 @@ class PipelineStage(ABC):
                 
                 if res.data:
                     logger.info(f"[{self.name}] Artifact {self.output_type} already exists. Skipping execution.")
-                    # We would ideally reconstruct the Pydantic model here and return it,
-                    # but for now we just return the raw payload or None to indicate skip.
-                    return res.data[0].get("payload")
+                    payload = res.data[0].get("payload")
+                    import contracts
+                    model_class = getattr(contracts, self.output_type, None)
+                    if model_class and isinstance(payload, dict):
+                        return model_class(**payload)
+                    return payload
             except Exception as e:
                 logger.warning(f"[{self.name}] Failed idempotency check: {e}")
 
