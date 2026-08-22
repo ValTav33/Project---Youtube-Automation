@@ -98,11 +98,29 @@ class ShotStage(PipelineStage):
         if story.beats:
             beat_durations[story.beats[-1].beat_id] += (total_frames - assigned_frames)
             
+        # Count scenes per beat
+        from collections import Counter
+        beat_scene_counts = Counter(scene.beat_id for scene in intent.scenes)
+        
+        beat_allocated_frames = {b: 0 for b in beat_scene_counts}
+        beat_scene_index = {b: 0 for b in beat_scene_counts}
+        
         # Map scenes to shots
         current_frame = 0
         for idx, scene in enumerate(intent.scenes):
             beat_id = scene.beat_id
-            duration_frames = beat_durations.get(beat_id, fps * 3) # fallback to 3 sec
+            total_beat_frames = beat_durations.get(beat_id, fps * 3)
+            num_scenes = beat_scene_counts[beat_id]
+            
+            base_duration = total_beat_frames // num_scenes
+            beat_scene_index[beat_id] += 1
+            
+            if beat_scene_index[beat_id] == num_scenes:
+                duration_frames = total_beat_frames - beat_allocated_frames[beat_id]
+            else:
+                duration_frames = base_duration
+                
+            beat_allocated_frames[beat_id] += duration_frames
             
             shot = Shot(
                 shot_id=f"shot_{idx+1}",

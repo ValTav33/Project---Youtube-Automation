@@ -2,6 +2,7 @@ import React from 'react';
 import { Composition } from 'remotion';
 import { MainVideo } from './Composition';
 import { VideoProps } from './types';
+import { VideoPropsSchema } from './schemas';
 
 const defaultProps: VideoProps = {
   scenes: [
@@ -47,18 +48,22 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+        schema={VideoPropsSchema}
         defaultProps={defaultProps as any}
-        calculateMetadata={({ props }: { props: any }) => {
-          const scenes = props?.scenes || [];
+        calculateMetadata={({ props }) => {
+          // Runtime WebGL safety limits and explicit Zod parsing
+          const validatedProps = VideoPropsSchema.parse(props);
+          
+          const scenes = validatedProps.scenes || [];
           const totalFrames = scenes.reduce(
             (acc: number, scene: any) => acc + (scene?.durationInFrames || 150),
             0
           );
           return {
             durationInFrames: Math.max(totalFrames, 30),
-            fps: 30,
-            width: 1920,
-            height: 1080
+            fps: validatedProps.fps || 30,
+            width: validatedProps.width || 1920,
+            height: validatedProps.height || 1080
           };
         }}
       />

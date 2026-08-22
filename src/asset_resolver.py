@@ -143,56 +143,55 @@ async def resolve_all_scene_assets(scenes: List[Dict[str, Any]]) -> List[Dict[st
     return scenes
 
 
-def process_video_asset_resolution(video_id: str):
+from stage_runner import PipelineStage
+from contracts import SceneIntentPlan, AssetManifest, Asset
+
+class AssetResolutionStage(PipelineStage):
     """
-    Pulls scripted scenes, resolves assets for each scene, and updates Supabase.
+    Pulls scripted scenes, resolves assets for each scene using async fetching, 
+    and outputs an AssetManifest artifact.
     """
-    if not SUPABASE_SERVICE_KEY:
-        logger.error("SUPABASE_SERVICE_ROLE_KEY is missing.")
-        return
+    name = "asset_resolution"
+    output_type = "AssetManifest"
 
-    sb = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
-    res = sb.table("videos").select("*").eq("id", video_id).single().execute()
-    video = res.data
-
-    if not video or not video.get("script_payload"):
-        logger.error(f"Video {video_id} has no script payload.")
-        return
-
-    script_payload = video["script_payload"]
-    scenes = script_payload.get("scenes", [])
-
-    logger.info(f"Resolving visual assets for {len(scenes)} scenes in video {video_id}...")
-
-    # Mark as rendering while assets are being fetched
-    sb.table("videos").update({"status": "rendering"}).eq("id", video_id).execute()
-
-    try:
-        updated_scenes = asyncio.run(resolve_all_scene_assets(scenes))
-        script_payload["scenes"] = updated_scenes
-
-        stock_count = sum(1 for s in updated_scenes if s.get("asset_type") == "video")
-        ai_count = sum(1 for s in updated_scenes if s.get("asset_type") == "image")
-
-        sb.table("videos").update({
-            "script_payload": script_payload
-        }).eq("id", video_id).execute()
-
-        logger.info(
-            f"✅ Assets resolved for video {video_id} | "
-            f"Stock video: {stock_count} scenes | AI image fallback: {ai_count} scenes"
-        )
-    except Exception as e:
-        logger.error(f"Asset resolution failed for {video_id}: {e}")
-        sb.table("videos").update({
-            "status": "failed",
-            "error_log": f"Asset resolution failed: {str(e)}"
-        }).eq("id", video_id).execute()
-
+    def execute(self, inputs: Dict[str, Any]) -> AssetManifest:
+        intent_plan: SceneIntentPlan = inputs.get("scene_intent")
+        if not intent_plan:
+            raise ValueError("Missing scene_intent input")
+            
+        logger.info(f"[{self.name}] Resolving visual assets for {len(intent_plan.scenes)} scenes in video {self.video_id}...")
+        
+        # Convert scenes to dict format expected by the async functions
+        scenes_data = [{"scene_id": s.scene_id, "broll_search_query": s.broll_search_query} for s in intent_plan.scenes]
+        
+        try:
+            resolved_data = asyncio.run(resolve_all_scene_assets(scenes_data))
+            
+            assets = []
+            for item in resolved_data:
+                provider = "pexels" if item.get("asset_type") == "video" else "fal.ai"
+                if "unsplash" in item.get("asset_url", ""):
+                    provider = "unsplash"
+                    
+                assets.append(Asset(
+                    asset_id=f"asset_{item['scene_id']}",
+                    scene_id=item["scene_id"],
+                    asset_type=item["asset_type"],
+                    asset_url=item["asset_url"],
+                    provider=provider
+                ))
+                
+            manifest = AssetManifest(
+                artifact_id=f"assets-{self.video_id}",
+                video_id=self.video_id,
+                assets=assets
+            )
+            manifest.parent_artifact_ids = [intent_plan.artifact_id]
+            return manifest
+            
+        except Exception as e:
+            logger.error(f"[{self.name}] Asset resolution failed: {e}")
+            raise RuntimeError(f"Asset resolution failed: {e}")
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        v_id = sys.argv[1]
-        process_video_asset_resolution(v_id)
-    else:
-        print("Usage: python src/asset_resolver.py <video_id>")
+    print("This module provides AssetResolutionStage and should be run via the orchestrator.")

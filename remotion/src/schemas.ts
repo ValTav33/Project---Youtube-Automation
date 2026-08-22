@@ -162,3 +162,25 @@ export const AnalyticsFeatureVectorSchema = BaseArtifactSchema.extend({
   thumbnail_strategy: z.string(),
   style_profile_version: z.string(),
 });
+
+export const RemotionSceneSchema = z.object({
+  scene_id: z.string(),
+  shot_id: z.string(),
+  durationInFrames: z.number(),
+  asset_type: z.enum(["video", "image"]),
+  asset_url: z.string(),
+  start_frame: z.number(),
+  end_frame: z.number(),
+});
+
+export const VideoPropsSchema = z.object({
+  scenes: z.array(RemotionSceneSchema),
+  words: z.array(WordTimestampSchema),
+  audioUrl: z.string(),
+  bgMusicUrl: z.string().optional(),
+  bgMusicVolume: z.number().optional(),
+  fps: z.number().max(60, "FPS exceeds safety limits").optional(),
+  width: z.number().max(1920, "Resolution width exceeds 1080p limit").optional(),
+  height: z.number().max(1080, "Resolution height exceeds 1080p limit").optional()
+});
+

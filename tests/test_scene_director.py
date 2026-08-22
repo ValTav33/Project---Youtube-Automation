@@ -70,12 +70,14 @@ def test_shot_compilation(mock_supabase):
     assert result.shots[0].start_frame == 0
     assert result.shots[0].end_frame == 89
     
-    # scene 2 is mapped to beat 2 -> duration = 210 frames
-    # scene 3 is mapped to beat 2 -> duration = 210 frames (Wait, in our naive logic both scenes get the full beat duration?)
-    # Let's check the logic: current logic gives each scene the full duration of its parent beat.
-    # While naive, we should assert this matches the current code behavior.
+    # scene 2 is mapped to beat 2 -> duration = 105 frames
     assert result.shots[1].scene_id == "s2"
-    assert result.shots[1].duration_frames == 210
+    assert result.shots[1].duration_frames == 105
+    assert result.shots[1].start_frame == 90
+    assert result.shots[1].end_frame == 194
     
+    # scene 3 is mapped to beat 2 -> duration = 105 frames
     assert result.shots[2].scene_id == "s3"
-    assert result.shots[2].duration_frames == 210
+    assert result.shots[2].duration_frames == 105
+    assert result.shots[2].start_frame == 195
+    assert result.shots[2].end_frame == 299
