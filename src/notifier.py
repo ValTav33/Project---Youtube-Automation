@@ -138,8 +138,8 @@ def notify_script_approval(video_id: str, title: str, hook_text: str, total_word
         "reply_markup": {
             "inline_keyboard": [
                 [
-                    {"text": "✅ Approve", "callback_data": f"approve_script_{video_id}"},
-                    {"text": "🔄 Regen", "callback_data": f"regen_script_{video_id}"}
+                    {"text": "✅ Approve", "callback_data": f"approve:{video_id}"},
+                    {"text": "❌ Reject", "callback_data": f"reject:{video_id}"}
                 ]
             ]
         }

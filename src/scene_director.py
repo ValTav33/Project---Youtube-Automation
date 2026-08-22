@@ -22,9 +22,11 @@ class IntentStage(BaseOpenAIStage):
     output_type = "SceneIntentPlan"
 
     def execute(self, inputs: Dict[str, Any]) -> SceneIntentPlan:
-        story: EditedStoryScript = inputs.get("story_script")
-        if not story:
+        story_raw = inputs.get("story_script")
+        if not story_raw:
             raise ValueError("Missing story_script")
+        story = EditedStoryScript.model_validate(story_raw) if isinstance(story_raw, dict) else story_raw
+
             
         system = (
             "You are a documentary visual director. For each beat in the script, "
@@ -56,11 +58,14 @@ class ShotStage(PipelineStage):
     output_type = "ShotPlan"
 
     def execute(self, inputs: Dict[str, Any]) -> ShotPlan:
-        intent: SceneIntentPlan = inputs.get("scene_intent")
-        timing: TimingMap = inputs.get("timing_map")
+        intent_raw = inputs.get("scene_intent")
+        timing_raw = inputs.get("timing_map")
         
-        if not intent or not timing:
+        if not intent_raw or not timing_raw:
             raise ValueError("Missing scene_intent or timing_map")
+            
+        intent = SceneIntentPlan.model_validate(intent_raw) if isinstance(intent_raw, dict) else intent_raw
+        timing = TimingMap.model_validate(timing_raw) if isinstance(timing_raw, dict) else timing_raw
             
         fps = 30
         shots = []
@@ -79,9 +84,10 @@ class ShotStage(PipelineStage):
         current_frame = 0
         total_beat_words = sum(len(scene.broll_search_query.split()) for scene in intent.scenes) # this is wrong, we need beat word count
         # Wait, SceneIntentPlan doesn't store word count. We need the original beats!
-        story: EditedStoryScript = inputs.get("story_script")
-        if not story:
+        story_raw = inputs.get("story_script")
+        if not story_raw:
             raise ValueError("Missing story_script required for shot alignment")
+        story = EditedStoryScript.model_validate(story_raw) if isinstance(story_raw, dict) else story_raw
             
         beat_durations = {}
         total_script_words = sum(b.word_count for b in story.beats)
@@ -159,10 +165,16 @@ class ManifestStage(PipelineStage):
             parent_artifact_ids: list[str] = []
             payload: Dict[str, Any]
             
-        story = inputs.get("story_script")
-        timing = inputs.get("timing_map")
-        shot_plan = inputs.get("shot_plan")
-        manifest = inputs.get("asset_manifest")
+        story_raw = inputs.get("story_script")
+        timing_raw = inputs.get("timing_map")
+        shot_plan_raw = inputs.get("shot_plan")
+        manifest_raw = inputs.get("asset_manifest")
+        
+        from contracts import AssetManifest
+        story = EditedStoryScript.model_validate(story_raw) if isinstance(story_raw, dict) else story_raw
+        timing = TimingMap.model_validate(timing_raw) if isinstance(timing_raw, dict) else timing_raw
+        shot_plan = ShotPlan.model_validate(shot_plan_raw) if isinstance(shot_plan_raw, dict) else shot_plan_raw
+        manifest = AssetManifest.model_validate(manifest_raw) if isinstance(manifest_raw, dict) else manifest_raw
         
         # Build the final remotion props shape
         remotion_scenes = []
