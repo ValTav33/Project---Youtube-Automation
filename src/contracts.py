@@ -242,3 +242,22 @@ class AnalyticsFeatureVector(BaseArtifact):
     title_strategy: str
     thumbnail_strategy: str
     style_profile_version: str
+
+# -----------------------------------------------------------------------------
+# 13. Global Performance Feedback
+# -----------------------------------------------------------------------------
+class GlobalPerformanceFeedback(BaseModel):
+    """
+    High-level learnings extracted by the Learning Engine from past video performance metrics.
+    Used to influence the prompts of the creative agents for future videos.
+    """
+    artifact_id: str
+    artifact_type: Literal["GlobalPerformanceFeedback"] = "GlobalPerformanceFeedback"
+    
+    # Specific strategic directives derived from analytics
+    hook_learnings: List[str] = Field(default_factory=list, description="Learnings about what hooks work best")
+    pacing_learnings: List[str] = Field(default_factory=list, description="Learnings about script pacing and density")
+    thumbnail_learnings: List[str] = Field(default_factory=list, description="Learnings about thumbnail CTR performance")
+    
+    # Summary of the current meta for this channel
+    current_channel_meta: str = Field(description="A paragraph explaining the current winning strategy for the channel based on recent analytics")

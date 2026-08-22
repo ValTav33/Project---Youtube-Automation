@@ -196,18 +196,18 @@ def handle_callback(callback: dict):
         logger.info(f"Video {video_id} APPROVED — marked in database.")
 
     elif action == "publish":
-        logger.info(f"Video {video_id} PUBLISH REQUEST RECEIVED")
+        logger.info(f"Video {video_id} RENDER APPROVAL RECEIVED")
         send_message(chat_id,
-            f"⏳ *Publishing scheduled!*\n\n"
-            f"Το Mac σου θα αναλάβει το ανέβασμα στο YouTube σύντομα.\n"
+            f"🎬 *Approved for Render!*\n\n"
+            f"Το Orchestrator ξεκινάει το Remotion render (local).\n"
             f"🆔 `{video_id}`"
         )
-        update_video_status(video_id, "publishing")
+        update_video_status(video_id, "awaiting_publish_approval")
 
     elif action == "reject":
         update_video_status(video_id, "failed", error_log="Rejected by user via Telegram")
         send_message(chat_id,
-            f"❌ *Rejected.* Video marked as failed.\n\n🆔 `{video_id}`"
+            f"❌ *Rejected & Regenerate.* Video marked for regeneration/failed.\n\n🆔 `{video_id}`"
         )
         logger.info(f"Video {video_id} REJECTED")
 

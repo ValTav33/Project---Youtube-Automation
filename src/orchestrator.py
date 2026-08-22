@@ -26,7 +26,7 @@ from supabase import create_client
 from script_generator import process_video_scripting
 from audio_generator import process_video_audio
 from asset_resolver import process_video_asset_resolution
-from publisher import process_video_publishing_preparation
+from publisher import send_telegram_review_gate, publish_to_youtube
 from notifier import (
     notify_pipeline_start,
     notify_step_complete,
@@ -249,19 +249,31 @@ def run_pipeline_for_video(video_id: str):
         notify_pipeline_error(video_id, "Visual Assets", str(e))
         return
 
-    # ── STEP 4: Thumbnails ─────────────────────────────────────────────────
-    logger.info(">>> STEP 4: GENERATING THUMBNAILS (Pollinations Flux)...")
+    # ── STEP 4: Render Gate ────────────────────────────────────────────────
+    logger.info(">>> STEP 4: REQUESTING RENDER APPROVAL...")
     try:
-        process_video_publishing_preparation(video_id)
-        notify_step_complete(video_id, "🖼️ Thumbnails (Pollinations Flux)", "2 candidates δημιουργήθηκαν")
+        send_telegram_review_gate(video_id)
+        notify_step_complete(video_id, "🖼️ Review Gate", "Εστάλη στο Telegram για έγκριση Render")
+        logger.info(f"Pipeline halting for {video_id} to await manual render approval.")
     except Exception as e:
-        logger.error(f"Thumbnail generation failed: {e}")
-        notify_step_failed(video_id, "🖼️ Thumbnails", str(e))
-        # Non-fatal: continue pipeline even if thumbnails fail
+        logger.error(f"Review gate failed: {e}")
+        notify_step_failed(video_id, "🖼️ Review Gate", str(e))
+        return
+
+def run_render_phase(video_id: str):
+    """
+    Executes the rendering and publishing phases for a video after human approval.
+    """
+    sb = get_supabase()
+    logger.info(f"========== STARTING RENDER PHASE FOR VIDEO {video_id} ==========")
 
     # ── Fetch full video state for render ─────────────────────────────────
     res = sb.table("videos").select("*").eq("id", video_id).single().execute()
     video = res.data
+
+    if not video:
+        logger.error(f"Video {video_id} not found.")
+        return
 
     # ── STEP 5: Remotion Local Render ─────────────────────────────────────
     logger.info(">>> STEP 5: RENDERING VIDEO LOCALLY (Remotion)...")
@@ -278,14 +290,12 @@ def run_pipeline_for_video(video_id: str):
     duration = ts_data.get("total_duration_seconds", 0)
     notify_render_complete(video_id, video_path, f"{duration:.0f}s")
 
-    # ── STEP 6: YouTube Upload (via n8n Webhook) ─────────────────────────────
-    logger.info(">>> STEP 6: UPLOADING TO YOUTUBE (via n8n Webhook)...")
+    # ── STEP 6: YouTube Upload (via n8n Webhook or Python API) ─────────────
+    logger.info(">>> STEP 6: UPLOADING TO YOUTUBE...")
     try:
-        from publisher import publish_to_youtube
-        
         success = publish_to_youtube(video_id)
         if success:
-            logger.info("✅ Upload step completed successfully via n8n gateway.")
+            logger.info("✅ Upload step completed successfully.")
         else:
             logger.error("❌ Upload step failed.")
             notify_step_failed(video_id, "📤 YouTube Upload", "Upload failed.")
@@ -297,24 +307,34 @@ def run_pipeline_for_video(video_id: str):
         notify_pipeline_error(video_id, "YouTube Upload", str(e))
         return
 
-    logger.info(f"========== PRODUCTION RUN COMPLETED FOR VIDEO {video_id} ==========")
+    logger.info(f"========== FULL PIPELINE COMPLETED FOR VIDEO {video_id} ==========")
 
 
 def poll_approved_queue():
     """
-    Polls the Supabase videos table for any videos with status 'approved' and processes them.
+    Polls the Supabase videos table for generation and render queues.
     """
     sb = get_supabase()
-    logger.info("Starting production queue poller (watching for 'approved' status)...")
+    logger.info("Starting production queue poller (watching for 'approved' & 'awaiting_publish_approval')...")
 
     while True:
         try:
+            # Check for generation tasks
             res = sb.table("videos").select("id, target_title").eq("status", "approved").limit(1).execute()
             rows = res.data or []
             if rows:
                 target = rows[0]
-                logger.info(f"Found approved video in queue: '{target['target_title']}' (ID: {target['id']})")
+                logger.info(f"Found approved video for generation: '{target['target_title']}' (ID: {target['id']})")
                 run_pipeline_for_video(str(target["id"]))
+            
+            # Check for render tasks
+            res2 = sb.table("videos").select("id, target_title").eq("status", "awaiting_publish_approval").limit(1).execute()
+            rows2 = res2.data or []
+            if rows2:
+                target2 = rows2[0]
+                logger.info(f"Found video approved for render: '{target2['target_title']}' (ID: {target2['id']})")
+                run_render_phase(str(target2["id"]))
+
             time.sleep(10)
         except KeyboardInterrupt:
             logger.info("Stopping poller.")

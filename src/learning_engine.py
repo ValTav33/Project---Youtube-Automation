@@ -18,9 +18,8 @@ class LearningEngineStage(BaseOpenAIStage):
     
     def __init__(self, sb: Client):
         # The Learning Engine doesn't operate on a single video_id, 
-        # but we use a dummy one to satisfy BaseOpenAIStage for now, 
-        # or we just use a 'global' identifier.
-        super().__init__(sb, "global_learning_run")
+        # but we use a dummy one to satisfy BaseOpenAIStage for now.
+        super().__init__(sb, "00000000-0000-0000-0000-000000000000")
 
     def execute(self, inputs: Dict[str, Any]) -> GlobalPerformanceFeedback:
         # 1. Fetch recent AnalyticsFeatureVectors from Supabase
