@@ -55,14 +55,29 @@ const SubtitlesOverlay: React.FC<{ words: WordTimestamp[] }> = ({ words }) => {
     >
       {visibleSlice.map((w, idx) => {
         const isActive = currentTime >= w.start && currentTime <= w.end;
+        const isPast = currentTime > w.end;
+        
+        // Calculate frame offset for spring animation
+        const startFrame = Math.round(w.start * fps);
+        const relativeFrame = frame - startFrame;
+        
+        const scaleSpring = spring({
+          frame: relativeFrame,
+          fps,
+          config: { damping: 10, stiffness: 200, mass: 0.5 }
+        });
+        
+        const scale = isActive ? interpolate(scaleSpring, [0, 1], [1.0, 1.15]) : 1.0;
+        
         return (
           <span
             key={idx}
             style={{
-              color: isActive ? '#FFE600' : '#FFFFFF',
-              transform: isActive ? 'scale(1.15)' : 'scale(1.0)',
-              transition: 'transform 0.05s ease-out',
-              display: 'inline-block'
+              color: isActive ? '#FFE600' : (isPast ? '#94A3B8' : '#FFFFFF'),
+              transform: `scale(${scale})`,
+              display: 'inline-block',
+              opacity: isActive ? 1 : 0.7,
+              textShadow: isActive ? '0 0 20px rgba(255, 230, 0, 0.4)' : 'none'
             }}
           >
             {w.word}
@@ -89,8 +104,13 @@ const SceneItem: React.FC<{ scene: SceneData }> = ({ scene }) => {
     config: { damping: 12, mass: 0.8, stiffness: 100 }
   });
 
+  const opacity = interpolate(frame, [0, 15], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp'
+  });
+
   return (
-    <AbsoluteFill style={{ overflow: 'hidden', backgroundColor: '#0B0F19' }}>
+    <AbsoluteFill style={{ overflow: 'hidden', backgroundColor: '#0B0F19', opacity }}>
       {scene.asset_type === 'video' ? (
         <Video
           src={resolveMediaSrc(scene.asset_url)}

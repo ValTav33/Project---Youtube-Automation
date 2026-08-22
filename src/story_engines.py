@@ -7,10 +7,13 @@ from dotenv import load_dotenv
 
 from stage_runner import PipelineStage
 from contracts import (
-    PromiseContract,
     ResearchPacket,
-    HookScript,
+    AngleStrategy,
+    MarketingStrategy,
+    ThumbnailPromptPlan,
+    StoryBeatPlan,
     StoryScript,
+    CriticReview,
     EditedStoryScript
 )
 
@@ -30,134 +33,197 @@ class BaseOpenAIStage(PipelineStage):
         
     def generate_structured(self, system_prompt: str, user_prompt: str, response_format: type[BaseModel]) -> BaseModel:
         response = self.client.beta.chat.completions.parse(
-            model="gpt-4o",
+            model="gpt-5.6-luna",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
             response_format=response_format,
             temperature=0.7,
-            max_tokens=6000
+            max_tokens=8000
         )
         return response.choices[0].message.parsed
 
 
-class PromiseStage(BaseOpenAIStage):
-    name = "promise_generation"
-    output_type = "PromiseContract"
-
-    def execute(self, inputs: Dict[str, Any]) -> PromiseContract:
-        topic = inputs.get("target_title", "Unknown Topic")
-        premise = inputs.get("topic_premise", "")
-        
-        system = "You are a master YouTube strategist. Define the core viewer promise, emotional hook, and primary claim for a documentary video."
-        user = f"Topic: {topic}\nContext: {premise}\nGenerate a high-converting Promise Contract."
-        
-        parsed = self.generate_structured(system, user, PromiseContract)
-        parsed.artifact_id = f"promise-{self.video_id}"
-        parsed.video_id = self.video_id
-        return parsed
-
-
-class ResearchStage(BaseOpenAIStage):
-    name = "research_generation"
+class ResearchAgentStage(BaseOpenAIStage):
+    name = "research_agent"
     output_type = "ResearchPacket"
     
     def execute(self, inputs: Dict[str, Any]) -> ResearchPacket:
-        promise: PromiseContract = inputs.get("promise_contract")
-        if not promise:
-            raise ValueError("Missing promise_contract input")
-            
-        system = "You are a lead researcher. Generate factual grounding and constraints for the documentary based on the core promise."
-        user = f"Claim: {promise.primary_claim}\nTopic: {promise.target_title}\nProvide verified facts and statistics."
+        topic = inputs.get("target_title", "Unknown Topic")
+        
+        system = "You are a master researcher. Gather highly engaging, verified facts, statistics, and narrative constraints for a YouTube documentary."
+        user = f"Topic: {topic}\nProvide fascinating verified facts and key statistics that would make a great video."
         
         parsed = self.generate_structured(system, user, ResearchPacket)
         parsed.artifact_id = f"research-{self.video_id}"
         parsed.video_id = self.video_id
-        parsed.parent_artifact_ids = [promise.artifact_id]
         return parsed
 
 
-class HookStage(BaseOpenAIStage):
-    name = "hook_generation"
-    output_type = "HookScript"
-    
-    def execute(self, inputs: Dict[str, Any]) -> HookScript:
-        promise: PromiseContract = inputs.get("promise_contract")
+class AngleSelectorStage(BaseOpenAIStage):
+    name = "angle_selector"
+    output_type = "AngleStrategy"
+
+    def execute(self, inputs: Dict[str, Any]) -> AngleStrategy:
+        topic = inputs.get("target_title", "Unknown Topic")
         research: ResearchPacket = inputs.get("research_packet")
         
-        if not promise or not research:
-            raise ValueError("Missing inputs for HookStage")
+        if not research:
+            raise ValueError("Missing research_packet input")
             
-        system = (
-            "You are a YouTube hook specialist. Write the first 3 scenes of the script. "
-            "Drop the viewer immediately into a high-stakes moment or shocking contradiction. "
-            "Do not introduce the channel. Exactly 3 beats."
-        )
-        user = f"Promise: {promise.hook_promise}\nFacts: {[f.claim for f in research.facts[:3]]}\nWrite the hook."
+        system = "You are an expert YouTube strategist. Choose the most compelling, high-retention angle and target emotion based on the raw facts."
+        user = f"Topic: {topic}\nFacts: {[f.claim for f in research.facts]}\nDefine the core angle and emotion."
         
-        parsed = self.generate_structured(system, user, HookScript)
-        parsed.artifact_id = f"hook-{self.video_id}"
+        parsed = self.generate_structured(system, user, AngleStrategy)
+        parsed.artifact_id = f"angle-{self.video_id}"
         parsed.video_id = self.video_id
-        parsed.parent_artifact_ids = [promise.artifact_id, research.artifact_id]
-        
-        # Calculate total word count
-        parsed.total_word_count = sum(b.word_count for b in parsed.beats)
+        parsed.parent_artifact_ids = [research.artifact_id]
         return parsed
 
 
-class StoryStage(BaseOpenAIStage):
-    name = "story_generation"
+class MarketingStrategistStage(BaseOpenAIStage):
+    name = "marketing_strategist"
+    output_type = "MarketingStrategy"
+
+    def execute(self, inputs: Dict[str, Any]) -> MarketingStrategy:
+        angle: AngleStrategy = inputs.get("angle_strategy")
+        
+        if not angle:
+            raise ValueError("Missing angle_strategy input")
+            
+        system = "You are an elite YouTube marketer. Formulate the ultimate Hook concept, Title ideas, and Thumbnail visual concept that all interconnect to make an irresistible promise to the viewer."
+        user = f"Angle: {angle.core_angle}\nEmotion: {angle.primary_emotion}\nGenerate the marketing strategy."
+        
+        parsed = self.generate_structured(system, user, MarketingStrategy)
+        parsed.artifact_id = f"marketing-{self.video_id}"
+        parsed.video_id = self.video_id
+        parsed.parent_artifact_ids = [angle.artifact_id]
+        return parsed
+
+
+class ThumbnailPromptCreatorStage(BaseOpenAIStage):
+    name = "thumbnail_prompt_creator"
+    output_type = "ThumbnailPromptPlan"
+
+    def execute(self, inputs: Dict[str, Any]) -> ThumbnailPromptPlan:
+        strategy: MarketingStrategy = inputs.get("marketing_strategy")
+        
+        if not strategy:
+            raise ValueError("Missing marketing_strategy input")
+            
+        system = "You are an AI image prompt engineering expert. Translate the thumbnail concept into a highly detailed, optimized prompt for an image generation model (like GPT-Image-2). Focus on cinematic lighting, high contrast, and youtube aesthetic."
+        user = f"Concept: {strategy.thumbnail_concept}\nWrite the exact image prompt."
+        
+        parsed = self.generate_structured(system, user, ThumbnailPromptPlan)
+        parsed.artifact_id = f"thumb-prompt-{self.video_id}"
+        parsed.video_id = self.video_id
+        parsed.parent_artifact_ids = [strategy.artifact_id]
+        return parsed
+
+
+class StoryArchitectStage(BaseOpenAIStage):
+    name = "story_architect"
+    output_type = "StoryBeatPlan"
+
+    def execute(self, inputs: Dict[str, Any]) -> StoryBeatPlan:
+        strategy: MarketingStrategy = inputs.get("marketing_strategy")
+        research: ResearchPacket = inputs.get("research_packet")
+        
+        if not strategy or not research:
+            raise ValueError("Missing inputs for StoryArchitectStage")
+            
+        system = "You are a structural narrative architect. Design the pacing and beats for a 6-scene micro-documentary (approx 1 minute total) without writing the actual narration. Ensure pattern interrupts and high retention structure."
+        user = f"Hook Concept: {strategy.hook_concept}\nKey Facts: {research.key_statistics}\nDesign the structural beats."
+        
+        parsed = self.generate_structured(system, user, StoryBeatPlan)
+        parsed.artifact_id = f"architect-{self.video_id}"
+        parsed.video_id = self.video_id
+        parsed.parent_artifact_ids = [strategy.artifact_id, research.artifact_id]
+        return parsed
+
+
+class ScriptWriterStage(BaseOpenAIStage):
+    name = "script_writer"
     output_type = "StoryScript"
     
     def execute(self, inputs: Dict[str, Any]) -> StoryScript:
-        promise: PromiseContract = inputs.get("promise_contract")
+        beat_plan: StoryBeatPlan = inputs.get("story_beat_plan")
         research: ResearchPacket = inputs.get("research_packet")
-        hook: HookScript = inputs.get("hook_script")
+        strategy: MarketingStrategy = inputs.get("marketing_strategy")
         
-        system = (
-            "You are a master scriptwriter. Write scenes 4 through 40 of the documentary. "
-            "Ensure escalation, reveals, and a satisfying payoff. Each narration must be 30-45 words. "
-            "Maintain the tone and continue directly from the provided hook."
-        )
+        if not beat_plan or not research:
+            raise ValueError("Missing inputs for ScriptWriterStage")
+            
+        system = "You are a master scriptwriter. Write the exact narration for the provided structural beats. Ensure escalation and a cinematic tone. The final output must exactly match the number of beats provided."
         
-        hook_text = "\\n".join([b.narration for b in hook.beats])
-        user = f"Promise: {promise.primary_claim}\nResearch: {[f.claim for f in research.facts]}\nHook (Already Written):\n{hook_text}\nGenerate the remaining 37 scenes."
+        beat_text = "\\n".join([f"[{b.beat_id}] Intent: {b.intent}" for b in beat_plan.beats])
+        user = f"Title Idea: {strategy.title_ideas[0]}\nResearch: {[f.claim for f in research.facts]}\nBeats:\n{beat_text}\nWrite the narration."
         
         parsed = self.generate_structured(system, user, StoryScript)
         
-        # Prepend the hook beats to the story beats
-        full_beats = hook.beats + parsed.beats
-        parsed.beats = full_beats
-        parsed.total_word_count = sum(b.word_count for b in full_beats)
-        
+        parsed.total_word_count = sum(b.word_count for b in parsed.beats)
         parsed.artifact_id = f"story-{self.video_id}"
         parsed.video_id = self.video_id
-        parsed.parent_artifact_ids = [hook.artifact_id, promise.artifact_id, research.artifact_id]
+        parsed.parent_artifact_ids = [beat_plan.artifact_id, research.artifact_id]
         return parsed
 
 
-class RetentionEditorStage(BaseOpenAIStage):
-    name = "retention_editing"
-    output_type = "EditedStoryScript"
+class RetentionCriticStage(BaseOpenAIStage):
+    name = "retention_critic"
+    output_type = "CriticReview"
     
-    def execute(self, inputs: Dict[str, Any]) -> EditedStoryScript:
+    def execute(self, inputs: Dict[str, Any]) -> CriticReview:
         story: StoryScript = inputs.get("story_script")
         if not story:
             raise ValueError("Missing story_script")
             
-        system = (
-            "You are a brutal retention editor. Review the provided script. "
-            "Eliminate boring exposition. Ensure pacing is fast and open loops are paid off. "
-            "Return the full edited 40-scene script."
-        )
+        system = "You are a brutal YouTube retention critic. Read the script and explicitly identify weak points, low information density, or boring sections where viewers will click off. Do not rewrite, just critique."
         
         script_text = "\\n".join([f"[{b.beat_id}] {b.narration}" for b in story.beats])
-        user = f"Edit this script for retention:\n\n{script_text}"
+        user = f"Critique this script for retention drops:\n\n{script_text}"
+        
+        parsed = self.generate_structured(system, user, CriticReview)
+        parsed.artifact_id = f"critic-{self.video_id}"
+        parsed.video_id = self.video_id
+        parsed.parent_artifact_ids = [story.artifact_id]
+        return parsed
+
+
+class ScriptRewriterStage(BaseOpenAIStage):
+    name = "script_rewriter"
+    output_type = "EditedStoryScript"
+    
+    def execute(self, inputs: Dict[str, Any]) -> EditedStoryScript:
+        story: StoryScript = inputs.get("story_script")
+        critic: CriticReview = inputs.get("critic_review")
+        
+        if not story or not critic:
+            raise ValueError("Missing inputs for ScriptRewriterStage")
+            
+        if critic.is_approved:
+            # If already perfect, just cast it to EditedStoryScript
+            logger.info("Critic approved script without changes.")
+            return EditedStoryScript(
+                artifact_id=f"edited-story-{self.video_id}",
+                video_id=self.video_id,
+                artifact_type="EditedStoryScript",
+                parent_artifact_ids=[story.artifact_id, critic.artifact_id],
+                title_variant=story.title_variant,
+                beats=story.beats,
+                total_word_count=story.total_word_count
+            )
+            
+        system = "You are a master retention rewriter. Take the original script and the critic's harsh feedback, and rewrite only the problematic beats to dramatically improve retention. Return the complete updated script."
+        
+        script_text = "\\n".join([f"[{b.beat_id}] {b.narration}" for b in story.beats])
+        critic_feedback = "\\n".join(critic.weak_points + critic.suggestions)
+        
+        user = f"Original Script:\n{script_text}\n\nCritic Feedback:\n{critic_feedback}\n\nRewrite to fix all issues."
         
         parsed = self.generate_structured(system, user, EditedStoryScript)
         parsed.artifact_id = f"edited-story-{self.video_id}"
         parsed.video_id = self.video_id
-        parsed.parent_artifact_ids = [story.artifact_id]
+        parsed.parent_artifact_ids = [story.artifact_id, critic.artifact_id]
         parsed.total_word_count = sum(b.word_count for b in parsed.beats)
         return parsed

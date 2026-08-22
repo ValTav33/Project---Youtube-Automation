@@ -31,7 +31,8 @@ class IntentStage(BaseOpenAIStage):
         system = (
             "You are a documentary visual director. For each beat in the script, "
             "determine the visual subject, motion intensity, and an exact b-roll search query. "
-            "Keep the b-roll query optimized for stock video (e.g. 'cargo ship ocean storm')."
+            "Keep the b-roll query optimized for stock video (e.g. 'cargo ship ocean storm').\n"
+            "If a beat contains a highly impactful number or statistic, use the 'visual_overlay' field to render a massive on-screen StatCard."
         )
         
         script_text = "\\n".join([f"[{b.beat_id}] {b.narration}" for b in story.beats])
@@ -133,7 +134,8 @@ class ShotStage(PipelineStage):
                 scene_id=scene.scene_id,
                 start_frame=current_frame,
                 end_frame=current_frame + duration_frames - 1,
-                duration_frames=duration_frames
+                duration_frames=duration_frames,
+                visual_overlay=scene.visual_overlay
             )
             shots.append(shot)
             current_frame += duration_frames

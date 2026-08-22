@@ -6,11 +6,14 @@ from supabase import create_client
 import os
 
 from story_engines import (
-    PromiseStage,
-    ResearchStage,
-    HookStage,
-    StoryStage,
-    RetentionEditorStage
+    ResearchAgentStage,
+    AngleSelectorStage,
+    MarketingStrategistStage,
+    ThumbnailPromptCreatorStage,
+    StoryArchitectStage,
+    ScriptWriterStage,
+    RetentionCriticStage,
+    ScriptRewriterStage
 )
 from scene_director import IntentStage, ShotStage, ManifestStage
 from voice_compiler import VoiceStage
@@ -28,7 +31,7 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
 def run_v2_story_pipeline(video_id: str):
-    logger.info(f"Starting V2 Story Pipeline for video {video_id}")
+    logger.info(f"Starting V2 Story Pipeline (Multi-Agent) for video {video_id}")
     
     if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
         logger.error("Supabase credentials missing.")
@@ -46,11 +49,15 @@ def run_v2_story_pipeline(video_id: str):
     logger.info(f"Target Title: {video.get('target_title')}")
     
     # 2. Initialize Stages
-    promise_stage = PromiseStage(sb, video_id)
-    research_stage = ResearchStage(sb, video_id)
-    hook_stage = HookStage(sb, video_id)
-    story_stage = StoryStage(sb, video_id)
-    editor_stage = RetentionEditorStage(sb, video_id)
+    research_stage = ResearchAgentStage(sb, video_id)
+    angle_stage = AngleSelectorStage(sb, video_id)
+    strategist_stage = MarketingStrategistStage(sb, video_id)
+    prompt_creator_stage = ThumbnailPromptCreatorStage(sb, video_id)
+    architect_stage = StoryArchitectStage(sb, video_id)
+    writer_stage = ScriptWriterStage(sb, video_id)
+    critic_stage = RetentionCriticStage(sb, video_id)
+    rewriter_stage = ScriptRewriterStage(sb, video_id)
+    
     quality_gate = QualityGateStage(sb, video_id)
     
     intent_stage = IntentStage(sb, video_id)
@@ -64,30 +71,44 @@ def run_v2_story_pipeline(video_id: str):
     
     # 3. Execute Stages sequentially
     try:
-        promise = promise_stage.run({
-            "target_title": video.get("target_title"), 
-            "topic_premise": video.get("topic_premise")
+        research = research_stage.run({
+            "target_title": video.get("target_title")
         })
         
-        research = research_stage.run({"promise_contract": promise})
-        
-        hook = hook_stage.run({
-            "promise_contract": promise,
+        angle = angle_stage.run({
+            "target_title": video.get("target_title"),
             "research_packet": research
         })
         
-        story = story_stage.run({
-            "promise_contract": promise,
-            "research_packet": research,
-            "hook_script": hook
+        marketing_strategy = strategist_stage.run({
+            "angle_strategy": angle
         })
         
-        edited_story = editor_stage.run({
+        thumbnail_prompt = prompt_creator_stage.run({
+            "marketing_strategy": marketing_strategy
+        })
+        
+        beat_plan = architect_stage.run({
+            "marketing_strategy": marketing_strategy,
+            "research_packet": research
+        })
+        
+        story = writer_stage.run({
+            "story_beat_plan": beat_plan,
+            "research_packet": research,
+            "marketing_strategy": marketing_strategy
+        })
+        
+        critic_review = critic_stage.run({
             "story_script": story
         })
         
+        edited_story = rewriter_stage.run({
+            "story_script": story,
+            "critic_review": critic_review
+        })
+        
         # --- QUALITY GATE ---
-        # Will block and throw an exception if status is not already approved
         gate_passed = quality_gate.run({
             "story_script": edited_story
         })
@@ -121,19 +142,21 @@ def run_v2_story_pipeline(video_id: str):
         
         # --- PUBLISH PACKAGE ---
         publish_package = publish_stage.run({
-            "promise_contract": promise,
+            "marketing_strategy": marketing_strategy,
+            "thumbnail_prompt_plan": thumbnail_prompt,
             "story_script": edited_story
         })
         
         # --- ANALYTICS EXTRACTOR ---
+        # Note: we pass angle instead of promise for analytics in V2.1
         feature_vector = analytics_stage.run({
-            "promise_contract": promise,
+            "promise_contract": angle, # Retrofit for Analytics
             "story_script": edited_story,
             "shot_plan": shot_plan,
             "publish_package": publish_package
         })
         
-        logger.info(f"✅ V2 Pipeline completed generation successfully for {video_id}")
+        logger.info(f"✅ V2 Multi-Agent Pipeline completed generation successfully for {video_id}")
         
         # --- PUBLISH GATE ---
         status = video.get("status")
@@ -143,10 +166,13 @@ def run_v2_story_pipeline(video_id: str):
             logger.info("Pipeline halting to await manual Publish approval.")
             
     except Exception as e:
-        logger.error(f"❌ V2 Pipeline halted/failed: {e}")
+        logger.error(f"Pipeline failed: {e}", exc_info=True)
+        # Update video status to error
+        sb.table("videos").update({"status": "error"}).eq("id", video_id).execute()
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        run_v2_story_pipeline(sys.argv[1])
+        vid_id = sys.argv[1]
+        run_v2_story_pipeline(vid_id)
     else:
-        print("Usage: python src/run_v2.py <video_id>")
+        logger.error("Usage: python src/run_v2.py <video_id>")

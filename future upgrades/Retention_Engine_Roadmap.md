@@ -67,9 +67,9 @@ The goal is to produce 8–10 minute documentary/case-study videos (35–45 scen
 ## 🟢 PHASE 4 — AI Editor
 *Shifting the system from a passive renderer to an active editor.*
 
-**12. The "Retention Editor"**
-- A specialized AI prompt that reads the generated script and asks: *"If I were a viewer, where would I leave?"*
-- It identifies weak points, low information density, or boring sections, and rewrites them before any video is rendered.
+**12. The "Retention Critic & Rewriter" (Two-Step Process)**
+- **Retention Critic:** A specialized AI prompt that reads the generated script and asks: *"If I were a viewer, where would I leave?"* It identifies weak points, low information density, or boring sections, and explicitly points them out in a review.
+- **Script Rewriter:** A separate AI agent that takes the Critic's feedback and rewrites the problematic sections before any video is rendered.
 
 **13. Quality Scoring & Auto-Regeneration**
 - Before rendering, a Quality Gate scores the script, visuals, and audio out of 10.
@@ -88,3 +88,8 @@ The goal is to produce 8–10 minute documentary/case-study videos (35–45 scen
 **15. Unified Storytelling System**
 - The Thumbnail, Title, Hook, and Story all become one interconnected concept.
 - The thumbnail makes a promise, and the first 30 seconds of the video explicitly reinforce that specific promise.
+
+**16. Multi-Agent Thumbnail Pipeline**
+- **Thumbnail Concept Strategist:** An AI expert that understands the video's core hook and proposes high-conversion thumbnail concepts.
+- **Image Prompt Creator:** A dedicated AI agent that translates the chosen concept into a highly specific, optimized prompt for the image generation model (e.g., GPT-Image-2).
+- **Thumbnail Renderer:** The actual image generation model that receives the optimized prompt and produces the final thumbnail.

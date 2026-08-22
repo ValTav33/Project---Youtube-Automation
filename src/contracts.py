@@ -71,12 +71,18 @@ class EditedStoryScript(BaseArtifact):
 # -----------------------------------------------------------------------------
 # 4. Scene Intent Plan (Pre-Audio)
 # -----------------------------------------------------------------------------
+class VisualOverlay(BaseModel):
+    headline: Optional[str] = None
+    stat_callout: Optional[str] = None
+    chart_type: Optional[str] = None
+
 class SceneIntent(BaseModel):
     scene_id: str
     beat_id: str
     visual_subject: str
     motion_intensity: Literal["static", "slow", "moderate", "fast"]
     broll_search_query: str
+    visual_overlay: Optional[VisualOverlay] = Field(default=None, description="Optional graphical overlay (e.g. a huge stat card) for this scene")
 
 class SceneIntentPlan(BaseArtifact):
     artifact_type: Literal["SceneIntentPlan"] = "SceneIntentPlan"
@@ -105,6 +111,7 @@ class Shot(BaseModel):
     start_frame: int
     end_frame: int
     duration_frames: int
+    visual_overlay: Optional[VisualOverlay] = None
 
 class ShotPlan(BaseArtifact):
     artifact_type: Literal["ShotPlan"] = "ShotPlan"
@@ -165,7 +172,42 @@ class PublishPackage(BaseArtifact):
     privacy_status: Literal["public", "unlisted", "private"]
 
 # -----------------------------------------------------------------------------
-# 11. Analytics Feature Vector
+# 11. Multi-Agent Pipeline Intermediate Artifacts
+# -----------------------------------------------------------------------------
+class AngleStrategy(BaseArtifact):
+    artifact_type: Literal["AngleStrategy"] = "AngleStrategy"
+    core_angle: str = Field(description="The unique angle or perspective of the story")
+    primary_emotion: str = Field(description="The primary emotion we want the viewer to feel")
+    target_audience: str = Field(description="Who this video is for")
+
+class MarketingStrategy(BaseArtifact):
+    artifact_type: Literal["MarketingStrategy"] = "MarketingStrategy"
+    title_ideas: List[str] = Field(description="List of highly engaging title variants")
+    hook_concept: str = Field(description="The concept for the first 30 seconds that pays off the title")
+    thumbnail_concept: str = Field(description="The visual concept for the thumbnail to match the title")
+
+class ThumbnailPromptPlan(BaseArtifact):
+    artifact_type: Literal["ThumbnailPromptPlan"] = "ThumbnailPromptPlan"
+    optimized_image_prompt: str = Field(description="A highly specific prompt optimized for image generation models")
+    negative_prompt: Optional[str] = Field(default=None, description="Things to explicitly exclude")
+
+class StructuralBeat(BaseModel):
+    beat_id: str
+    intent: str = Field(description="The narrative purpose of this beat")
+    estimated_word_count: int
+
+class StoryBeatPlan(BaseArtifact):
+    artifact_type: Literal["StoryBeatPlan"] = "StoryBeatPlan"
+    beats: List[StructuralBeat]
+
+class CriticReview(BaseArtifact):
+    artifact_type: Literal["CriticReview"] = "CriticReview"
+    is_approved: bool = Field(description="Whether the script passes the retention standards")
+    weak_points: List[str] = Field(description="Specific sections that are boring, low density, or drop retention")
+    suggestions: List[str] = Field(description="How to rewrite the weak points")
+
+# -----------------------------------------------------------------------------
+# 12. Analytics Feature Vector
 # -----------------------------------------------------------------------------
 class AnalyticsFeatureVector(BaseArtifact):
     artifact_type: Literal["AnalyticsFeatureVector"] = "AnalyticsFeatureVector"

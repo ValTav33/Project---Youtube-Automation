@@ -3,7 +3,7 @@ from typing import Dict, Any
 from story_engines import BaseOpenAIStage
 from contracts import (
     AnalyticsFeatureVector,
-    PromiseContract,
+    AngleStrategy,
     EditedStoryScript,
     ShotPlan,
     PublishPackage
@@ -25,7 +25,7 @@ class AnalyticsFeatureVectorStage(BaseOpenAIStage):
         shots_raw = inputs.get("shot_plan")
         publish_raw = inputs.get("publish_package")
         
-        promise = PromiseContract.model_validate(promise_raw) if isinstance(promise_raw, dict) else promise_raw
+        promise = AngleStrategy.model_validate(promise_raw) if isinstance(promise_raw, dict) else promise_raw
         story = EditedStoryScript.model_validate(story_raw) if isinstance(story_raw, dict) else story_raw
         shots = ShotPlan.model_validate(shots_raw) if isinstance(shots_raw, dict) else shots_raw
         publish = PublishPackage.model_validate(publish_raw) if isinstance(publish_raw, dict) else publish_raw
@@ -34,8 +34,8 @@ class AnalyticsFeatureVectorStage(BaseOpenAIStage):
             raise ValueError("Missing inputs for AnalyticsFeatureVectorStage")
 
         # Handle DB dict cache
-        promise_claim = promise.get("primary_claim") if isinstance(promise, dict) else promise.primary_claim
-        promise_topic = promise.get("target_title") if isinstance(promise, dict) else promise.target_title
+        promise_claim = promise.get("core_angle") if isinstance(promise, dict) else promise.core_angle
+        promise_topic = promise.get("primary_emotion") if isinstance(promise, dict) else promise.primary_emotion
         
         # Calculate some hard metrics
         total_shots = 0
