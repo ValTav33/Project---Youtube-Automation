@@ -50,43 +50,18 @@ def get_supabase():
     return create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
 
-def prepare_remotion_props(video_data: dict) -> dict:
+def prepare_remotion_props(video_id: str) -> dict:
     """
-    Computes scene frame durations and bundles props for Remotion renderer.
+    Fetches the RendererManifest artifact from Supabase which contains the pre-computed Remotion props.
     """
-    script_payload = video_data.get("script_payload", {})
-    scenes = script_payload.get("scenes", [])
-    timestamps_data = video_data.get("transcript_timestamps", {})
-    words = timestamps_data.get("words", [])
-    total_audio_duration = timestamps_data.get("total_duration_seconds", 0)
-    audio_url = video_data.get("audio_url", "")
-
-    # Calculate proportional duration per scene
-    total_words = sum(len(s.get("narration", "").split()) for s in scenes) or 1
-    remotion_scenes = []
-
-    for scene in scenes:
-        scene_word_count = len(scene.get("narration", "").split())
-        ratio = scene_word_count / total_words
-        scene_seconds = max(ratio * total_audio_duration, 4.0)
-        frames = int(scene_seconds * FPS)
-
-        remotion_scenes.append({
-            "scene_id": scene.get("scene_id"),
-            "durationInFrames": frames,
-            "asset_type": scene.get("asset_type", "image"),
-            "asset_url": scene.get("asset_url", ""),
-            "narration": scene.get("narration", ""),
-            "visual_overlay": scene.get("visual_overlay")
-        })
-
-    return {
-        "scenes": remotion_scenes,
-        "words": words,
-        "audioUrl": audio_url,
-        "bgMusicUrl": "",
-        "bgMusicVolume": 0.12
-    }
+    sb = get_supabase()
+    res = sb.table("artifacts").select("payload").eq("video_id", video_id).eq("artifact_type", "RendererManifest").order("revision", desc=True).limit(1).execute()
+    
+    if not res.data:
+        logger.error(f"No RendererManifest found for video {video_id}. Cannot render.")
+        return {}
+        
+    return res.data[0]["payload"]
 
 
 def execute_local_remotion_render(video_id: str, input_props: dict) -> bool:
@@ -199,7 +174,7 @@ def run_render_phase(video_id: str):
 
     # ── STEP 5: Remotion Local Render ─────────────────────────────────────
     logger.info(">>> STEP 5: RENDERING VIDEO LOCALLY (Remotion)...")
-    input_props = prepare_remotion_props(video)
+    input_props = prepare_remotion_props(video_id)
     render_success = execute_local_remotion_render(video_id, input_props)
 
     if not render_success:
