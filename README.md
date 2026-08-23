@@ -1,34 +1,29 @@
-# Automated YouTube Production Engine
+# YouTube Automation Pipeline (V2 Architecture)
 
-An API-driven orchestrator, cloud database, and programmatic rendering pipeline for generating 8-to-10 minute data-rich YouTube video essays.
+Welcome to the YouTube Automation Pipeline! This project is a fully automated, agentic AI system that generates, renders, and publishes YouTube Shorts autonomously, with a human-in-the-loop review step via Telegram.
 
-## 🚀 Overview
+## Quick Start
 
-This project automates the creation of high-retention, fast-paced YouTube documentary/case study videos. The system leverages a **hybrid deployment architecture**:
-- **Telegram Bot (`telegram_bot.py`)**: Runs 24/7 on **Railway** to receive topic ideas, display the queue, and handle human-in-the-loop approvals anytime, anywhere.
-- **Pipeline Orchestrator (`orchestrator.py`)**: Runs **Locally (Mac)** to handle the heavy lifting (video rendering) when the machine is awake.
-- **Supabase** (PostgreSQL) for state management and database tracking.
-- **OpenAI GPT-4o** for structured JSON script generation.
-- **ElevenLabs API** for highly realistic voiceovers with word-level timestamps.
-- **Remotion** for programmatic video composition (dynamic subtitles, Ken Burns effects, stat callouts).
-- **Fal.ai & Pexels** for visual asset sourcing (stock & AI-generated b-roll).
-- **YouTube API** (via Python) for automated uploading and publishing.
+This pipeline is split into two primary environments:
+1. **Cloud Environment (Railway):** Runs the Telegram Bot interface.
+2. **Local Environment (Mac):** Runs the AI Orchestrator and the heavy rendering workloads.
 
-## 🏗️ Architecture
+### 1. Cloud (Railway)
+The cloud service is strictly responsible for handling user interactions via Telegram.
+- **Entrypoint:** `scripts/telegram_bot.py`
+- **Environment Variables required:** `TELEGRAM_BOT_TOKEN`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
 
-The pipeline consists of the following steps:
-1. **Topic Discovery & Intake**: You can send any topic idea directly to your Telegram Bot (running on Railway), which saves it as a draft in Supabase.
-2. **Approval Gate**: You review the queue and tap "Approve" inside Telegram. The bot updates the database status to `approved`.
-3. **Pipeline Daemon (Local)**: The `src/orchestrator.py` daemon runs locally, polls Supabase for approved videos, and drives the rest of the workflow.
-4. **Script Generation**: GPT-4o crafts a highly structured 35-45 scene JSON script based on the approved topic.
-5. **Voiceover & Timestamps**: The script is sent to ElevenLabs to generate the audio track and precise word-level timestamps.
-6. **Visual Sourcing**: Pexels is queried for stock B-roll; Fal.ai (Flux) serves as a fallback for custom AI generation.
-7. **Rendering**: A local headless Remotion instance assembles the audio, visual assets, subtitles, and effects into a polished MP4.
-8. **Publishing**: The final video and AI-generated thumbnail are automatically uploaded to YouTube via the Python Google API Client.
+### 2. Local (Mac)
+The local machine does the heavy lifting: running AI agents, synthesizing voice, compiling React code via Remotion, and uploading to YouTube.
+- **Entrypoint:** `python src/orchestrator.py poll` (Keep this running in the background)
+- **Environment Variables required:** `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `ELEVENLABS_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `TELEGRAM_BOT_TOKEN`, `YOUTUBE_CLIENT_ID`, `YOUTUBE_CLIENT_SECRET`.
 
-## 📂 Project Structure
+## How to learn more
 
-- `/src`: Core Python scripts handling various steps of the pipeline (e.g., `orchestrator.py`, `script_generator.py`, `audio_generator.py`, `publisher.py`, `asset_resolver.py`).
-- `/scripts`: Miscellaneous utility scripts, including `telegram_bot.py`.
-- `/remotion`: React-based Remotion video composition and layouts.
-- `/renderer-service`: The Next.js / Remotion server for rendering videos locally.
+To fully understand the codebase, the history, and the architecture, please read the documentation in the `/docs` folder:
+- **[01_ARCHITECTURE.md](./docs/01_ARCHITECTURE.md):** The core system design, multi-agent pipeline, and data flow.
+- **[02_SYSTEM_HISTORY.md](./docs/02_SYSTEM_HISTORY.md):** The evolution from V1 (Python/MoviePy) to V2 (Agentic/Remotion).
+- **[03_DATABASE_SCHEMA.md](./docs/03_DATABASE_SCHEMA.md):** Documentation of the Supabase enums, tables, and state machine.
+- **[04_FILE_DIRECTORY.md](./docs/04_FILE_DIRECTORY.md):** A complete, file-by-file breakdown of what every script in the codebase does.
+
+*Note: This system relies heavily on Supabase for state management between the isolated cloud and local environments.*
