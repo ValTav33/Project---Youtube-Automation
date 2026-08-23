@@ -172,7 +172,7 @@ class ScriptWriterStage(BaseOpenAIStage):
         if not beat_plan or not research:
             raise ValueError("Missing inputs for ScriptWriterStage")
             
-        system = "You are a master scriptwriter. Write the exact narration for the provided structural beats. Ensure escalation and a cinematic tone. IMPORTANT: Keep the narration extremely punchy and fast-paced, suitable for a 60-second YouTube Short. The ENTIRE script must be under 150 words. The final output must exactly match the number of beats provided."
+        system = "You are a master scriptwriter. Write the exact narration for the provided structural beats. Ensure escalation and a cinematic tone. IMPORTANT: Keep the narration extremely punchy and fast-paced, suitable for a 60-second YouTube Short. The ENTIRE script must be under 150 words. The final output must exactly match the number of beats provided.\n\nCRITICAL RULE: The `narration` field MUST contain ONLY the exact words to be spoken by the voiceover artist. DO NOT include any stage directions, visual cues, speaker labels (like 'Narrator:'), or formatting notes. It will be sent directly to a Text-To-Speech engine."
         
         if global_feedback:
             learnings = "\n".join(global_feedback.get("pacing_learnings", []) if isinstance(global_feedback, dict) else global_feedback.pacing_learnings)
@@ -236,7 +236,7 @@ class ScriptRewriterStage(BaseOpenAIStage):
                 total_word_count=story.total_word_count
             )
             
-        system = "You are a master retention rewriter. Take the original script and the critic's harsh feedback, and rewrite only the problematic beats to dramatically improve retention. Return the complete updated script. IMPORTANT: Keep the entire script under 150 words for a fast-paced 60-second YouTube Short."
+        system = "You are a master retention rewriter. Take the original script and the critic's harsh feedback, and rewrite only the problematic beats to dramatically improve retention. Return the complete updated script. IMPORTANT: Keep the entire script under 150 words for a fast-paced 60-second YouTube Short.\n\nCRITICAL RULE: The `narration` field MUST contain ONLY the exact words to be spoken by the voiceover artist. DO NOT include any stage directions, visual cues, camera movements, speaker labels, or notes (e.g. 'Investor turn:'). It will be sent directly to a Text-To-Speech engine."
         
         script_text = "\n".join([f"[{b.beat_id}] {b.narration}" for b in story.beats])
         
