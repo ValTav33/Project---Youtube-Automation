@@ -91,8 +91,8 @@ def send_telegram_review_gate(video_id: str):
     try:
         r = requests.post(tg_url, json=payload)
         if r.status_code == 200:
-            # Set to pending render approval so Orchestrator waits for human callback
-            sb.table("videos").update({"status": "pending_render_approval"}).eq("id", video_id).execute()
+            # Set to a valid enum state ('scripting' serves as a placeholder) so Orchestrator waits for human callback
+            sb.table("videos").update({"status": "scripting"}).eq("id", video_id).execute()
             logger.info(f"✅ Telegram publish gate dispatched for video {video_id}.")
         else:
             logger.error(f"Telegram API returned status {r.status_code}: {r.text}")

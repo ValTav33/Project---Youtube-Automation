@@ -13,8 +13,8 @@ video_id = str(uuid.uuid4())
 video_data = {
     "id": video_id,
     "source_type": "manual_telegram",
-    "target_title": "The Forgotten Empire of Tartaria",
-    "topic_premise": "Was Tartaria a real advanced global empire that was erased from history by a mud flood, or just a cartographical misunderstanding?",
+    "target_title": "How Apple Surpassed Nokia and Motorola",
+    "topic_premise": "The story of how Apple's revolutionary iPhone disrupted the dominant mobile phone giants of the 2000s, Nokia and Motorola, changing the industry forever.",
     "status": "approved"
 }
 
