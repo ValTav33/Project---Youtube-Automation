@@ -23,7 +23,7 @@ def _get_credentials():
     return os.getenv("TELEGRAM_BOT_TOKEN", ""), os.getenv("TELEGRAM_CHAT_ID", "")
 
 
-def _send(text: str) -> bool:
+def _send(text: str, silent: bool = False) -> bool:
     """
     Internal helper — posts a message to Telegram.
     Returns True on success, False on failure (never raises).
@@ -39,6 +39,7 @@ def _send(text: str) -> bool:
         "text": text,
         "parse_mode": "Markdown",
         "disable_web_page_preview": False,
+        "disable_notification": silent,
     }
     try:
         r = requests.post(url, json=payload, timeout=10)
@@ -66,12 +67,13 @@ def notify_pipeline_start(video_id: str, title: str):
     )
 
 
-def notify_step_complete(video_id: str, step: str, details: str = ""):
+def notify_step_complete(video_id: str, step: str, details: str = "", silent: bool = False):
     """Sent after each step completes successfully."""
     detail_line = f"\n📊 {details}" if details else ""
     _send(
         f"✅ *{step}*{detail_line}\n"
-        f"🆔 `{video_id}`"
+        f"🆔 `{video_id}`",
+        silent=silent
     )
 
 

@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
 from supabase import Client
+from notifier import notify_step_complete
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +46,7 @@ class PipelineStage(ABC):
                 
                 if res.data:
                     logger.info(f"[{self.name}] Artifact {self.output_type} already exists. Skipping execution.")
+                    notify_step_complete(self.video_id, self.name, "Stage skipped (already exists)", silent=True)
                     payload = res.data[0].get("payload")
                     import contracts
                     model_class = getattr(contracts, self.output_type, None)
@@ -142,6 +144,7 @@ class PipelineStage(ABC):
                 }).eq("id", run_id).execute()
                 
             logger.info(f"[{self.name}] Artifact {self.output_type} (rev {next_rev}) saved to DB.")
+            notify_step_complete(self.video_id, self.name, f"Stage generated successfully (rev {next_rev})", silent=True)
             return artifact
             
         except Exception as e:
