@@ -184,6 +184,31 @@ def publish_to_youtube(video_id: str) -> bool:
 
         logger.info(f"✅ Video uploaded to YouTube: {youtube_url}")
 
+        # Upload Thumbnail if available
+        thumbnail_urls = publish_package.get("thumbnail_urls", [])
+        if thumbnail_urls:
+            try:
+                import requests
+                import tempfile
+                thumb_url = thumbnail_urls[0]
+                logger.info(f"Downloading thumbnail from {thumb_url}...")
+                thumb_res = requests.get(thumb_url)
+                if thumb_res.status_code == 200:
+                    with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp_thumb:
+                        tmp_thumb.write(thumb_res.content)
+                        tmp_thumb_path = tmp_thumb.name
+                    logger.info("Uploading thumbnail to YouTube...")
+                    youtube.thumbnails().set(
+                        videoId=yt_id,
+                        media_body=MediaFileUpload(tmp_thumb_path)
+                    ).execute()
+                    os.remove(tmp_thumb_path)
+                    logger.info("✅ Thumbnail uploaded successfully.")
+                else:
+                    logger.error(f"Failed to download thumbnail. Status code: {thumb_res.status_code}")
+            except Exception as thumb_e:
+                logger.error(f"Failed to upload thumbnail: {thumb_e}")
+
         sb.table("videos").update({
             "status": "published",
             "youtube_url": youtube_url,
