@@ -49,17 +49,16 @@ class AssetStage(PipelineStage):
     async def _resolve_single(self, session, scene_id, query, sfx_query=None) -> Asset:
         sfx_url = None
         if sfx_query:
-            lower = sfx_query.lower()
-            if "whoosh" in lower:
-                sfx_url = "https://cdn.pixabay.com/audio/2022/03/15/audio_24e073cda2.mp3"
-            elif "cash" in lower or "money" in lower:
-                sfx_url = "https://cdn.pixabay.com/audio/2021/08/04/audio_3d19114757.mp3"
-            elif "boom" in lower:
-                sfx_url = "https://cdn.pixabay.com/audio/2022/03/10/audio_51795c6f60.mp3"
-            elif "glitch" in lower:
-                sfx_url = "https://cdn.pixabay.com/audio/2021/08/09/audio_9ef062d295.mp3"
+            if sfx_query.lower() in ["whoosh", "swoosh", "transition"]:
+                sfx_url = ""
+            elif sfx_query.lower() in ["impact", "boom", "hit"]:
+                sfx_url = ""
+            elif sfx_query.lower() in ["riser", "suspense"]:
+                sfx_url = ""
+            elif sfx_query.lower() in ["glitch", "digital"]:
+                sfx_url = ""
             else:
-                sfx_url = "https://cdn.pixabay.com/audio/2022/03/15/audio_24e073cda2.mp3"
+                sfx_url = ""
 
         if os.getenv("MOCK_EXTERNAL_APIS") == "true":
             return Asset(

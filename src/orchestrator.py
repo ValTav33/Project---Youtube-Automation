@@ -61,7 +61,10 @@ def prepare_remotion_props(video_id: str) -> dict:
         logger.error(f"No RendererManifest found for video {video_id}. Cannot render.")
         return {}
         
-    return res.data[0]["payload"]
+    manifest_data = res.data[0]["payload"]
+    # The DB column 'payload' contains the model_dump() of RendererManifest.
+    # The actual remotion props are inside manifest_data["payload"].
+    return manifest_data.get("payload", manifest_data)
 
 
 def execute_local_remotion_render(video_id: str, input_props: dict) -> bool:
@@ -69,6 +72,10 @@ def execute_local_remotion_render(video_id: str, input_props: dict) -> bool:
     Executes Remotion directly on the local machine via subprocess.
     """
     logger.info(f"Starting local Remotion render for video {video_id}...")
+    
+    # Debug: Check what input_props contains
+    logger.info(f"DEBUG: input_props keys: {list(input_props.keys())}")
+    logger.info(f"DEBUG: input_props has scenes? {'scenes' in input_props}")
 
     # Save input_props to a temp file
     props_path = f"/tmp/props_{video_id}.json"
