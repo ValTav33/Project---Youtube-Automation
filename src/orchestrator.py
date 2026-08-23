@@ -181,6 +181,7 @@ def run_render_phase(video_id: str):
 
     # ── STEP 5: Remotion Local Render ─────────────────────────────────────
     logger.info(">>> STEP 5: RENDERING VIDEO LOCALLY (Remotion)...")
+    sb.table("videos").update({"status": "rendering"}).eq("id", video_id).execute()
     input_props = prepare_remotion_props(video_id)
     render_success = execute_local_remotion_render(video_id, input_props)
 
