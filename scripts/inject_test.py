@@ -13,8 +13,8 @@ video_id = str(uuid.uuid4())
 video_data = {
     "id": video_id,
     "source_type": "manual_telegram",
-    "target_title": "How Apple Surpassed Nokia and Motorola",
-    "topic_premise": "The story of how Apple's revolutionary iPhone disrupted the dominant mobile phone giants of the 2000s, Nokia and Motorola, changing the industry forever.",
+    "target_title": "The 60-Second History of Coffee",
+    "topic_premise": "A very fast-paced, 60-second summary of how coffee was discovered. CRITICAL REQUIREMENT: The entire script MUST be extremely short. Keep the total word count under 150 words to ensure the video is under 1 minute.",
     "status": "approved"
 }
 
