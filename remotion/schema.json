@@ -1,0 +1,201 @@
+{
+  "$defs": {
+    "AudioTrack": {
+      "properties": {
+        "track_id": {
+          "title": "Track Id",
+          "type": "string"
+        },
+        "audio_type": {
+          "enum": [
+            "narration",
+            "music",
+            "sfx"
+          ],
+          "title": "Audio Type",
+          "type": "string"
+        },
+        "asset_url": {
+          "title": "Asset Url",
+          "type": "string"
+        },
+        "start_frame": {
+          "title": "Start Frame",
+          "type": "integer"
+        },
+        "duration_frames": {
+          "title": "Duration Frames",
+          "type": "integer"
+        },
+        "volume": {
+          "title": "Volume",
+          "type": "number"
+        }
+      },
+      "required": [
+        "track_id",
+        "audio_type",
+        "asset_url",
+        "start_frame",
+        "duration_frames",
+        "volume"
+      ],
+      "title": "AudioTrack",
+      "type": "object"
+    },
+    "RenderShot": {
+      "properties": {
+        "shot_id": {
+          "title": "Shot Id",
+          "type": "string"
+        },
+        "start_frame": {
+          "title": "Start Frame",
+          "type": "integer"
+        },
+        "duration_frames": {
+          "title": "Duration Frames",
+          "type": "integer"
+        },
+        "component_type": {
+          "title": "Component Type",
+          "type": "string"
+        },
+        "component_props": {
+          "additionalProperties": true,
+          "description": "Resolved props for the Remotion component",
+          "title": "Component Props",
+          "type": "object"
+        },
+        "asset_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Resolved media URL",
+          "title": "Asset Url"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Origin of external media",
+          "title": "Provenance"
+        }
+      },
+      "required": [
+        "shot_id",
+        "start_frame",
+        "duration_frames",
+        "component_type",
+        "component_props"
+      ],
+      "title": "RenderShot",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "artifact_id": {
+      "description": "Unique identifier for this specific artifact version",
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "video_id": {
+      "description": "The parent video project ID",
+      "title": "Video Id",
+      "type": "string"
+    },
+    "artifact_type": {
+      "const": "ProductionManifest",
+      "default": "ProductionManifest",
+      "title": "Artifact Type",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "3.0.0",
+      "description": "Schema version",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "revision": {
+      "default": 1,
+      "description": "Incrementing revision number for this artifact type",
+      "title": "Revision",
+      "type": "integer"
+    },
+    "parent_artifact_ids": {
+      "description": "IDs of artifacts that were inputs to generate this one",
+      "items": {
+        "type": "string"
+      },
+      "title": "Parent Artifact Ids",
+      "type": "array"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "created_by": {
+      "default": "system",
+      "description": "Agent or process that generated this artifact",
+      "title": "Created By",
+      "type": "string"
+    },
+    "fps": {
+      "default": 30,
+      "title": "Fps",
+      "type": "integer"
+    },
+    "width": {
+      "default": 1920,
+      "title": "Width",
+      "type": "integer"
+    },
+    "height": {
+      "default": 1080,
+      "title": "Height",
+      "type": "integer"
+    },
+    "total_frames": {
+      "title": "Total Frames",
+      "type": "integer"
+    },
+    "shots": {
+      "items": {
+        "$ref": "#/$defs/RenderShot"
+      },
+      "title": "Shots",
+      "type": "array"
+    },
+    "audio_tracks": {
+      "items": {
+        "$ref": "#/$defs/AudioTrack"
+      },
+      "title": "Audio Tracks",
+      "type": "array"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "video_id",
+    "total_frames",
+    "shots",
+    "audio_tracks"
+  ],
+  "title": "ProductionManifest",
+  "type": "object"
+}
