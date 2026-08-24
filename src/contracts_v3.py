@@ -169,3 +169,24 @@ class ReviewPackage(BaseArtifactV3):
     title: str
     thumbnail_url: Optional[str] = None
     diagnostics: Dict[str, Any] = Field(default_factory=dict)
+
+# -----------------------------------------------------------------------------
+# 10. Analytics & ML Feedback Loop
+# -----------------------------------------------------------------------------
+class CreativeFeatureVector(BaseArtifactV3):
+    """The 'DNA' of the video extracted for ML correlation."""
+    artifact_type: Literal["CreativeFeatureVector"] = "CreativeFeatureVector"
+    hook_type: str = Field(description="Categorization of the first 5 seconds")
+    promise_category: str = Field(description="Type of promise made (e.g. monetary, curiosity)")
+    component_distribution: Dict[str, int] = Field(description="Count of each component type used")
+    visual_density: float = Field(description="Shots per minute")
+
+class YouTubeAnalyticsSnapshot(BaseArtifactV3):
+    """Ingested metrics at a specific point in time (e.g. 24h, 7d)."""
+    artifact_type: Literal["YouTubeAnalyticsSnapshot"] = "YouTubeAnalyticsSnapshot"
+    interval: Literal["24h", "7d", "30d", "lifetime"]
+    impressions: int
+    ctr_percent: float
+    average_view_duration_seconds: int
+    retention_30s_percent: float
+    retention_50pct_percent: float
