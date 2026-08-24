@@ -25,5 +25,6 @@ To fully understand the codebase, the history, and the architecture, please read
 - **[02_SYSTEM_HISTORY.md](./docs/02_SYSTEM_HISTORY.md):** The evolution from V1 (Python/MoviePy) to V2 (Agentic/Remotion).
 - **[03_DATABASE_SCHEMA.md](./docs/03_DATABASE_SCHEMA.md):** Documentation of the Supabase enums, tables, and state machine.
 - **[04_FILE_DIRECTORY.md](./docs/04_FILE_DIRECTORY.md):** A complete, file-by-file breakdown of what every script in the codebase does.
+- **[05_WORKFLOW_WALKTHROUGH.md](./docs/05_WORKFLOW_WALKTHROUGH.md):** A detailed, step-by-step walkthrough of the entire pipeline from user input to YouTube publication.
 
 *Note: This system relies heavily on Supabase for state management between the isolated cloud and local environments.*
