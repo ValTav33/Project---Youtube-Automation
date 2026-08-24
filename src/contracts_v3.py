@@ -101,7 +101,28 @@ class VisualBriefPlan(BaseArtifactV3):
     visual_beats: List[VisualBeat]
 
 # -----------------------------------------------------------------------------
-# 6. Production Manifest (Renderer Input)
+# 6. Asset Manifest
+# -----------------------------------------------------------------------------
+class ResolvedAsset(BaseModel):
+    beat_id: str
+    asset_url: str
+    provider: str
+    license_category: str
+
+class AssetManifest(BaseArtifactV3):
+    artifact_type: Literal["AssetManifest"] = "AssetManifest"
+    resolved_assets: List[ResolvedAsset]
+
+# -----------------------------------------------------------------------------
+# 7. Audio Plan
+# -----------------------------------------------------------------------------
+class AudioPlan(BaseArtifactV3):
+    artifact_type: Literal["AudioPlan"] = "AudioPlan"
+    music_track_url: str
+    sfx_cues: List[Dict[str, Any]] = Field(default_factory=list)
+
+# -----------------------------------------------------------------------------
+# 8. Production Manifest (Renderer Input)
 # -----------------------------------------------------------------------------
 class RenderShot(BaseModel):
     shot_id: str

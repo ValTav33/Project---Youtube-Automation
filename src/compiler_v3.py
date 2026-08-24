@@ -5,8 +5,11 @@ from typing import Dict, Any
 from contracts_v3 import (
     StoryBlueprint,
     VisualBriefPlan,
+    AssetManifest,
+    AudioPlan,
     ProductionManifest,
-    RenderShot
+    RenderShot,
+    AudioTrack
 )
 
 logger = logging.getLogger(__name__)
@@ -20,14 +23,15 @@ class ManifestCompiler:
     WORDS_PER_MINUTE = 150
     FRAMES_PER_SECOND = 30
     
-    def compile(self, video_id: str, story: StoryBlueprint, visuals: VisualBriefPlan) -> ProductionManifest:
+    def compile(self, video_id: str, story: StoryBlueprint, visuals: VisualBriefPlan, assets: AssetManifest, audio: AudioPlan) -> ProductionManifest:
         logger.info(f"Compiling manifest for {video_id}...")
         
         shots = []
         current_frame = 0
         
-        # Map beats to visuals
+        # Map beats to visuals and assets
         visual_map = {vb.beat_id: vb for vb in visuals.visual_beats}
+        asset_map = {a.beat_id: a for a in assets.resolved_assets}
         
         for beat in story.beats:
             visual_beat = visual_map.get(beat.beat_id)
@@ -54,17 +58,40 @@ class ManifestCompiler:
             elif visual_beat.component_choice.component_type == "CinematicMedia":
                 component_props["motionIntention"] = visual_beat.motion_intention
             
+            
+            asset_info = asset_map.get(beat.beat_id)
+            provenance = None
+            if asset_info:
+                provenance = {
+                    "provider": asset_info.provider,
+                    "license_category": asset_info.license_category
+                }
+            
             shot = RenderShot(
                 shot_id=f"shot-{uuid.uuid4().hex[:6]}",
                 start_frame=current_frame,
                 duration_frames=duration_frames,
                 component_type=visual_beat.component_choice.component_type,
                 component_props=component_props,
-                asset_url=None # Real implementation would fetch from asset store using asset_query
+                asset_url=asset_info.asset_url if asset_info else None,
+                provenance=provenance
             )
             
             shots.append(shot)
             current_frame += duration_frames
+            
+        audio_tracks = []
+        if audio.music_track_url:
+            audio_tracks.append(
+                AudioTrack(
+                    track_id=f"audio-{uuid.uuid4().hex[:6]}",
+                    audio_type="music",
+                    asset_url=audio.music_track_url,
+                    start_frame=0,
+                    duration_frames=current_frame,
+                    volume=0.2
+                )
+            )
             
         manifest = ProductionManifest(
             artifact_id=f"pm-{uuid.uuid4().hex[:8]}",
@@ -74,7 +101,7 @@ class ManifestCompiler:
             height=1080,
             total_frames=current_frame,
             shots=shots,
-            audio_tracks=[] # Would generate TTS audio tracks here
+            audio_tracks=audio_tracks
         )
         
         return manifest

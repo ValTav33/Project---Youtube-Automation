@@ -15,7 +15,10 @@ from contracts_v3 import (
     StoryBlueprint,
     VisualBriefPlan,
     VisualBeat,
-    VisualComponentChoice
+    VisualComponentChoice,
+    AssetManifest,
+    ResolvedAsset,
+    AudioPlan
 )
 
 logger = logging.getLogger(__name__)
@@ -123,3 +126,44 @@ class VisualDirectorAgent(BaseV3Agent):
         plan.video_id = video_id
         plan.artifact_id = f"vb-{uuid.uuid4().hex[:8]}"
         return plan
+
+class MockAssetCuratorAgent(BaseV3Agent):
+    """Mocks the asset curation process by assigning high-quality Unsplash/Pexels URLs to shots that need them."""
+    def resolve_assets(self, video_id: str, visual_plan: VisualBriefPlan) -> AssetManifest:
+        logger.info("Resolving mocked assets...")
+        resolved = []
+        for beat in visual_plan.visual_beats:
+            if beat.component_choice.component_type in ["CinematicMedia", "ProductScreen"]:
+                # Mock a static high quality tech image for now
+                url = "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920&auto=format&fit=crop"
+                resolved.append(
+                    ResolvedAsset(
+                        beat_id=beat.beat_id,
+                        asset_url=url,
+                        provider="Unsplash",
+                        license_category="mocked"
+                    )
+                )
+        
+        return AssetManifest(
+            artifact_id=f"am-{uuid.uuid4().hex[:8]}",
+            video_id=video_id,
+            resolved_assets=resolved
+        )
+
+class MockAudioDirectorAgent(BaseV3Agent):
+    """Mocks the audio planning process, assigning a backing track and mock TTS audio cues."""
+    def plan_audio(self, video_id: str, story: StoryBlueprint, visual_plan: VisualBriefPlan) -> AudioPlan:
+        logger.info("Planning mocked audio...")
+        # Since we do not have actual TTS output mapped to frames yet, we just provide a mock track
+        # in reality we'd synthesize audio here and get exact durations.
+        # But this agent at least creates the AudioPlan contract.
+        return AudioPlan(
+            artifact_id=f"ap-{uuid.uuid4().hex[:8]}",
+            video_id=video_id,
+            music_track_url="https://example.com/mock-lofi-beat.mp3",
+            sfx_cues=[
+                {"beat_id": story.beats[0].beat_id, "sfx_type": "whoosh"}
+            ]
+        )
+

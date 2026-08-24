@@ -87,7 +87,10 @@ class V3Orchestrator:
         
         try:
             # 1. Strategy
-            from agents_v3 import StrategyAgent, MockResearchAgent, StoryAgent, VisualDirectorAgent
+            from agents_v3 import (
+                StrategyAgent, MockResearchAgent, StoryAgent, VisualDirectorAgent,
+                MockAssetCuratorAgent, MockAudioDirectorAgent
+            )
             from compiler_v3 import ManifestCompiler
             
             self.transition_state(video_id, "approved", "generating")
@@ -111,9 +114,19 @@ class V3Orchestrator:
             visuals = visual_agent.assign_visuals(video_id, story)
             logger.info(f"Generated visual plan: {visuals.artifact_id}")
             
-            # 5. Compile Manifest
+            # 5. Assets
+            asset_agent = MockAssetCuratorAgent()
+            assets = asset_agent.resolve_assets(video_id, visuals)
+            logger.info(f"Generated asset manifest: {assets.artifact_id}")
+            
+            # 6. Audio
+            audio_agent = MockAudioDirectorAgent()
+            audio = audio_agent.plan_audio(video_id, story, visuals)
+            logger.info(f"Generated audio plan: {audio.artifact_id}")
+            
+            # 7. Compile Manifest
             compiler = ManifestCompiler()
-            manifest = compiler.compile(video_id, story, visuals)
+            manifest = compiler.compile(video_id, story, visuals, assets, audio)
             logger.info(f"Compiled manifest: {manifest.artifact_id} with {manifest.total_frames} frames")
             
             # Success - wait for preview approval
