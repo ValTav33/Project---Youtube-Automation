@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY", "")
 FAL_KEY = os.getenv("FAL_KEY", "")
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://wrowkhhwlvmigvyescdv.supabase.co")
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
 

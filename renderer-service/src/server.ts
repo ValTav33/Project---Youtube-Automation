@@ -247,8 +247,10 @@ app.post('/api/render', async (req: Request, res: Response) => {
           .single();
 
         const videoTitle = videoData?.target_title || 'Documentary Video';
-        const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8359129159:AAHoM3zGBnMcrUP71z3x6s4vFhMMwfFCfR8';
-        const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '5808376503';
+        // Credentials must only come from the runtime environment. Never add a
+        // fallback token here: this service is part of a public repository.
+        const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+        const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
 
         if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
           console.log(`[Render Worker] 📱 Sending Telegram review notification for video: ${videoId}`);

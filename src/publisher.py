@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://wrowkhhwlvmigvyescdv.supabase.co")
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
 def get_supabase():
@@ -253,5 +253,4 @@ if __name__ == "__main__":
         print("Usage:")
         print("  python src/publisher.py <video_id>              # Send publish review gate")
         print("  python src/publisher.py publish <video_id>      # Upload to YouTube")
-
 
