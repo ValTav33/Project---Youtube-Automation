@@ -38,6 +38,9 @@ const defaultProps: VideoProps = {
   fps: 30
 };
 
+import { V3Gallery } from './V3Gallery';
+import { V3MainVideo } from './V3MainVideo';
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
@@ -65,6 +68,34 @@ export const RemotionRoot: React.FC = () => {
             width: validatedProps.width || 1920,
             height: validatedProps.height || 1080
           };
+        }}
+      />
+      
+      <Composition
+        id="V3Gallery"
+        component={V3Gallery}
+        durationInFrames={30 * 8 * 3} // 8 components, 3 seconds each, 30fps
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+
+      <Composition
+        id="V3MainVideo"
+        component={V3MainVideo}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          manifest: {
+            fps: 30,
+            width: 1920,
+            height: 1080,
+            total_frames: 300,
+            shots: [],
+            audio_tracks: []
+          }
         }}
       />
     </>

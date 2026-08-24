@@ -1,0 +1,48 @@
+{
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "total_frames": 750,
+  "shots": [
+    {
+      "shot_id": "shot_001",
+      "start_frame": 0,
+      "duration_frames": 180,
+      "component_type": "Comparison",
+      "component_props": {
+        "primaryText": "React",
+        "secondaryText": "Vue"
+      }
+    },
+    {
+      "shot_id": "shot_002",
+      "start_frame": 180,
+      "duration_frames": 210,
+      "component_type": "Timeline",
+      "component_props": {
+        "primaryText": "React Fiber Released",
+        "secondaryText": "2017"
+      }
+    },
+    {
+      "shot_id": "shot_003",
+      "start_frame": 390,
+      "duration_frames": 180,
+      "component_type": "ProductScreen",
+      "component_props": {
+        "primaryText": "Modern Tooling",
+        "assetUrl": "https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1920&auto=format&fit=crop"
+      }
+    },
+    {
+      "shot_id": "shot_004",
+      "start_frame": 570,
+      "duration_frames": 180,
+      "component_type": "TypographyImpact",
+      "component_props": {
+        "primaryText": "CHOICE MATTERS"
+      }
+    }
+  ],
+  "audio_tracks": []
+}

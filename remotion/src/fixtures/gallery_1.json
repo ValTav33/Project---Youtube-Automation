@@ -1,0 +1,57 @@
+{
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "total_frames": 900,
+  "shots": [
+    {
+      "shot_id": "shot_001",
+      "start_frame": 0,
+      "duration_frames": 150,
+      "component_type": "CinematicMedia",
+      "component_props": {
+        "motionIntention": "slowPan"
+      },
+      "asset_url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920&auto=format&fit=crop"
+    },
+    {
+      "shot_id": "shot_002",
+      "start_frame": 150,
+      "duration_frames": 150,
+      "component_type": "TypographyImpact",
+      "component_props": {
+        "primaryText": "THE AI REVOLUTION"
+      }
+    },
+    {
+      "shot_id": "shot_003",
+      "start_frame": 300,
+      "duration_frames": 210,
+      "component_type": "EvidenceCard",
+      "component_props": {
+        "primaryText": "AI agents will automate 30% of coding tasks by 2028.",
+        "secondaryText": "Global Tech Report, 2026"
+      }
+    },
+    {
+      "shot_id": "shot_004",
+      "start_frame": 510,
+      "duration_frames": 180,
+      "component_type": "DataChart",
+      "component_props": {
+        "primaryText": "Agent Adoption Rate"
+      }
+    },
+    {
+      "shot_id": "shot_005",
+      "start_frame": 690,
+      "duration_frames": 210,
+      "component_type": "BigNumber",
+      "component_props": {
+        "primaryText": "30%",
+        "secondaryText": "Efficiency Increase"
+      }
+    }
+  ],
+  "audio_tracks": []
+}

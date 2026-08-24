@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "remotion preview src/index.ts",
-    "build": "remotion render src/index.ts MainVideo out/video.mp4"
+    "build": "remotion render src/index.ts MainVideo out/video.mp4",
+    "render:gallery": "remotion render src/index.ts V3Gallery out/v3_gallery.mp4"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.260",
