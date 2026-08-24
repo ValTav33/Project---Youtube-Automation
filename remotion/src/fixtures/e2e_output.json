@@ -1,0 +1,74 @@
+{
+  "artifact_id": "pm-3f3d3755",
+  "video_id": "test-e2e-video-1",
+  "artifact_type": "ProductionManifest",
+  "schema_version": "3.0.0",
+  "revision": 1,
+  "parent_artifact_ids": [],
+  "created_at": "2026-08-24T21:06:20.090222",
+  "created_by": "system",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "total_frames": 2208,
+  "shots": [
+    {
+      "shot_id": "shot-a5694f",
+      "start_frame": 0,
+      "duration_frames": 432,
+      "component_type": "CinematicMedia",
+      "component_props": {
+        "motionIntention": "slow pan"
+      },
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-234f06",
+      "start_frame": 432,
+      "duration_frames": 504,
+      "component_type": "EvidenceCard",
+      "component_props": {
+        "primaryText": "AI handling one-third of coding by 2028",
+        "secondaryText": "Source: Expert Predictions"
+      },
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-22f0c7",
+      "start_frame": 936,
+      "duration_frames": 456,
+      "component_type": "EvidenceCard",
+      "component_props": {
+        "primaryText": "AI's annual economic impact to exceed $1 trillion",
+        "secondaryText": "Driven by productivity gains"
+      },
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-61f1f5",
+      "start_frame": 1392,
+      "duration_frames": 420,
+      "component_type": "TypographyImpact",
+      "component_props": {
+        "primaryText": "Are we ready for the job shifts?"
+      },
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-7d9008",
+      "start_frame": 1812,
+      "duration_frames": 396,
+      "component_type": "TypographyImpact",
+      "component_props": {
+        "primaryText": "Adapt and thrive with AI"
+      },
+      "asset_url": null,
+      "provenance": null
+    }
+  ],
+  "audio_tracks": []
+}

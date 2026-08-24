@@ -78,14 +78,49 @@ class V3Orchestrator:
 
         return True
 
-    def process_generation_phase(self, video_id: str) -> bool:
+    def process_generation_phase(self, video_id: str, topic: str) -> Optional[ProductionManifest]:
         """
-        Placeholder for the actual AI generation process (Phase 3 & 4).
-        Will return artifacts.
+        Executes the AI pipeline (Strategy -> Research -> Story -> Visuals -> Compile).
+        Returns the final ProductionManifest on success, or None on failure.
         """
-        logger.info(f"Starting generation phase for {video_id}...")
+        logger.info(f"Starting V3 generation phase for {video_id} (topic: {topic})...")
         
-        # This would call the Strategy, Story, and Visual agents sequentially
-        # and persist their Pydantic artifacts to the database.
-        
-        return True
+        try:
+            # 1. Strategy
+            from agents_v3 import StrategyAgent, MockResearchAgent, StoryAgent, VisualDirectorAgent
+            from compiler_v3 import ManifestCompiler
+            
+            self.transition_state(video_id, "approved", "generating")
+            
+            strategy_agent = StrategyAgent()
+            brief = strategy_agent.generate_brief(video_id, topic)
+            logger.info(f"Generated brief: {brief.artifact_id}")
+            
+            # 2. Research
+            research_agent = MockResearchAgent()
+            research = research_agent.run_research(video_id, brief)
+            logger.info(f"Generated research: {research.artifact_id}")
+            
+            # 3. Story
+            story_agent = StoryAgent()
+            story = story_agent.draft_story(video_id, brief, research)
+            logger.info(f"Generated story: {story.artifact_id}")
+            
+            # 4. Visuals
+            visual_agent = VisualDirectorAgent()
+            visuals = visual_agent.assign_visuals(video_id, story)
+            logger.info(f"Generated visual plan: {visuals.artifact_id}")
+            
+            # 5. Compile Manifest
+            compiler = ManifestCompiler()
+            manifest = compiler.compile(video_id, story, visuals)
+            logger.info(f"Compiled manifest: {manifest.artifact_id} with {manifest.total_frames} frames")
+            
+            # Success - wait for preview approval
+            self.transition_state(video_id, "generating", "awaiting_preview_approval")
+            return manifest
+            
+        except Exception as e:
+            logger.error(f"Generation failed: {e}")
+            self.transition_state(video_id, "generating", "failed")
+            return None
