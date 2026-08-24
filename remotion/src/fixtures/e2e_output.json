@@ -1,74 +1,101 @@
 {
-  "artifact_id": "pm-3f3d3755",
+  "artifact_id": "pm-b426a75e",
   "video_id": "test-e2e-video-1",
   "artifact_type": "ProductionManifest",
   "schema_version": "3.0.0",
   "revision": 1,
   "parent_artifact_ids": [],
-  "created_at": "2026-08-24T21:06:20.090222",
+  "created_at": "2026-08-24T21:09:04.455205",
   "created_by": "system",
   "fps": 30,
   "width": 1920,
   "height": 1080,
-  "total_frames": 2208,
+  "total_frames": 3024,
   "shots": [
     {
-      "shot_id": "shot-a5694f",
+      "shot_id": "shot-78e8a1",
       "start_frame": 0,
-      "duration_frames": 432,
+      "duration_frames": 396,
+      "component_type": "DataChart",
+      "component_props": {},
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-0428fd",
+      "start_frame": 396,
+      "duration_frames": 336,
       "component_type": "CinematicMedia",
       "component_props": {
         "motionIntention": "slow pan"
       },
-      "asset_url": null,
-      "provenance": null
+      "asset_url": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920&auto=format&fit=crop",
+      "provenance": {
+        "provider": "Unsplash",
+        "license_category": "mocked"
+      }
     },
     {
-      "shot_id": "shot-234f06",
-      "start_frame": 432,
-      "duration_frames": 504,
-      "component_type": "EvidenceCard",
-      "component_props": {
-        "primaryText": "AI handling one-third of coding by 2028",
-        "secondaryText": "Source: Expert Predictions"
-      },
-      "asset_url": null,
-      "provenance": null
-    },
-    {
-      "shot_id": "shot-22f0c7",
-      "start_frame": 936,
-      "duration_frames": 456,
-      "component_type": "EvidenceCard",
-      "component_props": {
-        "primaryText": "AI's annual economic impact to exceed $1 trillion",
-        "secondaryText": "Driven by productivity gains"
-      },
-      "asset_url": null,
-      "provenance": null
-    },
-    {
-      "shot_id": "shot-61f1f5",
-      "start_frame": 1392,
-      "duration_frames": 420,
-      "component_type": "TypographyImpact",
-      "component_props": {
-        "primaryText": "Are we ready for the job shifts?"
-      },
-      "asset_url": null,
-      "provenance": null
-    },
-    {
-      "shot_id": "shot-7d9008",
-      "start_frame": 1812,
+      "shot_id": "shot-5ea6fd",
+      "start_frame": 732,
       "duration_frames": 396,
+      "component_type": "BigNumber",
+      "component_props": {
+        "primaryText": "$1 Trillion+",
+        "secondaryText": "Annual economic impact from AI"
+      },
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-95062c",
+      "start_frame": 1128,
+      "duration_frames": 444,
+      "component_type": "Comparison",
+      "component_props": {},
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-34cf76",
+      "start_frame": 1572,
+      "duration_frames": 552,
+      "component_type": "Timeline",
+      "component_props": {},
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-f3c177",
+      "start_frame": 2124,
+      "duration_frames": 444,
       "component_type": "TypographyImpact",
       "component_props": {
-        "primaryText": "Adapt and thrive with AI"
+        "primaryText": "Lifelong Learning: Your Best Strategy"
+      },
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-d069c3",
+      "start_frame": 2568,
+      "duration_frames": 456,
+      "component_type": "TypographyImpact",
+      "component_props": {
+        "primaryText": "Prepare for AI-Driven Economy"
       },
       "asset_url": null,
       "provenance": null
     }
   ],
-  "audio_tracks": []
+  "audio_tracks": [
+    {
+      "track_id": "audio-2698ea",
+      "audio_type": "music",
+      "asset_url": "https://example.com/mock-lofi-beat.mp3",
+      "start_frame": 0,
+      "duration_frames": 3024,
+      "volume": 0.2
+    }
+  ]
 }
