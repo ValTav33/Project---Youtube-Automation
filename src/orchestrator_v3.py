@@ -137,3 +137,38 @@ class V3Orchestrator:
             logger.error(f"Generation failed: {e}")
             self.transition_state(video_id, "generating", "failed")
             return None
+
+    def process_repair_phase(self, video_id: str, repair_plan: "EditorRepairPlan", story: "StoryBlueprint", visuals: "VisualBriefPlan", audio: "AudioPlan") -> Optional[ProductionManifest]:
+        """
+        Executes a targeted repair loop based on the EditorRepairPlan.
+        Only re-runs the necessary agents and re-compiles the manifest.
+        """
+        logger.info(f"Starting V3 repair phase for {video_id} (target_manifest: {repair_plan.target_manifest_id})...")
+        
+        try:
+            self.transition_state(video_id, "awaiting_preview_approval", "repairing")
+            
+            from agents_v3 import MockAssetCuratorAgent
+            from compiler_v3 import ManifestCompiler
+            
+            # Re-run assets with the repair plan
+            asset_agent = MockAssetCuratorAgent()
+            assets = asset_agent.resolve_assets(video_id, visuals, repair_plan=repair_plan)
+            logger.info(f"Generated repaired asset manifest: {assets.artifact_id}")
+            
+            # Re-compile manifest
+            compiler = ManifestCompiler()
+            manifest = compiler.compile(video_id, story, visuals, assets, audio)
+            
+            # Bump revision
+            manifest.revision = 2 
+            logger.info(f"Compiled repaired manifest: {manifest.artifact_id} with {manifest.total_frames} frames")
+            
+            # Back to awaiting preview
+            self.transition_state(video_id, "repairing", "awaiting_preview_approval")
+            return manifest
+            
+        except Exception as e:
+            logger.error(f"Repair failed: {e}")
+            self.transition_state(video_id, "repairing", "failed")
+            return None

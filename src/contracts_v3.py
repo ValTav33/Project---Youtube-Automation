@@ -149,3 +149,23 @@ class ProductionManifest(BaseArtifactV3):
     total_frames: int
     shots: List[RenderShot]
     audio_tracks: List[AudioTrack]
+
+# -----------------------------------------------------------------------------
+# 9. Repair & QA
+# -----------------------------------------------------------------------------
+class RepairRequest(BaseModel):
+    beat_id: str
+    issue_type: Literal["asset_replacement", "caption_reduction", "timing_adjustment", "component_change"]
+    description: str
+
+class EditorRepairPlan(BaseArtifactV3):
+    artifact_type: Literal["EditorRepairPlan"] = "EditorRepairPlan"
+    target_manifest_id: str
+    repairs: List[RepairRequest]
+
+class ReviewPackage(BaseArtifactV3):
+    artifact_type: Literal["ReviewPackage"] = "ReviewPackage"
+    manifest_id: str
+    title: str
+    thumbnail_url: Optional[str] = None
+    diagnostics: Dict[str, Any] = Field(default_factory=dict)

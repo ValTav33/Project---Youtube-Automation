@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import uuid
 
 import openai
@@ -18,7 +18,10 @@ from contracts_v3 import (
     VisualComponentChoice,
     AssetManifest,
     ResolvedAsset,
-    AudioPlan
+    AudioPlan,
+    ProductionManifest,
+    EditorRepairPlan,
+    RepairRequest
 )
 
 logger = logging.getLogger(__name__)
@@ -129,18 +132,34 @@ class VisualDirectorAgent(BaseV3Agent):
 
 class MockAssetCuratorAgent(BaseV3Agent):
     """Mocks the asset curation process by assigning high-quality Unsplash/Pexels URLs to shots that need them."""
-    def resolve_assets(self, video_id: str, visual_plan: VisualBriefPlan) -> AssetManifest:
+    def resolve_assets(self, video_id: str, visual_plan: VisualBriefPlan, repair_plan: Optional[EditorRepairPlan] = None) -> AssetManifest:
         logger.info("Resolving mocked assets...")
         resolved = []
+        
+        repair_beats = {}
+        if repair_plan:
+            for r in repair_plan.repairs:
+                if r.issue_type == "asset_replacement":
+                    repair_beats[r.beat_id] = r
+        
         for beat in visual_plan.visual_beats:
             if beat.component_choice.component_type in ["CinematicMedia", "ProductScreen"]:
-                # Mock a static high quality tech image for now
+                
+                # Default mock asset
                 url = "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920&auto=format&fit=crop"
+                provider = "Unsplash"
+                
+                # If repaired, use a different asset
+                if beat.beat_id in repair_beats:
+                    logger.info(f"Applying asset repair to beat {beat.beat_id}")
+                    url = "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop" # CPU / Tech
+                    provider = "Unsplash (Repaired)"
+
                 resolved.append(
                     ResolvedAsset(
                         beat_id=beat.beat_id,
                         asset_url=url,
-                        provider="Unsplash",
+                        provider=provider,
                         license_category="mocked"
                     )
                 )
@@ -165,5 +184,30 @@ class MockAudioDirectorAgent(BaseV3Agent):
             sfx_cues=[
                 {"beat_id": story.beats[0].beat_id, "sfx_type": "whoosh"}
             ]
+        )
+
+class MockQAAgent(BaseV3Agent):
+    """Mocks the QA / Review process. Will always suggest replacing the first asset it finds."""
+    def run_qa(self, video_id: str, manifest: ProductionManifest, visual_plan: VisualBriefPlan) -> EditorRepairPlan:
+        logger.info("Running mocked QA...")
+        
+        # Find the first beat that had an asset
+        repairs = []
+        for beat in visual_plan.visual_beats:
+            if beat.component_choice.component_type in ["CinematicMedia", "ProductScreen"]:
+                repairs.append(
+                    RepairRequest(
+                        beat_id=beat.beat_id,
+                        issue_type="asset_replacement",
+                        description="Asset feels too generic. Please find a more specific, high-tech abstract background."
+                    )
+                )
+                break # Just request one repair for the mock test
+                
+        return EditorRepairPlan(
+            artifact_id=f"erp-{uuid.uuid4().hex[:8]}",
+            video_id=video_id,
+            target_manifest_id=manifest.artifact_id,
+            repairs=repairs
         )
 
