@@ -1,0 +1,20 @@
+{
+  "id": "483cd459-5e09-42d7-aacf-f132387ed545",
+  "source_type": "manual_telegram",
+  "source_video_id": null,
+  "target_title": "The Great Wall Was Never One Wall - \u03c3\u03b9\u03bd\u03b9\u03ba\u03cc \u03c4\u03b5\u03af\u03c7\u03bf\u03c2",
+  "topic_premise": "The Great Wall Was Never One Wall - \u03c3\u03b9\u03bd\u03b9\u03ba\u03cc \u03c4\u03b5\u03af\u03c7\u03bf\u03c2",
+  "status": "rendered",
+  "script_payload": {
+    "render_progress": 100
+  },
+  "audio_url": null,
+  "transcript_timestamps": null,
+  "rendered_video_url": "/Users/valsamis/Movies/Automated/483cd459-5e09-42d7-aacf-f132387ed545.mp4",
+  "thumbnail_urls": null,
+  "youtube_video_id": "x8LHf-lSzsY",
+  "error_log": null,
+  "created_at": "2026-08-22T18:07:55.341934+00:00",
+  "updated_at": "2026-08-23T16:02:13.070182+00:00",
+  "youtube_url": "https://www.youtube.com/watch?v=x8LHf-lSzsY"
+}

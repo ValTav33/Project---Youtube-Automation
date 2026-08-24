@@ -32,13 +32,15 @@ from notifier import (
     notify_published,
     notify_pipeline_error,
 )
+from config import validate_config
 
 load_dotenv()
+validate_config()
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://wrowkhhwlvmigvyescdv.supabase.co")
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 REMOTION_RENDERER_URL = os.getenv("REMOTION_RENDERER_URL", "http://localhost:3000")
 FPS = 30
