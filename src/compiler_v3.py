@@ -98,7 +98,7 @@ class ManifestCompiler:
             audio_tracks.append(
                 AudioTrack(
                     track_id=f"audio-{uuid.uuid4().hex[:6]}",
-                    audio_type="voice",
+                    audio_type="narration",
                     asset_url=audio.voice_track_url,
                     start_frame=0,
                     duration_frames=current_frame,

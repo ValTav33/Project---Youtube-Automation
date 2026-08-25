@@ -319,7 +319,7 @@ class AudioDirectorAgent(BaseV3Agent):
         return AudioPlan(
             artifact_id=f"ap-{uuid.uuid4().hex[:8]}",
             video_id=video_id,
-            music_track_url="https://example.com/mock-lofi-beat.mp3",
+            music_track_url="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3",
             voice_track_url=audio_url,
             total_duration_seconds=duration_seconds,
             sfx_cues=sfx_cues
