@@ -40,8 +40,13 @@ class ManifestCompiler:
                 continue
                 
             # Calculate duration based on word count
-            # wpm = 150 -> 2.5 words per second
-            duration_seconds = max(3.0, beat.word_count / (self.WORDS_PER_MINUTE / 60.0))
+            # If actual audio duration is available, allocate proportionally to word count
+            if audio.total_duration_seconds > 0:
+                total_words = sum([b.word_count for b in story.beats])
+                duration_seconds = max(1.0, (beat.word_count / total_words) * audio.total_duration_seconds)
+            else:
+                duration_seconds = max(3.0, beat.word_count / (self.WORDS_PER_MINUTE / 60.0))
+                
             duration_frames = int(duration_seconds * self.FRAMES_PER_SECOND)
             
             # Map visual intention to component props

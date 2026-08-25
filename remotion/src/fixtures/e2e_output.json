@@ -1,88 +1,88 @@
 {
-  "artifact_id": "pm-b426a75e",
+  "artifact_id": "pm-ef92a387",
   "video_id": "test-e2e-video-1",
   "artifact_type": "ProductionManifest",
   "schema_version": "3.0.0",
   "revision": 1,
   "parent_artifact_ids": [],
-  "created_at": "2026-08-24T21:09:04.455205",
+  "created_at": "2026-08-25T07:42:28.519860",
   "created_by": "system",
   "fps": 30,
   "width": 1920,
   "height": 1080,
-  "total_frames": 3024,
+  "total_frames": 3701,
   "shots": [
     {
-      "shot_id": "shot-78e8a1",
+      "shot_id": "shot-f96a28",
       "start_frame": 0,
-      "duration_frames": 396,
+      "duration_frames": 718,
+      "component_type": "CinematicMedia",
+      "component_props": {
+        "motionIntention": "dynamic"
+      },
+      "asset_url": "https://videos.pexels.com/video-files/38484636/16343738_1920_1080_50fps.mp4",
+      "provenance": {
+        "provider": "Pexels",
+        "license_category": "stock"
+      }
+    },
+    {
+      "shot_id": "shot-eea8a6",
+      "start_frame": 718,
+      "duration_frames": 501,
       "component_type": "DataChart",
       "component_props": {},
       "asset_url": null,
       "provenance": null
     },
     {
-      "shot_id": "shot-0428fd",
-      "start_frame": 396,
-      "duration_frames": 336,
-      "component_type": "CinematicMedia",
+      "shot_id": "shot-596224",
+      "start_frame": 1219,
+      "duration_frames": 392,
+      "component_type": "TypographyImpact",
       "component_props": {
-        "motionIntention": "slow pan"
-      },
-      "asset_url": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920&auto=format&fit=crop",
-      "provenance": {
-        "provider": "Unsplash",
-        "license_category": "mocked"
-      }
-    },
-    {
-      "shot_id": "shot-5ea6fd",
-      "start_frame": 732,
-      "duration_frames": 396,
-      "component_type": "BigNumber",
-      "component_props": {
-        "primaryText": "$1 Trillion+",
-        "secondaryText": "Annual economic impact from AI"
+        "primaryText": "Manufacturing, Transportation, Customer Service"
       },
       "asset_url": null,
       "provenance": null
     },
     {
-      "shot_id": "shot-95062c",
-      "start_frame": 1128,
-      "duration_frames": 444,
+      "shot_id": "shot-ac62eb",
+      "start_frame": 1611,
+      "duration_frames": 392,
+      "component_type": "DataChart",
+      "component_props": {},
+      "asset_url": null,
+      "provenance": null
+    },
+    {
+      "shot_id": "shot-69c43e",
+      "start_frame": 2003,
+      "duration_frames": 511,
       "component_type": "Comparison",
       "component_props": {},
       "asset_url": null,
       "provenance": null
     },
     {
-      "shot_id": "shot-34cf76",
-      "start_frame": 1572,
-      "duration_frames": 552,
-      "component_type": "Timeline",
-      "component_props": {},
-      "asset_url": null,
-      "provenance": null
-    },
-    {
-      "shot_id": "shot-f3c177",
-      "start_frame": 2124,
-      "duration_frames": 444,
-      "component_type": "TypographyImpact",
+      "shot_id": "shot-f5d1f4",
+      "start_frame": 2514,
+      "duration_frames": 501,
+      "component_type": "EvidenceCard",
       "component_props": {
-        "primaryText": "Lifelong Learning: Your Best Strategy"
+        "primaryText": "50% of companies automating tasks",
+        "secondaryText": "Source"
       },
       "asset_url": null,
       "provenance": null
     },
     {
-      "shot_id": "shot-d069c3",
-      "start_frame": 2568,
-      "duration_frames": 456,
+      "shot_id": "shot-22dc14",
+      "start_frame": 3015,
+      "duration_frames": 686,
       "component_type": "TypographyImpact",
       "component_props": {
-        "primaryText": "Prepare for AI-Driven Economy"
+        "primaryText": "The AI Revolution is Here"
       },
       "asset_url": null,
       "provenance": null
@@ -90,11 +90,11 @@
   ],
   "audio_tracks": [
     {
-      "track_id": "audio-2698ea",
+      "track_id": "audio-76348d",
       "audio_type": "music",
       "asset_url": "https://example.com/mock-lofi-beat.mp3",
       "start_frame": 0,
-      "duration_frames": 3024,
+      "duration_frames": 3701,
       "volume": 0.2
     }
   ]

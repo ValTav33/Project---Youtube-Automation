@@ -78,29 +78,34 @@ class V3Orchestrator:
 
         return True
 
-    def process_generation_phase(self, video_id: str, topic: str) -> Optional[ProductionManifest]:
+    def process_generation_phase(self, video_id: str, topic: str, target_duration_seconds: int = 600) -> Optional[ProductionManifest]:
         """
         Executes the AI pipeline (Strategy -> Research -> Story -> Visuals -> Compile).
         Returns the final ProductionManifest on success, or None on failure.
         """
-        logger.info(f"Starting V3 generation phase for {video_id} (topic: {topic})...")
+        logger.info(f"Starting V3 generation phase for {video_id} (topic: {topic}, {target_duration_seconds}s)...")
         
         try:
             # 1. Strategy
             from agents_v3 import (
-                StrategyAgent, MockResearchAgent, StoryAgent, VisualDirectorAgent,
-                MockAssetCuratorAgent, MockAudioDirectorAgent
+                StrategyAgent, ResearchAgent, StoryAgent, VisualDirectorAgent,
+                AssetCuratorAgent, AudioDirectorAgent, ThumbnailAgent
             )
             from compiler_v3 import ManifestCompiler
             
             self.transition_state(video_id, "approved", "generating")
             
             strategy_agent = StrategyAgent()
-            brief = strategy_agent.generate_brief(video_id, topic)
+            brief = strategy_agent.generate_brief(video_id, topic, target_duration_seconds=target_duration_seconds)
             logger.info(f"Generated brief: {brief.artifact_id}")
             
+            # 1.5 Thumbnail
+            thumbnail_agent = ThumbnailAgent()
+            thumbnail_plan = thumbnail_agent.generate_thumbnail(video_id, brief)
+            logger.info(f"Generated thumbnail plan: {thumbnail_plan.artifact_id} with url: {thumbnail_plan.generated_url}")
+            
             # 2. Research
-            research_agent = MockResearchAgent()
+            research_agent = ResearchAgent()
             research = research_agent.run_research(video_id, brief)
             logger.info(f"Generated research: {research.artifact_id}")
             
@@ -115,12 +120,12 @@ class V3Orchestrator:
             logger.info(f"Generated visual plan: {visuals.artifact_id}")
             
             # 5. Assets
-            asset_agent = MockAssetCuratorAgent()
+            asset_agent = AssetCuratorAgent()
             assets = asset_agent.resolve_assets(video_id, visuals)
             logger.info(f"Generated asset manifest: {assets.artifact_id}")
             
             # 6. Audio
-            audio_agent = MockAudioDirectorAgent()
+            audio_agent = AudioDirectorAgent()
             audio = audio_agent.plan_audio(video_id, story, visuals)
             logger.info(f"Generated audio plan: {audio.artifact_id}")
             

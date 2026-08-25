@@ -67,6 +67,7 @@ def generate_speech_with_timestamps(
 ) -> Tuple[bytes, List[Dict[str, Any]], float]:
     """
     Calls ElevenLabs TTS with timestamps and returns (audio_bytes, word_timestamps, total_duration).
+    Automatically chunks text if it exceeds 2500 characters to prevent API timeouts or limit errors.
     """
     if not ELEVENLABS_API_KEY:
         raise ValueError("ELEVENLABS_API_KEY is not set in environment.")
@@ -76,29 +77,47 @@ def generate_speech_with_timestamps(
         "xi-api-key": ELEVENLABS_API_KEY,
         "Content-Type": "application/json"
     }
-    payload = {
-        "text": full_text,
-        "model_id": "eleven_turbo_v2_5",
-        "voice_settings": {
-            "stability": 0.5,
-            "similarity_boost": 0.8
+
+    import textwrap
+    chunks = textwrap.wrap(full_text, width=2500, break_long_words=False, replace_whitespace=False)
+    
+    final_audio = bytearray()
+    final_words = []
+    current_time_offset = 0.0
+    
+    for i, chunk in enumerate(chunks):
+        logger.info(f"ElevenLabs chunk {i+1}/{len(chunks)} ({len(chunk)} chars)...")
+        payload = {
+            "text": chunk,
+            "model_id": "eleven_turbo_v2_5",
+            "voice_settings": {
+                "stability": 0.5,
+                "similarity_boost": 0.8
+            }
         }
-    }
 
-    logger.info(f"Requesting voiceover from ElevenLabs for text ({len(full_text.split())} words)...")
-    res = requests.post(url, headers=headers, json=payload)
-    if res.status_code != 200:
-        raise RuntimeError(f"ElevenLabs API error ({res.status_code}): {res.text}")
+        res = requests.post(url, headers=headers, json=payload, timeout=120)
+        if res.status_code != 200:
+            raise RuntimeError(f"ElevenLabs API error ({res.status_code}): {res.text}")
 
-    data = res.json()
-    audio_base64 = data.get("audio_base64", "")
-    audio_bytes = base64.b64decode(audio_base64)
-    alignment = data.get("alignment", {})
+        data = res.json()
+        audio_base64 = data.get("audio_base64", "")
+        chunk_audio_bytes = base64.b64decode(audio_base64)
+        alignment = data.get("alignment", {})
 
-    words, duration = convert_alignment_to_word_timestamps(alignment)
-    logger.info(f"Audio generated successfully! Total duration: {duration:.2f}s across {len(words)} words.")
+        words, duration = convert_alignment_to_word_timestamps(alignment)
+        
+        # Offset timestamps
+        for w in words:
+            w["start"] = round(w["start"] + current_time_offset, 3)
+            w["end"] = round(w["end"] + current_time_offset, 3)
+            final_words.append(w)
+            
+        final_audio.extend(chunk_audio_bytes)
+        current_time_offset += duration
 
-    return audio_bytes, words, duration
+    logger.info(f"Audio generated successfully! Total duration: {current_time_offset:.2f}s across {len(final_words)} words.")
+    return bytes(final_audio), final_words, current_time_offset
 
 
 def process_video_audio(video_id: str):

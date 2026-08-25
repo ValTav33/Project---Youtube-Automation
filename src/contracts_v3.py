@@ -42,6 +42,14 @@ class VideoBrief(BaseArtifactV3):
     creative_bible_version: str = Field(description="Reference to the active Creative Bible version")
 
 # -----------------------------------------------------------------------------
+# 2.5 Thumbnail Plan
+# -----------------------------------------------------------------------------
+class ThumbnailPlan(BaseArtifactV3):
+    artifact_type: Literal["ThumbnailPlan"] = "ThumbnailPlan"
+    optimized_image_prompt: str = Field(description="The optimized DALL-E 3 image generation prompt")
+    generated_url: Optional[str] = Field(default=None, description="The URL of the generated image")
+
+# -----------------------------------------------------------------------------
 # 3. Verified Research Packet
 # -----------------------------------------------------------------------------
 class VerifiedClaim(BaseModel):
@@ -119,6 +127,8 @@ class AssetManifest(BaseArtifactV3):
 class AudioPlan(BaseArtifactV3):
     artifact_type: Literal["AudioPlan"] = "AudioPlan"
     music_track_url: str
+    voice_track_url: Optional[str] = None
+    total_duration_seconds: float = Field(default=0.0)
     sfx_cues: List[Dict[str, Any]] = Field(default_factory=list)
 
 # -----------------------------------------------------------------------------
