@@ -89,6 +89,9 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
         defaultProps={{
           manifest: {
+            artifact_type: "ProductionManifest",
+            artifact_id: "pm-mock",
+            video_id: "mock",
             fps: 30,
             width: 1920,
             height: 1080,
@@ -96,6 +99,14 @@ export const RemotionRoot: React.FC = () => {
             shots: [],
             audio_tracks: []
           }
+        }}
+        calculateMetadata={({ props }) => {
+          return {
+            durationInFrames: Math.max(props.manifest?.total_frames || 300, 30),
+            fps: props.manifest?.fps || 30,
+            width: props.manifest?.width || 1920,
+            height: props.manifest?.height || 1080
+          };
         }}
       />
     </>
