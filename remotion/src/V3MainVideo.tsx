@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sequence } from 'remotion';
+import { Sequence, Audio } from 'remotion';
 import { CinematicMedia } from './components/v3/CinematicMedia';
 import { EvidenceCard } from './components/v3/EvidenceCard';
 import { BigNumber } from './components/v3/BigNumber';
@@ -23,6 +23,14 @@ export interface V3ProductionManifestProps {
       component_type: string;
       component_props: any;
       asset_url?: string;
+    }[];
+    audio_tracks?: {
+      track_id: string;
+      audio_type: string;
+      asset_url: string;
+      start_frame: number;
+      duration_frames: number;
+      volume: number;
     }[];
   }
 }
@@ -50,6 +58,11 @@ export const V3MainVideo: React.FC<V3ProductionManifestProps> = ({ manifest }) =
           </Sequence>
         );
       })}
+      {manifest.audio_tracks?.map((track) => (
+        <Sequence key={track.track_id} from={track.start_frame} durationInFrames={track.duration_frames}>
+          <Audio src={track.asset_url} volume={track.volume} />
+        </Sequence>
+      ))}
     </>
   );
 };

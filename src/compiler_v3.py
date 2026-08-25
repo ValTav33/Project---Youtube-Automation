@@ -36,8 +36,16 @@ class ManifestCompiler:
         for beat in story.beats:
             visual_beat = visual_map.get(beat.beat_id)
             if not visual_beat:
-                logger.warning(f"No visual beat found for beat {beat.beat_id}, skipping or using fallback.")
-                continue
+                logger.warning(f"No visual beat found for beat {beat.beat_id}, using fallback.")
+                from contracts_v3 import VisualBeat, ComponentChoice
+                visual_beat = VisualBeat(
+                    beat_id=beat.beat_id,
+                    motion_intention="fallback",
+                    component_choice=ComponentChoice(
+                        component_type="TypographyImpact",
+                        primary_text=beat.narration_text[:30] + "..."
+                    )
+                )
                 
             # Calculate duration based on word count
             # If actual audio duration is available, allocate proportionally to word count
@@ -86,6 +94,18 @@ class ManifestCompiler:
             current_frame += duration_frames
             
         audio_tracks = []
+        if audio.voice_track_url:
+            audio_tracks.append(
+                AudioTrack(
+                    track_id=f"audio-{uuid.uuid4().hex[:6]}",
+                    audio_type="voice",
+                    asset_url=audio.voice_track_url,
+                    start_frame=0,
+                    duration_frames=current_frame,
+                    volume=1.0
+                )
+            )
+        
         if audio.music_track_url:
             audio_tracks.append(
                 AudioTrack(
