@@ -1,6 +1,8 @@
-# Architecture (V2 Pipeline)
+# Architecture (V3 Shorts Pipeline)
 
-The V2 Pipeline is a fully decoupled, cloud-local hybrid system that leverages specialized AI agents to generate video content and a local React/Remotion renderer to produce the final MP4.
+The V3 Pipeline is a fully decoupled, cloud-local hybrid system that leverages specialized AI agents to generate video content and a local React/Remotion renderer to produce the final MP4. 
+
+**V3 Pivot:** The system is exclusively focused on **YouTube Shorts** (9:16 aspect ratio, 1080x1920 resolution, under 60 seconds) with rapid micro-beats and dynamic, word-level subtitles.
 
 ## High-Level Topology
 
@@ -9,52 +11,40 @@ graph TD
     User([User Mobile Device]) -- Telegram --> Bot[Railway: telegram_bot.py]
     Bot -- Updates State --> Supabase[(Supabase)]
     
-    Supabase -- Polls state --> Orch[Local: orchestrator.py]
+    Supabase -- Polls state --> Orch[Local: orchestrator_v3.py]
     
-    Orch -- 1. Triggers --> Agents[Multi-Agent Pipeline]
-    Agents -- Saves JSON --> Supabase
-    Agents -- Dispatch Gate --> Bot
+    Orch -- 1. Triggers --> Agents[V3 Multi-Agent Pipeline]
+    Agents -- Uses Perplexity --> Perplexity[Perplexity API]
+    Agents -- Uses ElevenLabs --> Voice[ElevenLabs API]
+    Agents -- Uses Pexels --> Video[Pexels Video API]
+    Agents -- Saves JSON Manifest --> LocalFS[(Local File System)]
     
     Orch -- 2. Triggers --> Remotion[Local: npx remotion render]
-    Remotion -- Reads JSON --> Supabase
-    Remotion -- Output MP4 --> LocalFS[(Local File System)]
+    Remotion -- Reads JSON --> LocalFS
+    Remotion -- Output MP4 (Vertical) --> LocalFS
     
     Orch -- 3. Triggers --> YouTube[YouTube API]
-    YouTube -- Uploads --> YTPlatform[(YouTube)]
+    YouTube -- Uploads Short --> YTPlatform[(YouTube)]
 ```
 
 ## The Workflow
 
-1. **Injection:** A video topic is injected into the `videos` table in Supabase with `status="approved"`. (This can be done via manual script or an automated niche discovery agent).
-2. **Polling:** The local `orchestrator.py` continuously polls the `videos` table for `status="approved"`.
-3. **Multi-Agent Generation (`run_v2.py`):**
-   When an approved video is found, the orchestrator triggers the multi-agent pipeline.
-   The pipeline consists of specialized agents that execute in sequence:
-   - `Learning Engine`: Checks global feedback.
-   - `Research Agent`: Gathers facts.
-   - `Angle Selector`: Chooses the narrative approach.
-   - `Marketing Strategist`: Defines the hook and SEO metadata.
-   - `Thumbnail Creator`: Plans the visual thumbnail.
-   - `Story Architect`: Outlines the beats.
-   - `Script Writer`: Drafts the voiceover.
-   - `Retention Critic & Rewriter`: Reviews and edits the script.
-   - `Quality Evaluation & Gate`: Scores the content out of 10.
-   - `Scene Director Pipeline`: Plans timings, shots, and compiles a `RendererManifest`.
+1. **Injection:** A video topic is passed to the V3 Orchestrator (via CLI `run_v3.py` or Supabase polling).
+2. **Multi-Agent Generation (`run_v3.py`):**
+   The pipeline consists of specialized agents using Pydantic strictly-typed schemas:
+   - `BriefAgent`: Defines the `VideoBrief` (topic, target duration ~45s, promise).
+   - `ThumbnailAgent`: Generates the DALL-E prompt (even though Shorts primarily use automatic thumbnails).
+   - `ResearchAgent`: Queries Perplexity to generate a `VerifiedResearchPacket` (source-backed facts).
+   - `StoryAgent`: Writes the `StoryBlueprint` using strict **micro-beats** (max 10-15 words per beat) for fast pacing.
+   - `VisualDirectorAgent`: Assigns specific UI components (`CinematicMedia`, `EvidenceCard`) to each beat, outputting a `VisualBriefPlan`.
+   - `AssetResolver`: Searches the Pexels API explicitly for `portrait` videos (1080x1920).
+   - `AudioDirectorAgent`: Uses ElevenLabs to generate voiceover and extracts **word-level timestamps** for subtitles.
    
-   Every agent saves its output as a row in the `artifacts` table. If the script generation fails or crashes, it can resume from the last saved artifact.
+3. **Compilation (`compiler_v3.py`):**
+   The `ManifestCompiler` converts all the plans into a deterministic `ProductionManifest` JSON file (1080x1920, 30fps) linking exact frames, Remotion components, and word timestamps.
 
-4. **Human-in-the-Loop Gate (`publisher.py`):**
-   Once the AI finishes generating the entire blueprint (`RendererManifest`), it halts. 
-   It sends a Telegram message containing the target title and a generated thumbnail preview to the user.
-   The database status is set to `scripting` (or a similar intermediate state).
-   
-5. **Approval:**
-   The user clicks "Approve & Render" in Telegram. The Railway bot (`telegram_bot.py`) receives the webhook/poll, updates the video status in Supabase to `awaiting_publish_approval`, and sends an acknowledgment message.
-   
-6. **Local Rendering (`orchestrator.py` -> `render_v2.py`):**
-   The local orchestrator, which is also polling for `awaiting_publish_approval`, picks up the video.
-   It updates the status to `rendering` and executes `npx remotion render` in the `/remotion` folder. 
-   Remotion downloads the assets and renders the video using the React composition logic.
-   
-7. **Publishing:**
-   Once Remotion outputs the MP4 to the local filesystem, the orchestrator triggers the YouTube Uploader. The MP4 and the generated thumbnail are uploaded to YouTube, and the database status is marked as `published`.
+4. **Local Rendering (`remotion/`):**
+   Remotion parses the JSON. It maps visual shots into `<Sequence>` components and maps the `word_timestamps` array to a dynamic `<Subtitles />` component overlaid at the center of the vertical video. `npx remotion render` outputs the final MP4.
+
+5. **Publishing:**
+   The short is uploaded to YouTube natively as a Short.

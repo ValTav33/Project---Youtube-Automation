@@ -4,7 +4,7 @@
 
 Build V3 as a new, versioned pipeline beside the current system—do not try to patch every V2 artifact in place.
 
-Target: English/global, 16:9, 8–12 minute business/tech mini-documentaries. The core principle is:
+Target: YouTube Shorts (English/global), 9:16 (1080x1920), under 60 seconds. The core principle is:
 
 `story → visual argument → deterministic production manifest → Remotion → preview → targeted repair`
 
@@ -45,7 +45,7 @@ V3 will use one renderer, a bounded visual vocabulary, source-backed research, a
 - Make Pydantic contracts the source of truth; generate a versioned JSON Schema consumed by the TypeScript renderer. Remove divergent hand-maintained renderer schemas.
 - Introduce these V3 artifacts:
   - `ChannelCreativeBible`: immutable channel identity, audience, visual rules, caption policy, source policy and prohibited clichés.
-  - `VideoBrief`: topic, target duration, promise, audience tension, title/thumbnail hypothesis and creative-bible version.
+  - `VideoBrief`: topic, target duration (~45s), promise, audience tension, title/thumbnail hypothesis and creative-bible version.
   - `VerifiedResearchPacket`: claims tied to source URLs, publication dates, evidence notes and confidence.
   - `StoryBlueprint`: narrative beats, tension, claim references and intended payoff.
   - `VisualBriefPlan`: visual arguments and component choices per beat.
