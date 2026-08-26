@@ -164,15 +164,18 @@ class StoryAgent(BaseV3Agent):
         system = (
             "You are a master storyteller. Draft a narrative script (StoryBlueprint) based on the VideoBrief "
             "and VerifiedResearchPacket. Create structural beats. You MUST cite claim_ids when you use facts.\n"
-            f"CRITICAL INSTRUCTION: Your target word count for the entire narration is approximately {target_words} words. "
-            "Pace the story with depth, detailed analysis, and rich narrative to hit this target organically. "
-            "Do not output a shallow summary; dive deep."
+            "CRITICAL PACING INSTRUCTION: You must use 'micro-beats'. Every single beat MUST be extremely short "
+            "(maximum 1 or 2 short sentences, 10-15 words max). This forces rapid visual cutting in the final video. "
+            "NEVER write long paragraphs for a single beat.\n"
+            f"Your target word count for the entire narration is approximately {target_words} words. "
+            "Pace the story with depth, detailed analysis, and rich narrative to hit this target organically "
+            "using DOZENS of tiny micro-beats."
         )
         
         prompt = (
             f"Brief: {brief.model_dump_json(indent=2)}\n\n"
             f"Research: {research.model_dump_json(indent=2)}\n\n"
-            f"Draft the StoryBlueprint aiming for ~{target_words} total words across all narrative beats."
+            f"Draft the StoryBlueprint aiming for ~{target_words} total words across many short micro-beats."
         )
         
         blueprint: StoryBlueprint = self._generate_structured(prompt, system, StoryBlueprint)
@@ -281,17 +284,13 @@ class AudioDirectorAgent(BaseV3Agent):
         
         audio_url = None
         duration_seconds = max(3.0, len(full_narration.split()) / 2.5) # Default fallback duration
+        raw_words = []
         
         if os.getenv("ELEVENLABS_API_KEY") and os.getenv("MOCK_EXTERNAL_APIS", "false") != "true":
             try:
-                # audio_bytes, raw_words, duration = audio_generator.generate_speech_with_timestamps(full_narration)
-                # For simplicity in V3 (without Supabase upload here for now), we just simulate the exact duration 
-                # or actually call it. Let's call it.
                 audio_bytes, raw_words, duration = audio_generator.generate_speech_with_timestamps(full_narration)
                 duration_seconds = duration
                 
-                # We upload it to Supabase (assuming supabase client is set up, else we save locally)
-                # For now, let's just log it and rely on the frontend to play it if uploaded.
                 # If Supabase is configured:
                 if os.getenv("SUPABASE_URL"):
                     from supabase import create_client
@@ -322,7 +321,8 @@ class AudioDirectorAgent(BaseV3Agent):
             music_track_url="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3",
             voice_track_url=audio_url,
             total_duration_seconds=duration_seconds,
-            sfx_cues=sfx_cues
+            sfx_cues=sfx_cues,
+            word_timestamps=raw_words
         )
 
 class MockQAAgent(BaseV3Agent):

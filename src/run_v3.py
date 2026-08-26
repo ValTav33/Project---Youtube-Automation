@@ -9,7 +9,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Run the V3 Pipeline")
     parser.add_argument("--topic", type=str, required=True, help="Topic for the video")
-    parser.add_argument("--duration", type=int, default=180, help="Target duration in seconds")
+    parser.add_argument("--duration", type=int, default=45, help="Target duration in seconds")
     parser.add_argument("--id", type=str, default="quantum-test-v1", help="Video ID")
     
     args = parser.parse_args()

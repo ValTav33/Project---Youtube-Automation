@@ -35,7 +35,7 @@ async def query_pexels_video(session: aiohttp.ClientSession, query: str) -> Opti
 
     url = "https://api.pexels.com/videos/search"
     headers = {"Authorization": PEXELS_API_KEY}
-    params = {"query": query, "orientation": "landscape", "per_page": 5}
+    params = {"query": query, "orientation": "portrait", "per_page": 5}
 
     try:
         async with session.get(url, headers=headers, params=params, timeout=aiohttp.ClientTimeout(total=10)) as resp:
@@ -44,8 +44,8 @@ async def query_pexels_video(session: aiohttp.ClientSession, query: str) -> Opti
                 videos = data.get("videos", [])
                 if videos:
                     video_files = videos[0].get("video_files", [])
-                    # Pick 1080p HD file or first available
-                    hd_file = next((f for f in video_files if f.get("width") == 1920 and f.get("height") == 1080), None)
+                    # Pick 1080x1920 HD file or first available
+                    hd_file = next((f for f in video_files if f.get("width") == 1080 and f.get("height") == 1920), None)
                     if not hd_file and video_files:
                         hd_file = video_files[0]
                     if hd_file:

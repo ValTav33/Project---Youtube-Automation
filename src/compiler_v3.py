@@ -122,11 +122,12 @@ class ManifestCompiler:
             artifact_id=f"pm-{uuid.uuid4().hex[:8]}",
             video_id=video_id,
             fps=self.FRAMES_PER_SECOND,
-            width=1920,
-            height=1080,
+            width=1080,
+            height=1920,
             total_frames=current_frame,
             shots=shots,
-            audio_tracks=audio_tracks
+            audio_tracks=audio_tracks,
+            word_timestamps=audio.word_timestamps
         )
         
         return manifest

@@ -8,6 +8,7 @@ import { Timeline } from './components/v3/Timeline';
 import { Comparison } from './components/v3/Comparison';
 import { ProductScreen } from './components/v3/ProductScreen';
 import { TypographyImpact } from './components/v3/TypographyImpact';
+import { Subtitles } from './components/v3/Subtitles';
 
 // This matches the Python ProductionManifest Pydantic schema
 export interface V3ProductionManifestProps {
@@ -31,6 +32,11 @@ export interface V3ProductionManifestProps {
       start_frame: number;
       duration_frames: number;
       volume: number;
+    }[];
+    word_timestamps?: {
+      word: string;
+      start: number;
+      end: number;
     }[];
   }
 }
@@ -63,6 +69,12 @@ export const V3MainVideo: React.FC<V3ProductionManifestProps> = ({ manifest }) =
           <Audio src={track.asset_url} volume={track.volume} />
         </Sequence>
       ))}
+      
+      {manifest.word_timestamps && manifest.word_timestamps.length > 0 && (
+        <Sequence from={0} durationInFrames={manifest.total_frames}>
+          <Subtitles words={manifest.word_timestamps} />
+        </Sequence>
+      )}
     </>
   );
 };

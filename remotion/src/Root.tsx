@@ -49,8 +49,8 @@ export const RemotionRoot: React.FC = () => {
         component={MainVideo as any}
         durationInFrames={300}
         fps={30}
-        width={1920}
-        height={1080}
+        width={1080}
+        height={1920}
         schema={VideoPropsSchema}
         defaultProps={defaultProps as any}
         calculateMetadata={({ props }) => {
@@ -65,8 +65,8 @@ export const RemotionRoot: React.FC = () => {
           return {
             durationInFrames: Math.max(totalFrames, 30),
             fps: validatedProps.fps || 30,
-            width: validatedProps.width || 1920,
-            height: validatedProps.height || 1080
+            width: validatedProps.width || 1080,
+            height: validatedProps.height || 1920
           };
         }}
       />
@@ -76,8 +76,8 @@ export const RemotionRoot: React.FC = () => {
         component={V3Gallery}
         durationInFrames={30 * 8 * 3} // 8 components, 3 seconds each, 30fps
         fps={30}
-        width={1920}
-        height={1080}
+        width={1080}
+        height={1920}
       />
 
       <Composition
@@ -85,16 +85,16 @@ export const RemotionRoot: React.FC = () => {
         component={V3MainVideo}
         durationInFrames={300}
         fps={30}
-        width={1920}
-        height={1080}
+        width={1080}
+        height={1920}
         defaultProps={{
           manifest: {
             artifact_type: "ProductionManifest",
             artifact_id: "pm-mock",
             video_id: "mock",
             fps: 30,
-            width: 1920,
-            height: 1080,
+            width: 1080,
+            height: 1920,
             total_frames: 300,
             shots: [],
             audio_tracks: []
@@ -104,8 +104,8 @@ export const RemotionRoot: React.FC = () => {
           return {
             durationInFrames: Math.max(props.manifest?.total_frames || 300, 30),
             fps: props.manifest?.fps || 30,
-            width: props.manifest?.width || 1920,
-            height: props.manifest?.height || 1080
+            width: props.manifest?.width || 1080,
+            height: props.manifest?.height || 1920
           };
         }}
       />

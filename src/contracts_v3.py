@@ -130,6 +130,7 @@ class AudioPlan(BaseArtifactV3):
     voice_track_url: Optional[str] = None
     total_duration_seconds: float = Field(default=0.0)
     sfx_cues: List[Dict[str, Any]] = Field(default_factory=list)
+    word_timestamps: List[Dict[str, Any]] = Field(default_factory=list, description="Word-level timestamps for dynamic subtitles")
 
 # -----------------------------------------------------------------------------
 # 8. Production Manifest (Renderer Input)
@@ -154,11 +155,12 @@ class AudioTrack(BaseModel):
 class ProductionManifest(BaseArtifactV3):
     artifact_type: Literal["ProductionManifest"] = "ProductionManifest"
     fps: int = 30
-    width: int = 1920
-    height: int = 1080
+    width: int = 1080
+    height: int = 1920
     total_frames: int
     shots: List[RenderShot]
     audio_tracks: List[AudioTrack]
+    word_timestamps: List[Dict[str, Any]] = Field(default_factory=list, description="Word-level timestamps for dynamic subtitles")
 
 # -----------------------------------------------------------------------------
 # 9. Repair & QA
