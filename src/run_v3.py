@@ -14,8 +14,8 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    # Ensure real APIs are used
-    os.environ["MOCK_EXTERNAL_APIS"] = "false"
+    # Use env var if set, otherwise default to false
+    os.environ["MOCK_EXTERNAL_APIS"] = os.getenv("MOCK_EXTERNAL_APIS", "false")
     
     orchestrator = V3Orchestrator()
     manifest = orchestrator.process_generation_phase(args.id, args.topic, args.duration)

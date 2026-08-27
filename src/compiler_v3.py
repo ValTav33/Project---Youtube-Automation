@@ -7,6 +7,7 @@ from contracts_v3 import (
     VisualBriefPlan,
     AssetManifest,
     AudioPlan,
+    CaptionPlan,
     ProductionManifest,
     RenderShot,
     AudioTrack
@@ -23,7 +24,7 @@ class ManifestCompiler:
     WORDS_PER_MINUTE = 150
     FRAMES_PER_SECOND = 30
     
-    def compile(self, video_id: str, story: StoryBlueprint, visuals: VisualBriefPlan, assets: AssetManifest, audio: AudioPlan) -> ProductionManifest:
+    def compile(self, video_id: str, story: StoryBlueprint, visuals: VisualBriefPlan, assets: AssetManifest, audio: AudioPlan, captions: CaptionPlan) -> ProductionManifest:
         logger.info(f"Compiling manifest for {video_id}...")
         
         shots = []
@@ -127,7 +128,7 @@ class ManifestCompiler:
             total_frames=current_frame,
             shots=shots,
             audio_tracks=audio_tracks,
-            word_timestamps=audio.word_timestamps
+            word_timestamps=[w.model_dump() for w in captions.words] if captions else audio.word_timestamps
         )
         
         return manifest

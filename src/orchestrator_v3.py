@@ -89,7 +89,7 @@ class V3Orchestrator:
             # 1. Strategy
             from agents_v3 import (
                 StrategyAgent, ResearchAgent, StoryAgent, VisualDirectorAgent,
-                AssetCuratorAgent, AudioDirectorAgent, ThumbnailAgent
+                AssetCuratorAgent, AudioDirectorAgent, ThumbnailAgent, CaptionAgent
             )
             from compiler_v3 import ManifestCompiler
             
@@ -129,9 +129,14 @@ class V3Orchestrator:
             audio = audio_agent.plan_audio(video_id, story, visuals)
             logger.info(f"Generated audio plan: {audio.artifact_id}")
             
+            # 6.5 Captions
+            caption_agent = CaptionAgent()
+            captions = caption_agent.generate_captions(video_id, audio)
+            logger.info(f"Generated caption plan: {captions.artifact_id}")
+            
             # 7. Compile Manifest
             compiler = ManifestCompiler()
-            manifest = compiler.compile(video_id, story, visuals, assets, audio)
+            manifest = compiler.compile(video_id, story, visuals, assets, audio, captions)
             logger.info(f"Compiled manifest: {manifest.artifact_id} with {manifest.total_frames} frames")
             
             # Success - wait for preview approval
@@ -161,9 +166,11 @@ class V3Orchestrator:
             assets = asset_agent.resolve_assets(video_id, visuals, repair_plan=repair_plan)
             logger.info(f"Generated repaired asset manifest: {assets.artifact_id}")
             
-            # Re-compile manifest
+            # Re-compile manifest (Note: in a real repair flow, we might need to regenerate captions if audio changed)
             compiler = ManifestCompiler()
-            manifest = compiler.compile(video_id, story, visuals, assets, audio)
+            # For repair phase, we just pass an empty or mocked caption plan if not available
+            from contracts_v3 import CaptionPlan
+            manifest = compiler.compile(video_id, story, visuals, assets, audio, CaptionPlan(artifact_id="repaired-cp", video_id=video_id, words=[]))
             
             # Bump revision
             manifest.revision = 2 

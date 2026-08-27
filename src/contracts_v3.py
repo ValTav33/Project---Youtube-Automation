@@ -101,7 +101,7 @@ class VisualBeat(BaseModel):
     component_choice: VisualComponentChoice
     visual_role: str = Field(description="Role of this visual (e.g. b-roll, hero, chart)")
     emphasis_policy: str = Field(description="How to emphasize (e.g. slight zoom, highlight word)")
-    motion_intention: str = Field(description="Intended motion (static, slow pan, dynamic)")
+    motion_intention: Literal["FAST_ZOOM_IN", "SLOW_PAN_RIGHT", "PARALLAX_ORBIT", "TILT_DOWN", "STATIC", "SHAKE_ON_IMPACT"] = Field(description="Intended motion (static, slow pan, dynamic)")
     source_claim_ids: List[str] = Field(default_factory=list, description="Linked facts if the visual is data/evidence")
 
 class VisualBriefPlan(BaseArtifactV3):
@@ -124,13 +124,32 @@ class AssetManifest(BaseArtifactV3):
 # -----------------------------------------------------------------------------
 # 7. Audio Plan
 # -----------------------------------------------------------------------------
+class SFXCue(BaseModel):
+    beat_id: str
+    sfx_type: str = Field(description="Type of SFX (e.g., whoosh, pop, riser, vinyl scratch, bass impact)")
+    offset_milliseconds: int = Field(default=0, description="Offset relative to the beat start")
+
 class AudioPlan(BaseArtifactV3):
     artifact_type: Literal["AudioPlan"] = "AudioPlan"
     music_track_url: str
     voice_track_url: Optional[str] = None
     total_duration_seconds: float = Field(default=0.0)
-    sfx_cues: List[Dict[str, Any]] = Field(default_factory=list)
-    word_timestamps: List[Dict[str, Any]] = Field(default_factory=list, description="Word-level timestamps for dynamic subtitles")
+    sfx_cues: List[SFXCue] = Field(default_factory=list)
+    word_timestamps: List[Dict[str, Any]] = Field(default_factory=list, description="Word-level timestamps from TTS generation")
+
+# -----------------------------------------------------------------------------
+# 7.5 Caption Plan (Kinetic Typography)
+# -----------------------------------------------------------------------------
+class KineticWord(BaseModel):
+    word: str
+    start_time_ms: int
+    end_time_ms: int
+    is_highlighted: bool = False
+    highlight_color: Optional[str] = None
+
+class CaptionPlan(BaseArtifactV3):
+    artifact_type: Literal["CaptionPlan"] = "CaptionPlan"
+    words: List[KineticWord] = Field(description="Word-level timestamps aligned for kinetic typography")
 
 # -----------------------------------------------------------------------------
 # 8. Production Manifest (Renderer Input)

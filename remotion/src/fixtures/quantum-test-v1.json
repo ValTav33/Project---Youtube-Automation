@@ -1,0 +1,107 @@
+{
+  "manifest": {
+    "artifact_id": "pm-3085add3",
+    "video_id": "quantum-test-v1",
+    "artifact_type": "ProductionManifest",
+    "schema_version": "3.0.0",
+    "revision": 1,
+    "parent_artifact_ids": [],
+    "created_at": "2026-08-27T15:46:52.894320",
+    "created_by": "system",
+    "fps": 30,
+    "width": 1080,
+    "height": 1920,
+    "total_frames": 705,
+    "shots": [
+      {
+        "shot_id": "shot-ea0b12",
+        "start_frame": 0,
+        "duration_frames": 97,
+        "component_type": "CinematicMedia",
+        "component_props": {
+          "motionIntention": "FAST_ZOOM_IN"
+        },
+        "asset_url": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920&auto=format&fit=crop",
+        "provenance": {
+          "provider": "Unsplash (Mock Fallback)",
+          "license_category": "mocked"
+        }
+      },
+      {
+        "shot_id": "shot-5d80bd",
+        "start_frame": 97,
+        "duration_frames": 115,
+        "component_type": "TypographyImpact",
+        "component_props": {
+          "primaryText": "Mariana Trench"
+        },
+        "asset_url": null,
+        "provenance": null
+      },
+      {
+        "shot_id": "shot-165c10",
+        "start_frame": 212,
+        "duration_frames": 115,
+        "component_type": "CinematicMedia",
+        "component_props": {
+          "motionIntention": "SHAKE_ON_IMPACT"
+        },
+        "asset_url": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920&auto=format&fit=crop",
+        "provenance": {
+          "provider": "Unsplash (Mock Fallback)",
+          "license_category": "mocked"
+        }
+      },
+      {
+        "shot_id": "shot-ecbb17",
+        "start_frame": 327,
+        "duration_frames": 132,
+        "component_type": "CinematicMedia",
+        "component_props": {
+          "motionIntention": "TILT_DOWN"
+        },
+        "asset_url": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920&auto=format&fit=crop",
+        "provenance": {
+          "provider": "Unsplash (Mock Fallback)",
+          "license_category": "mocked"
+        }
+      },
+      {
+        "shot_id": "shot-cad1e8",
+        "start_frame": 459,
+        "duration_frames": 123,
+        "component_type": "CinematicMedia",
+        "component_props": {
+          "motionIntention": "SLOW_PAN_RIGHT"
+        },
+        "asset_url": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920&auto=format&fit=crop",
+        "provenance": {
+          "provider": "Unsplash (Mock Fallback)",
+          "license_category": "mocked"
+        }
+      },
+      {
+        "shot_id": "shot-5a2eb8",
+        "start_frame": 582,
+        "duration_frames": 123,
+        "component_type": "TypographyImpact",
+        "component_props": {
+          "primaryText": "Mysteries at 36,070 Feet"
+        },
+        "asset_url": null,
+        "provenance": null
+      }
+    ],
+    "audio_tracks": [
+      {
+        "track_id": "audio-1e8d96",
+        "audio_type": "music",
+        "asset_url": "https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3",
+        "start_frame": 0,
+        "duration_frames": 705,
+        "volume": 0.2
+      }
+    ],
+    "word_timestamps": []
+  }
+}

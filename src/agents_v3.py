@@ -22,6 +22,9 @@ from contracts_v3 import (
     AssetManifest,
     ResolvedAsset,
     AudioPlan,
+    SFXCue,
+    CaptionPlan,
+    KineticWord,
     ProductionManifest,
     EditorRepairPlan,
     RepairRequest
@@ -158,24 +161,23 @@ class ResearchAgent(BaseV3Agent):
 
 class StoryAgent(BaseV3Agent):
     def draft_story(self, video_id: str, brief: VideoBrief, research: VerifiedResearchPacket) -> StoryBlueprint:
-        # Assuming ~150 words per minute (2.5 words per second)
-        target_words = int(getattr(brief, "target_duration_seconds", 180) * 2.5)
+        target_words = 135 # Standardize to ~135 words for a 50s vertical short
         
         system = (
-            "You are a master storyteller. Draft a narrative script (StoryBlueprint) based on the VideoBrief "
-            "and VerifiedResearchPacket. Create structural beats. You MUST cite claim_ids when you use facts.\n"
-            "CRITICAL PACING INSTRUCTION: You must use 'micro-beats'. Every single beat MUST be extremely short "
-            "(maximum 1 or 2 short sentences, 10-15 words max). This forces rapid visual cutting in the final video. "
-            "NEVER write long paragraphs for a single beat.\n"
-            f"Your target word count for the entire narration is approximately {target_words} words. "
-            "Pace the story with depth, detailed analysis, and rich narrative to hit this target organically "
-            "using DOZENS of tiny micro-beats."
+            "You are a viral vertical short-form scriptwriter. Write a 50-second (~130-145 words) script. "
+            "You MUST cite claim_ids when you use facts from the VerifiedResearchPacket.\n"
+            "STRUCTURE RULES:\n"
+            "1. HOOK (0-3s, max 12 words): Start in the middle of the action with an impossible paradox, shocking stat, or immediate question. Never say 'Have you ever wondered...' or 'In this video...'\n"
+            "2. ESCALATION (3-20s): Introduce 2 rapid, verifiable facts with high visual tension.\n"
+            "3. THE TWIST / CORE MECHANIC (20-40s): Reveal the counter-intuitive reason why this happens.\n"
+            "4. PUNCHLINE & SEAMLESS LOOP (40-50s): The final sentence must resolve the tension while flowing naturally back into the first sentence for infinite looping.\n"
+            "CRITICAL PACING INSTRUCTION: Use 'micro-beats'. Every single beat MUST be extremely short (maximum 1 or 2 short sentences, 10-15 words max). This forces rapid visual cutting."
         )
         
         prompt = (
             f"Brief: {brief.model_dump_json(indent=2)}\n\n"
             f"Research: {research.model_dump_json(indent=2)}\n\n"
-            f"Draft the StoryBlueprint aiming for ~{target_words} total words across many short micro-beats."
+            f"Draft the StoryBlueprint aiming for exactly ~{target_words} words across many short micro-beats matching the Hook/Escalation/Twist/Punchline structure."
         )
         
         blueprint: StoryBlueprint = self._generate_structured(prompt, system, StoryBlueprint)
@@ -186,15 +188,16 @@ class StoryAgent(BaseV3Agent):
 class VisualDirectorAgent(BaseV3Agent):
     def assign_visuals(self, video_id: str, story: StoryBlueprint) -> VisualBriefPlan:
         system = (
-            "You are a visual director. Map visual components to each NarrativeBeat. "
-            "Allowed components: CinematicMedia, EvidenceCard, BigNumber, DataChart, Timeline, Comparison, ProductScreen, TypographyImpact. "
-            "For quantitative claims, use BigNumber or DataChart. For bold statements, use TypographyImpact. "
-            "For cited claims, use EvidenceCard. Every beat must have exactly one VisualBeat matching its beat_id.\n"
-            "CRITICAL INSTRUCTION: For long-form videos, do not rapidly alternate UI components (like BigNumber or EvidenceCard) constantly. "
-            "Rely predominantly on CinematicMedia to pace the video, using UI components only to emphasize key facts, data, or transitions."
+            "You are a visual director for high-retention viral vertical (9:16) shorts. "
+            "Map visual components to each NarrativeBeat. Every beat must have exactly one VisualBeat matching its beat_id.\n"
+            "VISUAL RULES:\n"
+            "- Focus on ultra-high-clarity scenes for generative video models (Wan 2.1, Kling, Luma).\n"
+            "- Subject Framing: Cinematic lighting, sharp foreground focus, dramatic low-angle or macro perspective.\n"
+            "- Avoid generic stock scenes; describe specific physical elements, textures, atmospheric fog, or volumetric light.\n"
+            "- Camera Command: You MUST use one of these specific motion intentions: [FAST_ZOOM_IN, SLOW_PAN_RIGHT, PARALLAX_ORBIT, TILT_DOWN, STATIC, SHAKE_ON_IMPACT]."
         )
         
-        prompt = f"Story: {story.model_dump_json(indent=2)}\n\nCreate the VisualBriefPlan."
+        prompt = f"Story: {story.model_dump_json(indent=2)}\n\nCreate the VisualBriefPlan following the visual rules and strict motion literals."
         
         plan: VisualBriefPlan = self._generate_structured(prompt, system, VisualBriefPlan)
         plan.video_id = video_id
@@ -309,11 +312,17 @@ class AudioDirectorAgent(BaseV3Agent):
             logger.info("ElevenLabs bypassed. Mocking audio duration.")
         
         sfx_cues = []
-        # Assign a whoosh to the first cinematic transition
+        # Multi-Track SFX Mapping based on Narrative Tension and visual beats
         for beat in visual_plan.visual_beats:
-            if beat.component_choice.component_type == "CinematicMedia":
-                sfx_cues.append({"beat_id": beat.beat_id, "sfx_type": "whoosh"})
-                break
+            sfx_type = "whoosh"
+            if beat.motion_intention == "SHAKE_ON_IMPACT":
+                sfx_type = "bass_impact"
+            elif beat.motion_intention in ["FAST_ZOOM_IN"]:
+                sfx_type = "riser"
+            elif beat.component_choice.component_type in ["EvidenceCard", "TypographyImpact"]:
+                sfx_type = "pop"
+                
+            sfx_cues.append(SFXCue(beat_id=beat.beat_id, sfx_type=sfx_type, offset_milliseconds=0))
                 
         return AudioPlan(
             artifact_id=f"ap-{uuid.uuid4().hex[:8]}",
@@ -323,6 +332,52 @@ class AudioDirectorAgent(BaseV3Agent):
             total_duration_seconds=duration_seconds,
             sfx_cues=sfx_cues,
             word_timestamps=raw_words
+        )
+
+class CaptionAgent(BaseV3Agent):
+    """Processes word-level timestamps to generate kinetic typography properties."""
+    def generate_captions(self, video_id: str, audio: AudioPlan) -> CaptionPlan:
+        logger.info("Generating word-level kinetic captions...")
+        
+        kinetic_words = []
+        
+        # Simple programmatic highlighting for tension words
+        tension_words = ["impossible", "shocking", "however", "suddenly", "death", "never", "always", "extreme"]
+        
+        for item in audio.word_timestamps:
+            # Handle different Whisper/TTS dict schemas safely
+            word = item.get("word", "")
+            if not word:
+                continue
+                
+            clean_word = word.lower().strip(",.!?\"'")
+            is_highlighted = clean_word in tension_words or len(clean_word) > 7
+            
+            # Use yellow for general highlights, red for extreme tension
+            highlight_color = "#FFD700" if is_highlighted else None
+            if clean_word in ["death", "danger", "impossible", "extreme"]:
+                highlight_color = "#FF3333"
+                
+            # Convert float seconds to ms if necessary
+            start_val = item.get("start", 0)
+            end_val = item.get("end", 0)
+            start_ms = int(start_val * 1000) if isinstance(start_val, float) else int(start_val)
+            end_ms = int(end_val * 1000) if isinstance(end_val, float) else int(end_val)
+            
+            kinetic_words.append(
+                KineticWord(
+                    word=word,
+                    start_time_ms=start_ms,
+                    end_time_ms=end_ms,
+                    is_highlighted=is_highlighted,
+                    highlight_color=highlight_color
+                )
+            )
+            
+        return CaptionPlan(
+            artifact_id=f"cp-{uuid.uuid4().hex[:8]}",
+            video_id=video_id,
+            words=kinetic_words
         )
 
 class MockQAAgent(BaseV3Agent):
